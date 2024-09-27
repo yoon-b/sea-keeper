@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchInspectionReportById } from "../../api/reportApi";
+// import { useQuery } from "@tanstack/react-query";
+// import { fetchInspectionReportById } from "../../api/reportApi";
 import { describeWasteType } from "../../utils/reportUtils";
 import { convertSerialNumberToDate } from "../../utils/reportUtils";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
