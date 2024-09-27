@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Sea Keeper
 
-Currently, two official plugins are available:
+**Sea Keeper** is an application designed to collect, analyze, and manage coastline waste information. By generating big data, the app aims to improve the efficiency of waste collection management along coastlines. It is composed of four core functionalities: **Inspection**, **Management**, **Cleaning**, and **Collection**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+1. **Inspection and Cleaning**:  
+   Sea Keepers, our field agents, are dispatched to coastal locations to inspect and record waste data. They also carry out cleaning activities and log detailed information about the waste collected.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Management**:  
+   This feature helps in analyzing the data gathered during inspections and cleanups, converting it into meaningful statistics. These insights aid in optimizing coastline management, resource allocation, and personnel deployment.
 
-- Configure the top-level `parserOptions` property like this:
+3. **Collection**:  
+   For efficiently collecting the waste after cleaning, this feature provides detailed maps and navigation tools to guide collection teams, ensuring waste is collected from coastal areas in a timely and organized manner.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Key Benefits
+- Promotes the cleanliness of coastlines through effective waste management.
+- Enhances the efficiency of resource deployment for cleanup activities.
+- Utilizes big data to provide insights into waste patterns and inform decision-making.
+- Includes real-time navigation to assist in the effective collection of waste.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/sea-keeper.git
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+2. Navigate to the project directory:
+   ```bash
+   cd sea-keeper
+   ```
+3. Install the dependencies:
+   ```bash
+   yarn install
+   ```
+4. Start the development server:
+   ```bash
+   yarn dev
+   ```
+
+
+## Technologies Used
+- Frontend: React, Yarn, TypeScript, Vite
+- Backend: Node.js, Express
+- Database: MongoDB
+- Mapping: Kakao Mobility API (for waste collection navigation)
+
+
+## License
+This project is licensed under the MIT License.
+
