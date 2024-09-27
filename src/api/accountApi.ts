@@ -1,13 +1,17 @@
 import axios from "axios";
 
 interface LoginResponse {
-  name: string;
-  role: string;
-  tokenInfo: {
-    grantType: string;
-    accessToken: string;
-    refreshToken: string;
+  status: number;
+  result: {
+    name: string;
+    role: string;
+    tokenInfo: {
+      grantType: string;
+      accessToken: string;
+      refreshToken: string;
+    };
   };
+  message: string;
 }
 
 interface SignupResponse {
@@ -24,15 +28,12 @@ export const login = async (
     const phoneNumberString = String(phoneNumber);
 
     const res = await axios.post<LoginResponse>(
-      `${process.env.REACT_APP_BACK_URL}/login`,
+      `${import.meta.env.VITE_BACK_URL}/login`,
       {
         phoneNumber: phoneNumberString,
         password,
       }
     );
-
-    localStorage.setItem("accessToken", res.data.tokenInfo.accessToken);
-
     return res.data;
   } catch (err) {
     console.error(err);
@@ -49,7 +50,7 @@ export const signup = async (
     const phoneNumberString = String(phoneNumber);
 
     const res = await axios.post<SignupResponse>(
-      `${process.env.REACT_APP_BACK_URL}/signup`,
+      `${import.meta.env.VITE_BACK_URL}/signup`,
       {
         phoneNumber: phoneNumberString,
         password,
@@ -57,6 +58,7 @@ export const signup = async (
         roles: ["USER"],
       }
     );
+
     return res.data;
   } catch (err) {
     console.error(err);

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userAtom } from "../recoil/userAtom";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Menu from "@mui/icons-material/Menu";
 import Home from "@mui/icons-material/Home";
@@ -31,6 +33,8 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [user, setUser] = useRecoilState(userAtom);
+
   const goBack = () => {
     navigate(-1);
   };
@@ -49,7 +53,9 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    console.log("log out");
+    console.log("로그아웃 완");
+    setUser(null);
+    localStorage.removeItem("accessToken");
     navigate("/");
   };
 
@@ -73,7 +79,9 @@ const Header = () => {
               </div>
             )}
 
-            <div className="p-2 text-xl">User Name</div>
+            <div className="p-2 text-xl">
+              {user ? user.name : "바다환경 지킴이"}
+            </div>
           </div>
           <div className="flex w-2/6 justify-end">
             {location.pathname !== "/home" && (

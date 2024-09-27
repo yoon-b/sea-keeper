@@ -1,4 +1,6 @@
 import React from "react";
+import { useSetRecoilState } from "recoil";
+import { userAtom } from "../../recoil/userAtom";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { login } from "../../api/accountApi";
@@ -9,12 +11,18 @@ interface IFormInput {
 }
 
 const Login = () => {
+  const setUser = useSetRecoilState(userAtom);
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const response = await login(data.phoneNumber, data.password);
-      console.log(response);
+      const res = await login(data.phoneNumber, data.password);
+      localStorage.setItem("accessToken", res.result.tokenInfo.accessToken);
+
+      setUser({
+        name: res.result.name,
+      });
+
       navigate("/home");
     } catch (error) {
       console.error("로그인 실패:", error);
