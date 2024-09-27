@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchInspectionReport } from "../../api/reportApi";
 
 interface TableHeaderProps {
   title: string;
@@ -20,6 +21,34 @@ const TableHeader: React.FC<TableHeaderProps> = ({ title }) => (
 
 const ReportList = () => {
   const navigate = useNavigate();
+
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadReports = async () => {
+      try {
+        const data = await fetchInspectionReport(1);
+        console.log("data: ", data);
+        setReports(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("알 수 없는 오류 발생");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReports();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+
   const headers = ["일련번호", "해안명", "작성일"];
   const rowData: TableRowData[] = [
     {
@@ -61,6 +90,7 @@ const ReportList = () => {
           </h3>
         </div>
       </div>
+      {reports}
 
       <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
         <table className="w-full text-left table-auto min-w-max">
