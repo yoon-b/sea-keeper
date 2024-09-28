@@ -37,7 +37,7 @@ const ReportDetail = () => {
         try {
           setIsLoading(true);
           const data = await fetchInspectionReportById(Number(reportId));
-          console.log("Fetched data: ", data);
+          // console.log("Fetched data: ", data);
           setReportData(data);
         } catch (err) {
           if (err instanceof Error) {
@@ -70,7 +70,6 @@ const ReportDetail = () => {
           className="w-full"
           alt={`${reportData.coastName} 사진`}
           src={`${reportData.monitoringImageUrl}.webp`}
-          // src="https://i.ibb.co/QMdWfzX/component-image-one.png"
         />
       </div>
 
