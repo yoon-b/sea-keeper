@@ -69,7 +69,7 @@ const ReportDetail = () => {
         <img
           className="w-full"
           alt={`${reportData.coastName} 사진`}
-          src={`${reportData.serialNumber}.webp`}
+          src={`${reportData.monitoringImageUrl}.webp`}
           // src="https://i.ibb.co/QMdWfzX/component-image-one.png"
         />
       </div>
