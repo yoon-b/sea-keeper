@@ -5,9 +5,12 @@ const Inspector = () => {
   return (
     <div>
       <ReportList />
-      <Link to="/create-report">
-        <button>Create Report</button>
-      </Link>
+
+      <div className="py-4">
+        <Link to="/create-inspection">
+          <button>작성하기</button>
+        </Link>
+      </div>
     </div>
   );
 };

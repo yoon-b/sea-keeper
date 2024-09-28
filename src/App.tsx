@@ -6,26 +6,32 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Header from "./components/Header";
 import SignUp from "./pages/User/SignUp";
 import Login from "./pages/User/Login";
 import Home from "./pages/Home";
 import Inspector from "./pages/Inspector/Inspector";
-import CreateReport from "./pages/Inspector/CreateReport";
+import CreateInspection from "./pages/Inspector/CreateInspection";
 import ReportDetail from "./pages/Inspector/ReportDetail";
 import Manager from "./pages/Manager/Manager";
 import Cleaner from "./pages/Cleaner/Cleaner";
+import CreateCleanup from "./pages/Cleaner/CreateCleanup";
 import Collector from "./pages/Collector/Collector";
 
 import "./App.css";
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
     <RecoilRoot>
-      <Router>
-        <MainContent />
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <MainContent />
+        </Router>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };
@@ -44,10 +50,11 @@ const MainContent = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/inspector" element={<Inspector />} />
-        <Route path="/create-report" element={<CreateReport />} />
+        <Route path="/create-inspection" element={<CreateInspection />} />
         <Route path="/report-detail/:reportId" element={<ReportDetail />} />
         <Route path="/manager" element={<Manager />} />
         <Route path="/cleaner" element={<Cleaner />} />
+        <Route path="/create-cleanup" element={<CreateCleanup />} />
         <Route path="/collector" element={<Collector />} />
       </Routes>
     </React.Fragment>
