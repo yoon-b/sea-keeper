@@ -112,7 +112,7 @@ const ReportDetail = () => {
           </p>
           <div className="flex items-center justify-center">
             <p className="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">
-              {reportData.predictedTrashVolume}L
+              {reportData.predictedTrashVolume * 50}L
             </p>
           </div>
         </div>
