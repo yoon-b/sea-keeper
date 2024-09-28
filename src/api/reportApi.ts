@@ -44,10 +44,8 @@ export const fetchInspectionReportById = async (
 // 조사 기록 생성
 export const createInspectionReport = async (formData: FormData) => {
   try {
-    // console.log("form data: ", formData);
-    const dataObject = Object.fromEntries(formData.entries());
-    console.log("Data Object: ", dataObject);
-
+    // const dataObject = Object.fromEntries(formData.entries());
+    // console.log("Data Object: ", dataObject);
     const res = await axiosInstance.post(`/monitoring`, formData);
     return res.data;
   } catch (err) {

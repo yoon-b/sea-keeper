@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { readableDate } from "../../utils/timeUtils";
 import { createInspectionReport } from "../../api/reportApi";
 
 interface IFormInput {
@@ -11,7 +10,6 @@ interface IFormInput {
   mainWasteType: string;
   latitude: number;
   longitude: number;
-  // timestamp: string;
 }
 
 const CreateInspection = () => {
@@ -20,23 +18,27 @@ const CreateInspection = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  // const [timestamp, setTimestamp] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const formData = new FormData();
-    formData.append("latitude", data.latitude.toString());
-    formData.append("longitude", data.longitude.toString());
-    formData.append("coastName", data.coastName);
-    formData.append("coastLength", data.coastLength.toString());
-    formData.append("predictedTrashVolume", data.estimatedAmount.toString());
-    formData.append("mainTrashType", data.mainWasteType);
+
+    const monitoringData = {
+      coastName: data.coastName,
+      coastLength: data.coastLength.toString(),
+      latitude: data.latitude.toString(),
+      longitude: data.longitude.toString(),
+      predictedTrashVolume: data.estimatedAmount.toString(),
+      mainTrashType: data.mainWasteType,
+    };
+
+    formData.append("monitoring", JSON.stringify(monitoringData));
 
     if (data.photo.length > 0) {
       formData.append("monitoringViewFile", data.photo[0]);
     }
+
     try {
       const res = await createInspectionReport(formData);
-      // console.log("DATAAAA", formData);
       console.log(res);
     } catch (err) {
       console.log("조사 기록 작성 실패", err);
@@ -51,11 +53,9 @@ const CreateInspection = () => {
           const currentTimestamp = new Date().toISOString();
 
           setLocation({ latitude, longitude });
-          // setTimestamp(currentTimestamp);
 
           setValue("latitude", latitude);
           setValue("longitude", longitude);
-          // setValue("timestamp", currentTimestamp);
           console.log(currentTimestamp);
         },
         (error) => {
@@ -69,7 +69,7 @@ const CreateInspection = () => {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex items-center justify-between">
           <label className="py-2">해안명</label>
           <input
@@ -140,13 +140,11 @@ const CreateInspection = () => {
           <div>
             <p>위도: {location.latitude}</p>
             <p>경도: {location.longitude}</p>
-            {/* <p>시간: {readableDate(timestamp)}</p> */}
           </div>
         )}
 
         <input type="hidden" {...register("latitude")} />
         <input type="hidden" {...register("longitude")} />
-        {/* <input type="hidden" {...register("timestamp")} /> */}
 
         <button type="submit">작성하기</button>
       </form>
