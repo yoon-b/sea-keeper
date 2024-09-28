@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchInspectionReport } from "../../api/reportApi";
+import { fetchCleanupReport } from "../../api/reportApi";
 import { formatDate } from "../../utils/timeUtils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -22,7 +22,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ title }) => (
   </th>
 );
 
-const ReportList = () => {
+const CleanupList = () => {
   const navigate = useNavigate();
 
   const [reports, setReports] = useState<TableRowData[]>([]);
@@ -35,10 +35,10 @@ const ReportList = () => {
   const loadReports = async (page: number) => {
     try {
       setLoading(true);
-      const data = await fetchInspectionReport(page);
+      const data = await fetchCleanupReport(page);
       // console.log("data: ", data);
 
-      setReports(data.result.monitoringList);
+      setReports(data.result.cleanupList);
       setMaxPage(data.result.maxPage);
     } catch (err) {
       if (err instanceof Error) {
@@ -91,7 +91,7 @@ const ReportList = () => {
       <div className="w-full flex justify-between items-center mb-3 mt-1 pl-3">
         <div>
           <h3 className="text-lg font-semibold text-slate-800 text-white">
-            해안 쓰레기 조사 목록
+            해안 쓰레기 청소 목록
           </h3>
         </div>
       </div>
@@ -182,4 +182,4 @@ const ReportList = () => {
   );
 };
 
-export default ReportList;
+export default CleanupList;

@@ -17,7 +17,7 @@ export const fetchInspectionReport = async (page: number) => {
     const res = await axiosInstance.get(`/monitoring-list`, {
       params: {
         page: page,
-        size: 10,
+        size: 5,
       },
     });
     return res.data;
@@ -34,7 +34,7 @@ export const fetchInspectionReportById = async (
 ): Promise<InspectionReport> => {
   try {
     const res = await axiosInstance.get(`/monitoring/${reportId}`);
-    return res.data;
+    return res.data.result;
   } catch (err) {
     console.log("failed to fetch data", err);
     throw new Error("개별 조회 실패");
@@ -42,9 +42,13 @@ export const fetchInspectionReportById = async (
 };
 
 // 조사 기록 생성
-export const createInspectionReport = async () => {
+export const createInspectionReport = async (formData: FormData) => {
   try {
-    const res = await axiosInstance.post(`/monitoring`);
+    // console.log("form data: ", formData);
+    const dataObject = Object.fromEntries(formData.entries());
+    console.log("Data Object: ", dataObject);
+
+    const res = await axiosInstance.post(`/monitoring`, formData);
     return res.data;
   } catch (err) {
     console.log("failed to create report", err);
@@ -69,7 +73,7 @@ export const fetchCleanupReport = async (page: number) => {
     const res = await axiosInstance.get(`/cleanup-list`, {
       params: {
         page: page,
-        size: 10,
+        size: 5,
       },
     });
     return res.data;

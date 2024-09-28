@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // import { useQuery } from "@tanstack/react-query";
-// import { fetchInspectionReportById } from "../../api/reportApi";
-import { describeWasteType } from "../../utils/reportUtils";
-import { convertSerialNumberToDate } from "../../utils/reportUtils";
+import { fetchInspectionReportById } from "../../api/reportApi";
+import {
+  describeWasteType,
+  convertSerialNumberToDate,
+} from "../../utils/reportUtils";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 interface InspectionReport {
@@ -19,61 +22,65 @@ interface InspectionReport {
 const ReportDetail = () => {
   const { reportId } = useParams();
 
-  if (!reportId) {
-    return;
-  }
-
-  const reportExample: InspectionReport = {
-    serialNumber: "20171130120959834",
-    latitude: 35.3249,
-    longitude: 129.2851,
-    coastName: "길천리1",
-    coastLength: 50,
-    predictedTrashVolume: 300,
-    mainTrashType: "1",
-    monitoringImageUrl: "",
-  };
+  const [reportData, setReportData] = useState<InspectionReport | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // const { data, error, isLoading } = useQuery<InspectionReport, Error>({
   //   queryKey: ["inspectionReport", reportId],
   //   queryFn: () => fetchInspectionReportById(Number(reportId)),
   // });
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  useEffect(() => {
+    if (reportId) {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const data = await fetchInspectionReportById(Number(reportId));
+          console.log("Fetched data: ", data);
+          setReportData(data);
+        } catch (err) {
+          if (err instanceof Error) {
+            setError(err.message);
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [reportId]);
 
-  // if (error instanceof Error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  // if (!data) {
-  //   return <p>No data available.</p>;
-  // }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!reportData) {
+    return <p>No data available.</p>;
+  }
 
   return (
     <div>
-      <h2>조사 상세 페이지</h2>
-      <p>id: {reportId}</p>
-      {/* <h2>조사 일련번호: {data.serialNumber}</h2>
-      <p>해안명: {data.coastName}</p>
-      <p>주요 쓰레기 종류: {data.mainTrashType}</p> */}
-
       <div className="md:hidden">
         <img
           className="w-full"
-          alt="image of a girl posing"
-          src="https://i.ibb.co/QMdWfzX/component-image-one.png"
+          alt={`${reportData.coastName} 사진`}
+          src={`${reportData.serialNumber}.webp`}
+          // src="https://i.ibb.co/QMdWfzX/component-image-one.png"
         />
       </div>
 
       <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
         <div className="border-b border-gray-200 pb-6">
           <p className="text-sm leading-none text-gray-600 dark:text-gray-300 ">
-            {reportExample.serialNumber}
+            {reportData.serialNumber}
           </p>
           <h1 className="lg:text-2xl text-xl font-semibold lg:leading-6 leading-7 text-gray-800 dark:text-white mt-2">
-            {reportExample.coastName}
+            {reportData.coastName}
           </h1>
         </div>
 
@@ -83,7 +90,7 @@ const ReportDetail = () => {
           </p>
           <div className="flex items-center justify-center">
             <p className="text-sm leading-none text-gray-600 dark:text-gray-300">
-              {convertSerialNumberToDate(reportExample.serialNumber)}
+              {convertSerialNumberToDate(reportData.serialNumber)}
             </p>
           </div>
         </div>
@@ -94,7 +101,7 @@ const ReportDetail = () => {
           </p>
           <div className="flex items-center justify-center">
             <p className="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">
-              {reportExample.coastLength}m
+              {reportData.coastLength}m
             </p>
           </div>
         </div>
@@ -105,20 +112,20 @@ const ReportDetail = () => {
           </p>
           <div className="flex items-center justify-center">
             <p className="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">
-              {reportExample.predictedTrashVolume}L
+              {reportData.predictedTrashVolume}L
             </p>
           </div>
         </div>
 
         <div>
           <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            위도: {reportExample.latitude}
+            위도: {reportData.latitude}
           </p>
           <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            경도: {reportExample.longitude}
+            경도: {reportData.longitude}
           </p>
           <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            주요 쓰레기 종류: {describeWasteType(reportExample.mainTrashType)}
+            주요 쓰레기 종류: {describeWasteType(reportData.mainTrashType)}
           </p>
         </div>
 
