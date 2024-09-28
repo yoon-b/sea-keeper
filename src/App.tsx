@@ -18,6 +18,7 @@ import ReportDetail from "./pages/Inspector/ReportDetail";
 import Manager from "./pages/Manager/Manager";
 import Cleaner from "./pages/Cleaner/Cleaner";
 import CreateCleanup from "./pages/Cleaner/CreateCleanup";
+import CleanupDetail from "./pages/Cleaner/CleanupDetail";
 import Collector from "./pages/Collector/Collector";
 
 import "./App.css";
@@ -55,6 +56,7 @@ const MainContent = () => {
         <Route path="/manager" element={<Manager />} />
         <Route path="/cleaner" element={<Cleaner />} />
         <Route path="/create-cleanup" element={<CreateCleanup />} />
+        <Route path="/cleanup-detail/:reportId" element={<CleanupDetail />} />
         <Route path="/collector" element={<Collector />} />
       </Routes>
     </React.Fragment>

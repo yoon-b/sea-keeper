@@ -50,13 +50,11 @@ const CreateInspection = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          const currentTimestamp = new Date().toISOString();
 
           setLocation({ latitude, longitude });
 
           setValue("latitude", latitude);
           setValue("longitude", longitude);
-          console.log(currentTimestamp);
         },
         (error) => {
           console.error("사용자 위치에 접근할 수 없습니다.", error);

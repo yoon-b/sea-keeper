@@ -28,7 +28,7 @@ const CleanupList = () => {
   const [reports, setReports] = useState<TableRowData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [maxPage, setMaxPage] = useState(1);
   const maxVisiblePages = 5;
 
@@ -61,15 +61,15 @@ const CleanupList = () => {
   const headers = ["일련번호", "해안명", "작성일"];
 
   const handleRowClick = (id: number) => {
-    navigate(`/report-detail/${id}`);
+    navigate(`/cleanup-detail/${id}`);
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+    if (currentPage > 0) setCurrentPage(currentPage - 1);
   };
 
   const handleNextPage = () => {
-    if (currentPage < maxPage) setCurrentPage(currentPage + 1);
+    if (currentPage < maxPage - 1) setCurrentPage(currentPage + 1);
   };
 
   const getVisiblePages = () => {
@@ -135,9 +135,9 @@ const CleanupList = () => {
             <div className="flex space-x-1">
               <button
                 onClick={handlePreviousPage}
-                disabled={currentPage === 1}
+                disabled={currentPage === 0}
                 className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded ${
-                  currentPage === 1
+                  currentPage === 0
                     ? "cursor-not-allowed opacity-50"
                     : "hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
                 }`}
@@ -148,9 +148,9 @@ const CleanupList = () => {
               {getVisiblePages().map((page) => (
                 <button
                   key={page}
-                  onClick={() => setCurrentPage(page)}
+                  onClick={() => setCurrentPage(page - 1)}
                   className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal ${
-                    currentPage === page
+                    currentPage === page - 1
                       ? "text-white bg-slate-800 border border-slate-800"
                       : "text-slate-500 bg-white border border-slate-200"
                   } rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease`}
@@ -161,9 +161,9 @@ const CleanupList = () => {
 
               <button
                 onClick={handleNextPage}
-                disabled={currentPage === maxPage}
+                disabled={currentPage === maxPage - 1}
                 className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded ${
-                  currentPage === maxPage
+                  currentPage === maxPage - 1
                     ? "cursor-not-allowed opacity-50"
                     : "hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
                 }`}

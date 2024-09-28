@@ -1,42 +1,73 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { readableDate } from "../../utils/timeUtils";
+import { createCleanupReport } from "../../api/reportApi";
 
 interface IFormInput {
   coastName: string;
   coastLength: string;
-  photo: FileList;
-  estimatedAmount: number;
+  beforePhoto: FileList;
+  afterPhoto: FileList;
+  dumpSitePhoto: FileList;
+  realizedAmount: number;
   mainWasteType: string;
   latitude: number;
   longitude: number;
-  timestamp: string;
 }
 
 const CreateCleanup = () => {
+  const navigate = useNavigate();
+
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [timestamp, setTimestamp] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const formData = new FormData();
+
+    const cleanupData = {
+      coastName: data.coastName,
+      coastLength: data.coastLength.toString(),
+      latitude: data.latitude.toString(),
+      longitude: data.longitude.toString(),
+      actualTrashVolume: data.realizedAmount.toString(),
+      mainTrashType: data.mainWasteType,
+    };
+
+    formData.append("cleanup", JSON.stringify(cleanupData));
+
+    if (data.beforePhoto.length > 0) {
+      formData.append("beforeViewFile", data.beforePhoto[0]);
+    }
+
+    if (data.afterPhoto.length > 0) {
+      formData.append("afterViewFile", data.afterPhoto[0]);
+    }
+
+    if (data.dumpSitePhoto.length > 0) {
+      formData.append("completeViewFile", data.dumpSitePhoto[0]);
+    }
+
+    try {
+      const res = await createCleanupReport(formData);
+      console.log(res);
+      navigate(`/cleanup-detail/${res.result}`);
+    } catch (err) {
+      console.log("조사 기록 작성 실패", err);
+    }
+  };
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          const currentTimestamp = new Date().toISOString();
-
           setLocation({ latitude, longitude });
-          setTimestamp(currentTimestamp);
 
           setValue("latitude", latitude);
           setValue("longitude", longitude);
-          setValue("timestamp", currentTimestamp);
-          console.log(currentTimestamp);
         },
         (error) => {
           console.error("사용자 위치에 접근할 수 없습니다.", error);
@@ -74,7 +105,7 @@ const CreateCleanup = () => {
         <div className="flex items-center justify-between">
           <label className="py-2">수거 예측량</label>
           <input
-            {...register("estimatedAmount")}
+            {...register("realizedAmount")}
             className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
             required
             type="number"
@@ -98,21 +129,45 @@ const CreateCleanup = () => {
         </select>
 
         <div>
-          <label htmlFor="photo" className="py-2">
-            해안사진:
+          <label htmlFor="before-photo" className="py-2">
+            청소 전 해안사진:
           </label>
           <input
             type="file"
-            id="photo"
+            id="before-photo"
             accept="image/*"
             capture="environment"
-            {...register("photo")}
+            {...register("beforePhoto")}
+          />
+        </div>
+        <div>
+          <label htmlFor="after-photo" className="py-2">
+            청소 후 해안사진:
+          </label>
+          <input
+            type="file"
+            id="after-photo"
+            accept="image/*"
+            capture="environment"
+            {...register("afterPhoto")}
+          />
+        </div>
+        <div>
+          <label htmlFor="dump-site-photo" className="py-2">
+            집하 완료 사진:
+          </label>
+          <input
+            type="file"
+            id="dump-site-photo"
+            accept="image/*"
+            capture="environment"
+            {...register("dumpSitePhoto")}
           />
         </div>
 
         <div className="py-2">
           <button type="button" onClick={getCurrentLocation}>
-            현재 위치 및 시간 입력
+            현재 위치 입력
           </button>
         </div>
 
@@ -120,13 +175,11 @@ const CreateCleanup = () => {
           <div>
             <p>위도: {location.latitude}</p>
             <p>경도: {location.longitude}</p>
-            <p>시간: {readableDate(timestamp)}</p>
           </div>
         )}
 
         <input type="hidden" {...register("latitude")} />
         <input type="hidden" {...register("longitude")} />
-        <input type="hidden" {...register("timestamp")} />
 
         <button type="submit">작성하기</button>
       </form>

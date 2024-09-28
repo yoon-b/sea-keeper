@@ -86,7 +86,8 @@ export const fetchCleanupReport = async (page: number) => {
 export const fetchCleanupReportById = async (reportId: number) => {
   try {
     const res = await axiosInstance.get(`/cleanup/${reportId}`);
-    return res.data;
+    console.log(res.data.result);
+    return res.data.result;
   } catch (err) {
     console.log("failed to fetch data", err);
     throw new Error("개별 조회 실패");
@@ -94,9 +95,9 @@ export const fetchCleanupReportById = async (reportId: number) => {
 };
 
 // 청소 기록 생성
-export const createCleanupReport = async () => {
+export const createCleanupReport = async (formData: FormData) => {
   try {
-    const res = await axiosInstance.post(`/cleanup`);
+    const res = await axiosInstance.post(`/cleanup`, formData);
     return res.data;
   } catch (err) {
     console.log("failed to create report", err);
