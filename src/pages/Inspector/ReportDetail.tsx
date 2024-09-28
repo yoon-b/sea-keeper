@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 // import { useQuery } from "@tanstack/react-query";
-import { fetchInspectionReportById } from "../../api/reportApi";
+import {
+  fetchInspectionReportById,
+  deleteInspectionReport,
+} from "../../api/reportApi";
 import {
   describeWasteType,
   convertSerialNumberToDate,
@@ -21,6 +24,7 @@ interface InspectionReport {
 
 const ReportDetail = () => {
   const { reportId } = useParams();
+  const navigate = useNavigate();
 
   const [reportData, setReportData] = useState<InspectionReport | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -62,6 +66,15 @@ const ReportDetail = () => {
   if (!reportData) {
     return <p>No data available.</p>;
   }
+
+  const handleDelete = async () => {
+    try {
+      await deleteInspectionReport(Number(reportId));
+      navigate(-1);
+    } catch (error) {
+      console.error("Error deleting report:", error);
+    }
+  };
 
   return (
     <div>
@@ -128,7 +141,9 @@ const ReportDetail = () => {
           </p>
         </div>
 
-        <DeleteOutlinedIcon />
+        <div onClick={handleDelete}>
+          <DeleteOutlinedIcon />
+        </div>
       </div>
     </div>
   );

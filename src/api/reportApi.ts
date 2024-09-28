@@ -58,6 +58,7 @@ export const createInspectionReport = async (formData: FormData) => {
 export const deleteInspectionReport = async (reportId: number) => {
   try {
     const res = await axiosInstance.delete(`/monitoring/${reportId}`);
+    console.log("response: ", res);
     return res.data;
   } catch (err) {
     console.log("failed to delete data", err);
