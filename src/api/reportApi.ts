@@ -86,7 +86,7 @@ export const fetchCleanupReport = async (page: number) => {
 export const fetchCleanupReportById = async (reportId: number) => {
   try {
     const res = await axiosInstance.get(`/cleanup/${reportId}`);
-    console.log(res.data.result);
+    // console.log(res.data.result);
     return res.data.result;
   } catch (err) {
     console.log("failed to fetch data", err);
