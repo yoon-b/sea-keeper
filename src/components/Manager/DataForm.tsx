@@ -2,6 +2,16 @@ import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
+import SearchIcon from "@mui/icons-material/Search";
+import styles from "./data-form.module.css";
+
+interface DataFormProps {
+  onDataFetch: (
+    selectedOption: string,
+    startTime: string,
+    endTime: string
+  ) => void;
+}
 
 interface DataFormData {
   selectedOption: string;
@@ -9,7 +19,7 @@ interface DataFormData {
   endDate: Date;
 }
 
-const DataForm = () => {
+const DataForm = ({ onDataFetch }: DataFormProps) => {
   const {
     register,
     handleSubmit,
@@ -19,7 +29,7 @@ const DataForm = () => {
   } = useForm<DataFormData>({
     defaultValues: {
       selectedOption: "",
-      startDate: new Date(),
+      startDate: new Date("2017-11-29"),
       endDate: new Date(),
     },
   });
@@ -27,13 +37,22 @@ const DataForm = () => {
   const startDate = watch("startDate");
   const endDate = watch("endDate");
 
-  const onSubmit = (data: DataFormData) => {
-    console.log("Selected dates:", data.startDate, data.endDate);
-    console.log("Selected option:", data.selectedOption);
+  const onSubmit = async (data: DataFormData) => {
+    const adjustedStartDate = new Date(data.startDate);
+    adjustedStartDate.setHours(0, 0, 0, 0);
+
+    const adjustedEndDate = new Date(data.endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+
+    onDataFetch(
+      data.selectedOption,
+      adjustedStartDate.toISOString(),
+      adjustedEndDate.toISOString()
+    );
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <select
           {...register("selectedOption", { required: true })}
@@ -42,9 +61,10 @@ const DataForm = () => {
           <option value="" disabled>
             조회 데이터 선택
           </option>
-          <option value="option1">옵션 1</option>
-          <option value="option2">옵션 2</option>
-          <option value="option3">옵션 3</option>
+          <option value="estimatedAmount">쓰레기 예측량</option>
+          <option value="realizedAmount">쓰레기 실 수거량</option>
+          <option value="type">주요 쓰레기 종류</option>
+          <option value="average">거리 대비 평균 수거량</option>
         </select>
         {errors.selectedOption && (
           <p className="text-red-500">조회 데이터 선택은 필수입니다.</p>
@@ -62,6 +82,7 @@ const DataForm = () => {
             placeholderText="시작일"
             minDate={new Date(2020, 0, 1)}
             maxDate={new Date()}
+            calendarClassName={styles["calendar-popup"]}
           />
           {errors.startDate && (
             <p className="text-red-500">시작일은 필수입니다.</p>
@@ -85,14 +106,11 @@ const DataForm = () => {
             <p className="text-red-500">종료일은 필수입니다.</p>
           )}
         </div>
-      </div>
 
-      <button
-        type="submit"
-        className="bg-blue-500 text-white rounded py-2 px-4"
-      >
-        조회하기
-      </button>
+        <button type="submit" className="text-white rounded-full p-2">
+          <SearchIcon />
+        </button>
+      </div>
     </form>
   );
 };
