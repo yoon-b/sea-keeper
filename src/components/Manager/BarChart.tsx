@@ -18,8 +18,8 @@ const BarChart = ({
       type: "bar" as const,
       events: {
         dataPointSelection: (
-          event: any,
-          chartContext: any,
+          //   event: any,
+          //   chartContext: any,
           { dataPointIndex }: any
         ) => {
           const selectedXValue = data[dataPointIndex].x; // 선택된 item의 x 값
