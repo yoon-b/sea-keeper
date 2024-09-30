@@ -15,3 +15,9 @@ interface Cleanup {
   afterViewImageUrl: string;
   completeViewImageUrl: string;
 }
+
+interface ChartConfig {
+  title: string;
+  xAxis: string;
+  yAxis: string;
+}
