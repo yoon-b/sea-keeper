@@ -35,7 +35,6 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
     zoomLevel
   }) => {
     const [noPickupTrashs, setNoPickupTrashs] = useState<TrashData[]>([]);
-    const [isPressed, setIsPressed] = useState<boolean>(false);
     const pressTimer = useRef<number | null>(null);
 
     const handleMarkerClick = (trash: TrashData) => {
@@ -54,7 +53,6 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
 
     const handleMouseDown = (trash : TrashData) => {
         pressTimer.current = window.setTimeout(() => {
-          setIsPressed(true);
           const confirmed = window.confirm(
             `${trash.id}번 데이터를 수거 완료로 변경하시겠습니까?`
           );
@@ -65,7 +63,7 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
           } else {
             console.log("취소하고 돌아가기");
           }
-        }, 1500); // 1.5초 이상 꾹 누르면 실행
+        }, 1000); // 1초 이상 꾹 누르면 실행
       };
     
     const handleMouseUpOrLeave = () => {
@@ -94,9 +92,8 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
         }
       };
 
-      console.log("isPressed 변화",isPressed);
       fetchData();
-      },[isPressed])
+      },[])
   
     return (
       <>

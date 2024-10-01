@@ -25,7 +25,7 @@ const ClosestTrashSpot : FC<LocationProps> = ({ currentLocation }) => {
             const data = await fetchClosestTrash( currentLocation[0] , currentLocation[1] );
             setClosestTrash(data);}
             else {
-                console.log("현재 위치가 존재하지 않습니다")
+                console.log("현재 위치 불러오는 중...")
             }
           } catch (error) {
             const axiosError = error as AxiosError;
@@ -41,18 +41,33 @@ const ClosestTrashSpot : FC<LocationProps> = ({ currentLocation }) => {
         };
   
         fetchData();
-        },[])
+        },[currentLocation])
 
   return (
     <div className="flex flex-col items-start font-bold">
-      <div className="text-xl">현재 가장 가까운 해안쓰레기는</div>
-      <div>
-        <span className="text-blue-500 text-2xl font-bold">{closestTrash?.coastName}</span>
-        &nbsp;
-        <span className="text-sm font-bold">
-          {closestTrash?.distance ? (closestTrash.distance / 1000).toFixed(2) : null}km
-        </span>
-      </div>
+      {currentLocation? (
+        <>
+        <div className="text-sm">현재 가장 가까운 해안쓰레기는</div>
+          <div>
+            <span className="text-blue-500 font-bold">{closestTrash?.coastName}</span>
+            &nbsp;
+            <span className="text-xs font-bold">
+              {closestTrash?.distance ? (closestTrash.distance / 1000).toFixed(2) : null} km
+            </span>
+        </div>
+      </>
+      ):(
+      <>
+        <div className="text-xl">-</div>
+        <div>
+          <span className="text-blue-500 text-2xl font-bold">-</span>
+          &nbsp;
+          <span className="text-sm font-bold">
+            -
+          </span>
+        </div>
+      </>
+      )}
     </div>
   )
 }

@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCurrentLocation } from "../../utils/useCurrentLocation";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
-import { Icon } from "leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import { Icon, LatLngTuple } from "leaflet";
 import NoPickupTrashSpots from "../../components/Collector/NoPickupTrashSpots";
 import UserLocationCircle from "../../components/Collector/UseLocationCircle";
 import ClosestTrashSpot from "../../components/Collector/ClosestTrashSpot";
 import SelectedTrashSpots from "../../components/Collector/SelectedTrashSpots";
+import RoutePolyline from "../../components/Collector/RoutePolyline";
+import { MdMyLocation } from "react-icons/md";
+import RouteSummary from "../../components/Collector/RouteSummary";
 
 const userIcon = new Icon({
   iconUrl: '/animated-marker.svg',
@@ -34,12 +37,8 @@ const Collector = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedMarkers, setSelectedMarkers] = useState<Set<TrashData>>(new Set());
   const [trashSum, setTrashSum] = useState<number>(0);
-
-  useEffect(()=> {
-    if (currentLocation) {
-      console.log("api요청 로직을 작성할 곳", currentLocation)
-    }
-  },[currentLocation]);
+  const [routeSections, setRouteSections] = useState<RouteSection[] | null>(null);
+  const [routeSummary, setRouteSummary] = useState<RouteSummary | null>(null);
 
   const HandleZoomChange = () => {
     const map = useMapEvents({
@@ -57,10 +56,10 @@ const Collector = () => {
   return (
     <div className="flex justify-center items-center w-screen h-screen">
       <MapContainer
-        center={currentLocation || [35.3249, 129.2849]}
+        center={currentLocation || [35.1689, 129.1360]}
         zoom={zoomLevel}
         scrollWheelZoom={true}
-        className="w-full h-full sm:w-[100vw] sm:h-[100vh] md:w-[80vw] md:h-[100vh] lg:w-[70vw] lg:h-[100vh] z-10"
+        className="w-full h-full z-10"
       >
         <TileLayer
             url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png"
@@ -79,12 +78,18 @@ const Collector = () => {
           setTrashSum={setTrashSum}
           zoomLevel={zoomLevel}
         />
+        <RoutePolyline
+        zoomLevel={zoomLevel}
+        routeSections={routeSections}
+        routeSummary={routeSummary}
+        />
+        <MyLocationButton currentLocation={currentLocation || [35.1689, 129.1360]} />
       </MapContainer>
-
+      
        {/* BottomSheet */}
        <div
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-lg shadow-lg transition-transform duration-300 z-10 ${
-          isCollapsed ? 'transform translate-y-[10%] h-[15vh]' : 'h-[40vh]'
+        className={`fixed bottom-0 bg-white rounded-t-lg shadow-lg transition-transform duration-300 z-10 w-full ${
+          isCollapsed ? 'transform translate-y-[20%]' : 'h-[50vh]'
         }`}
       >
         {/* BottomSheet 헤더 */}
@@ -96,18 +101,51 @@ const Collector = () => {
         </div>
 
         {/* BottomSheet 내용 */}
-        {isCollapsed ? (
-          <div className="p-4 text-center text-black">
-           <h3 className="text-l font-bold">슬라이드를 올려주세요</h3>
-          </div>
-        ) : (
-          <div className="p-4 overflow-auto text-black">
+        {!isCollapsed &&
+          <div className="p-4 h-[90%] overflow-y-scroll text-black">
             <ClosestTrashSpot currentLocation={currentLocation} />
-            <SelectedTrashSpots selectedMarkers={selectedMarkers} trashSum={trashSum}/>
+            {routeSummary ? (
+              <RouteSummary
+                trashSum={trashSum}
+                setSelectedMarkers={setSelectedMarkers}
+                routeSummary={routeSummary}
+                setRouteSections={setRouteSections}
+                setRouteSummary={setRouteSummary}
+              />
+            ):(
+            <SelectedTrashSpots
+              selectedMarkers={selectedMarkers}
+              setSelectedMarkers={setSelectedMarkers}
+              setRouteSections={setRouteSections}
+              setRouteSummary={setRouteSummary}
+              currentLocation={currentLocation}
+              trashSum={trashSum}
+              />
+            )}
+            <div className="flex flex-start mt-4 text-sm text-gray-600">※ 수거 완료하였다면 쓰레기 아이콘을 길게 눌러서 수거해주세요</div>
           </div>
-        )}
+        }
       </div>
     </div>
+  );
+};
+
+const MyLocationButton = ({ currentLocation } : {currentLocation: LatLngTuple }) => {
+  const map = useMap();
+
+  const handleMyLocationClick = () => {
+    if (currentLocation) {
+      map.setView(currentLocation, map.getZoom());  // 현재 위치로 중심 이동
+    }
+  };
+
+  return (
+    <button
+      className="fixed top-80 left-5 bg-white p-2 rounded-full shadow-md z-[500] hover:bg-gray-200"
+      onClick={handleMyLocationClick}
+    >
+      <MdMyLocation className="text-blue-500" size={24} />
+    </button>
   );
 };
 
