@@ -18,19 +18,18 @@ const BarChart = ({
       type: "bar" as const,
       events: {
         dataPointSelection: (
-          //   event: any,
-          //   chartContext: any,
+          _event: any,
+          _chartContext: any,
           { dataPointIndex }: any
         ) => {
-          const selectedXValue = data[dataPointIndex].x; // 선택된 item의 x 값
-          onItemClick(selectedXValue); // 상위 컴포넌트에 클릭한 x 값 전달
-          console.log("선택된 아이템", selectedXValue);
+          const selectedXValue = data[dataPointIndex].x;
+          onItemClick(selectedXValue);
         },
       },
     },
     colors: ["#267EC3", "#46B3A9", "#FDBB3A", "#FF6178", "#8B75D7"],
     xaxis: {
-      categories: data.map((item) => item.x), // x 데이터
+      categories: data.map((item) => item.x),
       title: {
         text: xAxisName,
       },
@@ -45,7 +44,7 @@ const BarChart = ({
   const series = [
     {
       name: yAxisName,
-      data: data.map((item) => item.y * 50), // y 데이터
+      data: data.map((item) => Math.round(item.y * 50)),
     },
   ];
 

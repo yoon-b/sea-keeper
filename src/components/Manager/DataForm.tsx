@@ -63,7 +63,8 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
           </option>
           <option value="estimatedAmount">쓰레기 예측량</option>
           <option value="realizedAmount">쓰레기 실 수거량</option>
-          <option value="type">주요 쓰레기 종류</option>
+          <option value="estimatedType">예측 주요 쓰레기 종류</option>
+          <option value="realizedType">실 주요 쓰레기 종류</option>
           <option value="average">거리 대비 평균 수거량</option>
         </select>
         {errors.selectedOption && (

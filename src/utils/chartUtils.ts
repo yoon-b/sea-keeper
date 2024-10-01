@@ -17,9 +17,15 @@ export const getChartConfig = (dataTitle: string): ChartConfig => {
         xAxis: "오염 등급",
         yAxis: "수거량 (L)",
       };
-    case "type":
+    case "estimatedType":
       return {
-        title: "주요 쓰레기 종류",
+        title: "예측 주요 쓰레기 종류",
+        xAxis: "쓰레기 종류",
+        yAxis: "수거량 (L)",
+      };
+    case "realizedType":
+      return {
+        title: "실 주요 쓰레기 종류",
         xAxis: "쓰레기 종류",
         yAxis: "수거량 (L)",
       };
@@ -27,7 +33,7 @@ export const getChartConfig = (dataTitle: string): ChartConfig => {
       return {
         title: "거리 대비 평균 수거량",
         xAxis: "해안선 명",
-        yAxis: "평균 수거량 (L)",
+        yAxis: "평균 수거량 (L/m)",
       };
     default:
       return {
