@@ -1,7 +1,7 @@
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 interface StatisticalMapProps {
   markers: Cleanup[];
@@ -35,33 +35,30 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
     <MapContainer
       center={position}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ width: "80vw", height: "55vh" }}
     >
-      {/* <TileLayer
-        url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://stadiamaps.com">Stadia Maps</a>'
-      /> */}
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://carto.com/">Carto</a>'
       />
-
-      {markers.map((marker) => (
-        <CircleMarker
-          key={marker.id}
-          center={[marker.latitude, marker.longitude]}
-          radius={marker.actualTrashVolume * 0.5}
-          fillColor={getColorByTrashType(marker.mainTrashType)}
-          color={undefined} // 테두리 색상
-          fillOpacity={0.8}
-        >
-          <Popup>
-            {marker.coastName}
-            <br />[{marker.mainTrashType}] {marker.actualTrashVolume * 50}L
-          </Popup>
-        </CircleMarker>
-      ))}
+      <MarkerClusterGroup disableClusteringAtZoom={12}>
+        {markers.map((marker) => (
+          <CircleMarker
+            key={marker.id}
+            center={[marker.latitude, marker.longitude]}
+            radius={marker.actualTrashVolume * 0.5}
+            fillColor={getColorByTrashType(marker.mainTrashType)}
+            color={undefined} // 테두리 색상
+            fillOpacity={0.8}
+          >
+            <Popup>
+              {marker.coastName}
+              <br />[{marker.mainTrashType}] {marker.actualTrashVolume * 50}L
+            </Popup>
+          </CircleMarker>
+        ))}
+      </MarkerClusterGroup>
     </MapContainer>
   );
 };
