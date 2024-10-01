@@ -12,13 +12,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   onCancel,
 }) => {
   return (
-    // <Modal isOpen={isOpen} onRequestClose={onCancel}>
-    //   {/* <h2>삭제 확인</h2> */}
-    //   <p>정말로 삭제하시겠습니까?</p>
-    //   <button onClick={onConfirm}>삭제</button>
-    //   <button onClick={onCancel}>취소</button>
-    // </Modal>
-
     <Modal
       isOpen={isOpen}
       onRequestClose={onCancel}
