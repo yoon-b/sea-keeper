@@ -168,7 +168,7 @@ const CleanupDetail = () => {
           </p>
         </div>
 
-        <div onClick={handleDelete}>
+        <div onClick={handleDeleteClick}>
           <DeleteOutlinedIcon />
         </div>
 
