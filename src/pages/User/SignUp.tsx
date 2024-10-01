@@ -2,6 +2,7 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../api/accountApi";
+import ArrowBackIosNew from "@mui/icons-material/ArrowBackIosNew";
 
 interface IFormInput {
   name: string;
@@ -19,6 +20,10 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm<IFormInput>();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -39,6 +44,10 @@ const SignUp = () => {
 
   return (
     <React.Fragment>
+      <div onClick={goBack} className="absolute top-0 left-0 p-2 m-2 w-11 h-11">
+        <ArrowBackIosNew />
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="font-semibold text-gray-600 py-2">이름</label>
         <input
