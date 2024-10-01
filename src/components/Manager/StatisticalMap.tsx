@@ -38,10 +38,15 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
       scrollWheelZoom={false}
       style={{ width: "80vw", height: "55vh" }}
     >
-      <TileLayer
+      {/* <TileLayer
         url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://stadiamaps.com">Stadia Maps</a>'
+      /> */}
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://carto.com/">Carto</a>'
       />
+
       {markers.map((marker) => (
         <CircleMarker
           key={marker.id}
