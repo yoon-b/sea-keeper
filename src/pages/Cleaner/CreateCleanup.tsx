@@ -52,7 +52,7 @@ const CreateCleanup = () => {
 
     try {
       const res = await createCleanupReport(formData);
-      console.log(res);
+      // console.log(res);
       navigate(`/cleanup-detail/${res.result}`);
     } catch (err) {
       console.log("조사 기록 작성 실패", err);

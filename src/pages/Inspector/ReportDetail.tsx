@@ -10,6 +10,8 @@ import {
   convertSerialNumberToDate,
 } from "../../utils/reportUtils";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import Modal from "react-modal";
+import DeleteModal from "../../components/Common/DeleteModal";
 
 interface InspectionReport {
   serialNumber: string;
@@ -29,6 +31,9 @@ const ReportDetail = () => {
   const [reportData, setReportData] = useState<InspectionReport | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  Modal.setAppElement("#root");
 
   // const { data, error, isLoading } = useQuery<InspectionReport, Error>({
   //   queryKey: ["inspectionReport", reportId],
@@ -74,6 +79,19 @@ const ReportDetail = () => {
     } catch (error) {
       console.error("Error deleting report:", error);
     }
+  };
+
+  const handleDeleteClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleConfirm = () => {
+    handleDelete();
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -141,9 +159,15 @@ const ReportDetail = () => {
           </p>
         </div>
 
-        <div onClick={handleDelete}>
+        <div onClick={handleDeleteClick}>
           <DeleteOutlinedIcon />
         </div>
+
+        <DeleteModal
+          isOpen={isOpen}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { createInspectionReport } from "../../api/reportApi";
 
@@ -13,6 +14,7 @@ interface IFormInput {
 }
 
 const CreateInspection = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
   const [location, setLocation] = useState<{
     latitude: number;
@@ -39,7 +41,8 @@ const CreateInspection = () => {
 
     try {
       const res = await createInspectionReport(formData);
-      console.log(res);
+      navigate(`/report-detail/${res.result}`);
+      // console.log(res);
     } catch (err) {
       console.log("조사 기록 작성 실패", err);
     }

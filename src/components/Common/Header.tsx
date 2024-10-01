@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { userAtom } from "../recoil/userAtom";
+import { userAtom } from "../../recoil/userAtom";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Menu from "@mui/icons-material/Menu";
 import Home from "@mui/icons-material/Home";
