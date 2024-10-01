@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-hot-toast";
 interface LoginResponse {
   status: number;
   result: {
@@ -27,13 +27,20 @@ export const login = async (
   try {
     const phoneNumberString = String(phoneNumber);
 
-    const res = await axios.post<LoginResponse>(
+    const loginPromise = axios.post<LoginResponse>(
       `${import.meta.env.VITE_BACK_URL}/login`,
       {
         phoneNumber: phoneNumberString,
         password,
       }
     );
+
+    const res = await toast.promise(loginPromise, {
+      loading: "로그인 중...",
+      success: "로그인 성공!",
+      error: "로그인 실패",
+    });
+
     return res.data;
   } catch (err) {
     console.error(err);
@@ -49,7 +56,7 @@ export const signup = async (
   try {
     const phoneNumberString = String(phoneNumber);
 
-    const res = await axios.post<SignupResponse>(
+    const signupPromise = axios.post<SignupResponse>(
       `${import.meta.env.VITE_BACK_URL}/signup`,
       {
         phoneNumber: phoneNumberString,
@@ -58,6 +65,12 @@ export const signup = async (
         roles: ["USER"],
       }
     );
+
+    const res = await toast.promise(signupPromise, {
+      loading: "회원가입 중...",
+      success: "회원가입 성공!",
+      error: "회원가입 실패",
+    });
 
     return res.data;
   } catch (err) {

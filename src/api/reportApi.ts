@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosConfig";
+import { toast } from "react-hot-toast";
 
 interface InspectionReport {
   serialNumber: string;
@@ -28,7 +29,6 @@ export const fetchInspectionReport = async (page: number) => {
 };
 
 // 조사 기록 개별 조회
-// export const fetchInspectionReportById = async (reportId: number) => {
 export const fetchInspectionReportById = async (
   reportId: number
 ): Promise<InspectionReport> => {
@@ -44,9 +44,14 @@ export const fetchInspectionReportById = async (
 // 조사 기록 생성
 export const createInspectionReport = async (formData: FormData) => {
   try {
-    // const dataObject = Object.fromEntries(formData.entries());
-    // console.log("Data Object: ", dataObject);
-    const res = await axiosInstance.post(`/monitoring`, formData);
+    const createPromise = axiosInstance.post(`/monitoring`, formData);
+
+    const res = await toast.promise(createPromise, {
+      loading: "기록 작성 중...",
+      success: "기록 작성 성공!",
+      error: "기록 작성 실패",
+    });
+
     return res.data;
   } catch (err) {
     console.log("failed to create report", err);
@@ -57,8 +62,14 @@ export const createInspectionReport = async (formData: FormData) => {
 // 조사 기록 삭제
 export const deleteInspectionReport = async (reportId: number) => {
   try {
-    const res = await axiosInstance.delete(`/monitoring/${reportId}`);
-    console.log("response: ", res);
+    const deletePromise = axiosInstance.delete(`/monitoring/${reportId}`);
+
+    const res = await toast.promise(deletePromise, {
+      loading: "기록 삭제 중...",
+      success: "기록 삭제 성공!",
+      error: "기록 삭제 실패",
+    });
+
     return res.data;
   } catch (err) {
     console.log("failed to delete data", err);
@@ -97,7 +108,14 @@ export const fetchCleanupReportById = async (reportId: number) => {
 // 청소 기록 생성
 export const createCleanupReport = async (formData: FormData) => {
   try {
-    const res = await axiosInstance.post(`/cleanup`, formData);
+    const createPromise = axiosInstance.post(`/cleanup`, formData);
+
+    const res = await toast.promise(createPromise, {
+      loading: "기록 작성 중...",
+      success: "기록 작성 성공!",
+      error: "기록 작성 실패",
+    });
+
     return res.data;
   } catch (err) {
     console.log("failed to create report", err);
@@ -108,7 +126,14 @@ export const createCleanupReport = async (formData: FormData) => {
 // 청소 기록 삭제
 export const deleteCleanupReport = async (reportId: number) => {
   try {
-    const res = await axiosInstance.delete(`/cleanup/${reportId}`);
+    const deletePromise = axiosInstance.delete(`/cleanup/${reportId}`);
+
+    const res = await toast.promise(deletePromise, {
+      loading: "기록 삭제 중...",
+      success: "기록 삭제 성공!",
+      error: "기록 삭제 실패",
+    });
+
     return res.data;
   } catch (err) {
     console.log("failed to delete data", err);
