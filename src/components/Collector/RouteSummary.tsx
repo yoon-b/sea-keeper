@@ -25,7 +25,7 @@ const RouteSummary : FC<ChildComponentProps> = ({
 
   return (
     <div className="flex flex-col items-start font-bold mt-5 space-y-4">
-      <div className="flex items-center">
+      <div className="flex items-center text-sm">
             경로 조회 결과
       </div>
       <div className="flex flex-col justify-center bg-blue-50 min-w-[100%] min-h-20 p-2">
@@ -37,7 +37,7 @@ const RouteSummary : FC<ChildComponentProps> = ({
           </div>
         </div>
         <div className="w-[100%]">
-          <button className="bg-green-600 w-[100%] hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={handleRetryClick}>돌아가기</button>
+          <button className="bg-gray-700 w-[100%] hover:bg-gray-800 text-white font-bold py-2 px-4 rounded" onClick={handleRetryClick}>돌아가기</button>
         </div>
     </div>
   )
