@@ -5,6 +5,9 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {},
+    fontFamily: {
+      noto: ['Noto Sans', 'sans-serif'],
+		},
   },
   plugins: [],
 }
