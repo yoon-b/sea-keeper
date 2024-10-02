@@ -27,3 +27,14 @@ export const fetchClosestTrash = async ( latitude: number, longitude: number ) =
       throw new Error("가장 가까운 쓰레기 조회 실패");
     }
   };
+
+// 쓰레기 수거 완료 상태 변경
+export const updatePickupStatus = async (cleanupId: number) => {
+  try {
+    const res = await axiosInstance.patch(`/pickup-do/${cleanupId}`);
+    return res.data;
+  } catch (err) {
+    console.log("failed to update pickup status", err);
+    throw new Error("수거 상태 완료로 변경 실패");
+  }
+};

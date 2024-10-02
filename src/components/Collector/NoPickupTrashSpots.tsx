@@ -5,7 +5,8 @@ import { useEffect, useState, useRef } from "react";
 import { Marker, Tooltip } from "react-leaflet";
 import trashIconImage from '../../assets/image/trash-spot.png';
 import checkIconImage from '../../assets/image/check-spot.png';
-import { fetchNoPickupTrashs } from '../../api/collectorApi';
+import { fetchNoPickupTrashs, updatePickupStatus } from '../../api/collectorApi';
+import { showToast } from '../../utils/toastUtils';
 
 interface TrashData {
     id: number;
@@ -51,15 +52,21 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
         setSelectedMarkers(newSelectedMarkers); // 상태 업데이트
       };
 
-    const handleMouseDown = (trash : TrashData) => {
-        pressTimer.current = window.setTimeout(() => {
+    const handleMouseDown = async (trash : TrashData) => {
+        pressTimer.current = window.setTimeout(async() => {
           const confirmed = window.confirm(
             `${trash.id}번 데이터를 수거 완료로 변경하시겠습니까?`
           );
           
           if (confirmed) {
-            console.log(`수거완료로 변경하는 api 요청`);
-            // 여기에 수거 완료 상태로 변경하는 로직을 추가
+            try {
+              await updatePickupStatus(trash.id);
+              window.location.reload();
+              showToast("수거 완료 되었습니다");
+            } catch(err) {
+              console.error("수거 요청 실패",err);
+              showToast("수거 요청 실패. 잠시 후 다시 시도해주세요");
+            }
           } else {
             console.log("취소하고 돌아가기");
           }
@@ -77,7 +84,6 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
       const fetchData = async () => {
         try {
           const data = await fetchNoPickupTrashs();
-          // console.log("미수거 쓰레기 리스트",data)
           setNoPickupTrashs(data);
         } catch (error) {
           const axiosError = error as AxiosError;
@@ -98,7 +104,7 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
     return (
       <>
         {noPickupTrashs?.map((trash) => {
-        const isSelected = selectedMarkers.has(trash); // 선택 여부 확인
+        const isSelected = selectedMarkers.has(trash);
         const icon = new Icon({
           iconUrl: isSelected ? checkIconImage : trashIconImage, // 선택된 상태에 따라 아이콘 설정
           iconSize: [35, 45], // 크기
