@@ -18,7 +18,7 @@ export const fetchRoute = async (
 
     // origin과 destination을 'x,y' 형식의 문자열로 변환
     const originStr = `${origin.x},${origin.y}`;
-    const destinationStr = `${destination.x},${destination.y}`;
+    const destinationStr = `${destination.x},${destination.y},name=${destination.name}`;
 
     const params = {
       origin: originStr,

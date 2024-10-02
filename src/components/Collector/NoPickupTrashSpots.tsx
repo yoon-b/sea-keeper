@@ -81,6 +81,11 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
       };
 
     useEffect(()=>{
+      const markerElement = document.querySelector('.leaflet-marker-icon');
+      if (markerElement) {
+        markerElement.addEventListener('contextmenu', (e) => e.preventDefault()); // 우클릭 메뉴 비활성화
+      }
+      
       const fetchData = async () => {
         try {
           const data = await fetchNoPickupTrashs();
