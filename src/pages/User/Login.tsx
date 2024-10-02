@@ -36,7 +36,7 @@ const Login = () => {
 
   return (
     <div
-      className="w-[100vw] h-[100vh] bg-no-repeat bg-center bg-cover flex items-center justify-center"
+      className="page-container bg-no-repeat bg-center bg-cover"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="w-[300px] bg-transparent border-2 border-white/20 backdrop-blur-[20px] shadow-lg text-white rounded-[10px] p-[30px]">
@@ -46,7 +46,7 @@ const Login = () => {
           <div className="relative w-full h-[50%] my-2">
             <input
               {...register("phoneNumber")}
-              className="appearance-none block w-full bg-transparent text-white border-2 border-white/20 rounded-3xl h-10 p-5 pr-11 outline-none"
+              className="account-input-field"
               required
               type="number"
               placeholder="전화번호"
@@ -57,7 +57,7 @@ const Login = () => {
           <div className="relative w-full h-[50%] my-4">
             <input
               {...register("password")}
-              className="appearance-none block w-full bg-transparent text-white border-2 border-white/20 rounded-3xl h-10 p-5 pr-11 outline-none"
+              className="account-input-field"
               required
               type="password"
               placeholder="비밀번호"
