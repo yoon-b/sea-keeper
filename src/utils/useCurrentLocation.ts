@@ -13,7 +13,7 @@ export const useCurrentLocation = (): LatLngTuple | undefined => {
       },
       (error) => {
         console.error("useCurrentLocation 에서 에러 발생: ", error);
-        setLocation([35.1795, 129.0756]); // 기본값으로 부산 좌표 사용
+        setLocation([35.1689, 129.1360]); // 좌표 기본값
       },
       {
         enableHighAccuracy: true, // 정확도 높은 위치 정보 사용
