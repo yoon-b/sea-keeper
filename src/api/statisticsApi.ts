@@ -83,19 +83,6 @@ export const fetchAverageForMap = async (
   }
 };
 
-export const transformInspectionToCleanup = (data: any[]): Cleanup[] => {
-  return data.map((item) => {
-    const { predictedTrashVolume, monitoringImageUrl, ...rest } = item;
-    return {
-      ...rest,
-      actualTrashVolume: item.predictedTrashVolume / 50,
-      beforeViewImageUrl: item.monitoringImageUrl,
-      afterViewImageUrl: "",
-      completeViewImageUrl: "",
-    };
-  });
-};
-
 export const downloadData = async (
   startTime: string,
   endTime: string,

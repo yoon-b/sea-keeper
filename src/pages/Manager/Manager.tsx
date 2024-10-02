@@ -5,7 +5,6 @@ import {
   fetchInspectionForMap,
   fetchCleanupForMap,
   fetchAverageForMap,
-  // transformInspectionToCleanup,
   downloadData,
 } from "../../api/statisticsApi";
 import StatisticalMap from "../../components/Manager/StatisticalMap";
@@ -81,21 +80,6 @@ const Manager = () => {
       console.error("Failed to fetch data", error);
     }
   };
-
-  // const handleItemClick = (xValue: string | number) => {
-  //   setSelectedValue((prevSelectedValue) => {
-  //     if (xValue === prevSelectedValue) {
-  //       setFilteredData(fetchedData);
-  //       return null;
-  //     } else {
-  //       const filteredData = fetchedData.filter(
-  //         (item) => item.mainTrashType === xValue
-  //       );
-  //       setFilteredData(filteredData);
-  //       return xValue;
-  //     }
-  //   });
-  // };
 
   const handleItemClick = (xValue: string | number) => {
     setSelectedValue((prevSelectedValue) => {

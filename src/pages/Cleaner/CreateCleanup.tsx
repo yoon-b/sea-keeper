@@ -136,7 +136,7 @@ const CreateCleanup = () => {
             type="file"
             id="before-photo"
             accept="image/*"
-            capture="environment"
+            // capture="environment"
             {...register("beforePhoto")}
           />
         </div>
@@ -148,7 +148,7 @@ const CreateCleanup = () => {
             type="file"
             id="after-photo"
             accept="image/*"
-            capture="environment"
+            // capture="environment"
             {...register("afterPhoto")}
           />
         </div>
@@ -160,7 +160,7 @@ const CreateCleanup = () => {
             type="file"
             id="dump-site-photo"
             accept="image/*"
-            capture="environment"
+            // capture="environment"
             {...register("dumpSitePhoto")}
           />
         </div>
