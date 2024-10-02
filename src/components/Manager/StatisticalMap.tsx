@@ -4,8 +4,16 @@ import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
 interface StatisticalMapProps {
-  markers: Cleanup[];
+  markers: (Inspection | Cleanup | CoastStats)[];
 }
+
+const isInspection = (marker: any): marker is Inspection => {
+  return (marker as Inspection).predictedTrashVolume !== undefined;
+};
+
+const isCleanup = (marker: any): marker is Cleanup => {
+  return (marker as Cleanup).actualTrashVolume !== undefined;
+};
 
 // 쓰레기 타입에 따라 색상 설정
 const getColorByTrashType = (trashType: number) => {
@@ -43,21 +51,44 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
         attribution='&copy; <a href="https://carto.com/">Carto</a>'
       />
       <MarkerClusterGroup disableClusteringAtZoom={12}>
-        {markers.map((marker) => (
-          <CircleMarker
-            key={marker.id}
-            center={[marker.latitude, marker.longitude]}
-            radius={marker.actualTrashVolume * 0.5}
-            fillColor={getColorByTrashType(marker.mainTrashType)}
-            color={undefined} // 테두리 색상
-            fillOpacity={0.8}
-          >
-            <Popup>
-              {marker.coastName}
-              <br />[{marker.mainTrashType}] {marker.actualTrashVolume * 50}L
-            </Popup>
-          </CircleMarker>
-        ))}
+        {markers.map((marker) => {
+          const isInspectionMarker = isInspection(marker);
+          const isCleanupMarker = isCleanup(marker);
+
+          let key: string;
+          let radius: number;
+          let fillColor: string;
+
+          if (isInspectionMarker) {
+            key = String(marker.id);
+            radius = (marker.predictedTrashVolume / 50) * 0.5;
+            fillColor = getColorByTrashType(marker.mainTrashType);
+          } else if (isCleanupMarker) {
+            key = String(marker.id);
+            radius = marker.actualTrashVolume * 0.5;
+            fillColor = getColorByTrashType(marker.mainTrashType);
+          } else {
+            key = marker.coastName;
+            radius = marker.avgTrashVolume * 0.5;
+            fillColor = "#267EC3";
+          }
+
+          return (
+            <CircleMarker
+              key={key}
+              center={[marker.latitude, marker.longitude]}
+              radius={radius}
+              fillColor={fillColor}
+              color={undefined}
+              fillOpacity={0.8}
+            >
+              <Popup>
+                {marker.coastName}
+                {/* <br />[{marker.mainTrashType}] {marker.actualTrashVolume * 50}L */}
+              </Popup>
+            </CircleMarker>
+          );
+        })}
       </MarkerClusterGroup>
     </MapContainer>
   );

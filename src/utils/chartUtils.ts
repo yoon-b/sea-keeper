@@ -1,8 +1,3 @@
-interface ChartData {
-  x: number;
-  y: number;
-}
-
 export const getChartConfig = (dataTitle: string): ChartConfig => {
   switch (dataTitle) {
     case "estimatedAmount":
@@ -45,7 +40,7 @@ export const getChartConfig = (dataTitle: string): ChartConfig => {
 };
 
 export const calculateTrashTypeTotals = (
-  cleanupData: Cleanup[]
+  reportData: (Inspection | Cleanup)[]
 ): ChartData[] => {
   const totals: Record<number, number> = {
     1: 0,
@@ -55,13 +50,30 @@ export const calculateTrashTypeTotals = (
     5: 0,
   };
 
-  cleanupData.forEach((cleanup) => {
-    totals[cleanup.mainTrashType] += cleanup.actualTrashVolume;
+  reportData.forEach((report) => {
+    if ("predictedTrashVolume" in report) {
+      totals[report.mainTrashType] += report.predictedTrashVolume / 50;
+    } else if ("actualTrashVolume" in report) {
+      totals[report.mainTrashType] += report.actualTrashVolume;
+    }
   });
 
   const chartData: ChartData[] = Object.keys(totals).map((key) => ({
-    x: Number(key),
-    y: totals[Number(key)], // 해당 쓰레기 타입의 총합
+    x: key,
+    y: totals[Number(key)],
+  }));
+
+  return chartData;
+};
+
+export const coastStatsToChartData = (
+  coastStats: CoastStats[]
+): ChartData[] => {
+  const topFiveCoastStats = coastStats.slice(0, 5);
+
+  const chartData: ChartData[] = topFiveCoastStats.map((coast) => ({
+    x: coast.coastName,
+    y: coast.avgTrashVolume,
   }));
 
   return chartData;

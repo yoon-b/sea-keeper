@@ -3,8 +3,8 @@ import ReactApexChart from "react-apexcharts";
 interface BarChartProps {
   xAxisName: string;
   yAxisName: string;
-  data: { x: number; y: number }[];
-  onItemClick: (xValue: number) => void;
+  data: { x: string; y: number }[];
+  onItemClick: (xValue: string | number) => void;
 }
 
 const BarChart = ({

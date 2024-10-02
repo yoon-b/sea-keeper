@@ -5,33 +5,41 @@ import {
   fetchInspectionForMap,
   fetchCleanupForMap,
   fetchAverageForMap,
-  transformInspectionToCleanup,
+  // transformInspectionToCleanup,
   downloadData,
 } from "../../api/statisticsApi";
 import StatisticalMap from "../../components/Manager/StatisticalMap";
 import {
   getChartConfig,
   calculateTrashTypeTotals,
+  coastStatsToChartData,
 } from "../../utils/chartUtils";
 
-// interface CoastStats {
-//   coastName: string;
-//   avgTrashVolume: number;
-//   latitude: number;
-//   longitude: number;
-// }
-
 const Manager = () => {
-  const [fetchedData, setFetchedData] = useState<Cleanup[]>([]);
-  const [filteredData, setFilteredData] = useState<Cleanup[]>([]);
+  const [fetchedData, setFetchedData] = useState<
+    (Inspection | Cleanup | CoastStats)[]
+  >([]);
+  const [filteredData, setFilteredData] = useState<
+    (Inspection | Cleanup | CoastStats)[]
+  >([]);
+  const [chartData, setChartData] = useState<ChartData[]>([]);
   const [chartConfig, setChartConfig] = useState<ChartConfig | null>();
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
   const [endPoint, setEndPoint] = useState<"monitoring" | "cleanup">(
     "monitoring"
   );
-  const chartData = calculateTrashTypeTotals(fetchedData);
-  const [_selectedValue, setSelectedValue] = useState<number | null>(null);
+  const [_selectedValue, setSelectedValue] = useState<string | number | null>(
+    null
+  );
+
+  const isCoastStats = (item: any): item is CoastStats => {
+    return "avgTrashVolume" in item;
+  };
+
+  const isInspectionOrCleanup = (item: any): item is Inspection | Cleanup => {
+    return "mainTrashType" in item;
+  };
 
   const handleDataFetch = async (
     selectedOption: string,
@@ -42,47 +50,73 @@ const Manager = () => {
     setStartTime(startTime);
     setEndTime(endTime);
 
-    if (selectedOption === "average") {
-      try {
-        const result = await fetchAverageForMap(startTime, endTime);
-        console.log(result);
-      } catch (error) {
-        console.error("Failed to fetch data", error);
+    try {
+      let result;
+      switch (selectedOption) {
+        case "average":
+          result = await fetchAverageForMap(startTime, endTime);
+          setFetchedData(result);
+          setFilteredData(result);
+          setChartData(coastStatsToChartData(result));
+          break;
+
+        case "estimatedAmount":
+        case "estimatedType":
+          result = await fetchInspectionForMap(startTime, endTime);
+          setFetchedData(result);
+          setFilteredData(result);
+          setChartData(calculateTrashTypeTotals(result));
+          setEndPoint("monitoring");
+          break;
+
+        default:
+          result = await fetchCleanupForMap(startTime, endTime);
+          setFetchedData(result);
+          setFilteredData(result);
+          setChartData(calculateTrashTypeTotals(result));
+          setEndPoint("cleanup");
+          break;
       }
-    } else if (
-      selectedOption === "estimatedAmount" ||
-      selectedOption === "estimatedType"
-    ) {
-      try {
-        const result = await fetchInspectionForMap(startTime, endTime);
-        const transformedData = transformInspectionToCleanup(result);
-        setFetchedData(transformedData);
-        setFilteredData(transformedData);
-        setEndPoint("monitoring");
-      } catch (error) {
-        console.error("Failed to fetch data", error);
-      }
-    } else {
-      try {
-        const result = await fetchCleanupForMap(startTime, endTime);
-        setFetchedData(result);
-        setFilteredData(result);
-        setEndPoint("cleanup");
-      } catch (error) {
-        console.error("Failed to fetch data", error);
-      }
+    } catch (error) {
+      console.error("Failed to fetch data", error);
     }
   };
 
-  const handleItemClick = (xValue: number) => {
+  // const handleItemClick = (xValue: string | number) => {
+  //   setSelectedValue((prevSelectedValue) => {
+  //     if (xValue === prevSelectedValue) {
+  //       setFilteredData(fetchedData);
+  //       return null;
+  //     } else {
+  //       const filteredData = fetchedData.filter(
+  //         (item) => item.mainTrashType === xValue
+  //       );
+  //       setFilteredData(filteredData);
+  //       return xValue;
+  //     }
+  //   });
+  // };
+
+  const handleItemClick = (xValue: string | number) => {
     setSelectedValue((prevSelectedValue) => {
       if (xValue === prevSelectedValue) {
-        setFilteredData(fetchedData);
+        setFilteredData(fetchedData || []);
         return null;
       } else {
-        const filteredData = fetchedData.filter(
-          (item) => item.mainTrashType === xValue
-        );
+        let filteredData: (Inspection | Cleanup | CoastStats)[] = [];
+
+        if (isCoastStats(fetchedData[0])) {
+          filteredData = fetchedData.filter((item) =>
+            isCoastStats(item) ? item.coastName === xValue : false
+          );
+        } else if (isInspectionOrCleanup(fetchedData[0])) {
+          filteredData = fetchedData.filter((item) =>
+            isInspectionOrCleanup(item)
+              ? item.mainTrashType === Number(xValue)
+              : false
+          );
+        }
+
         setFilteredData(filteredData);
         return xValue;
       }
@@ -116,7 +150,7 @@ const Manager = () => {
       <StatisticalMap markers={filteredData} />
 
       <button
-        className="m-4 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-10 hover:shadow-lg hover:bg-grey-500"
+        className="m-4 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-10"
         onClick={handleDownload}
       >
         데이터 다운로드
