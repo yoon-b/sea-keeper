@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./data-form.module.css";
+import Remove from "@mui/icons-material/Remove";
 
 interface DataFormProps {
   onDataFetch: (
@@ -56,7 +57,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
       <div>
         <select
           {...register("selectedOption", { required: true })}
-          className="border border-gray-600 rounded w-full h-[40px] text-white"
+          className="border border-gray-600 rounded-xl w-full h-[40px] bg-transparent pl-2"
         >
           <option value="" disabled>
             조회 데이터 선택
@@ -79,7 +80,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
             selected={startDate}
             onChange={(date) => setValue("startDate", date as Date)}
             dateFormat="yyyy.MM.dd"
-            className="border border-gray-600 rounded w-full h-[40px] text-white text-center"
+            className="border border-gray-600 rounded-xl w-full h-[40px] bg-transparent text-center"
             placeholderText="시작일"
             minDate={new Date(2020, 0, 1)}
             maxDate={new Date()}
@@ -90,7 +91,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
           )}
         </div>
 
-        <p>-</p>
+        <Remove className="text-gray-600 mt-2" />
 
         <div>
           <DatePicker
@@ -98,7 +99,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
             selected={endDate}
             onChange={(date) => setValue("endDate", date as Date)}
             dateFormat="yyyy.MM.dd"
-            className="border border-gray-600 rounded w-full h-[40px] text-white text-center"
+            className="border border-gray-600 rounded-xl w-full h-[40px] bg-transparent text-center"
             placeholderText="종료일"
             minDate={new Date(2020, 0, 1)}
             maxDate={new Date()}
@@ -108,7 +109,10 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
           )}
         </div>
 
-        <button type="submit" className="text-white rounded-full p-2">
+        <button
+          type="submit"
+          className="text-white rounded-full pl-2 pt-1 w-[36px] h-[36px]"
+        >
           <SearchIcon />
         </button>
       </div>
