@@ -7,6 +7,7 @@ import Home from "@mui/icons-material/Home";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Close from "@mui/icons-material/Close";
 import Logout from "@mui/icons-material/Logout";
+import { toast } from "react-hot-toast";
 
 const menulist = [
   {
@@ -53,9 +54,9 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    console.log("로그아웃 완");
     setUser(null);
     localStorage.removeItem("accessToken");
+    toast.success("로그아웃 성공!");
     navigate("/");
   };
 
@@ -80,7 +81,14 @@ const Header = () => {
             )}
 
             <div className="p-2 text-xl">
-              {user ? user.name : "바다환경 지킴이"}
+              {user ? (
+                <>
+                  {user.name}
+                  <span className="text-base">님</span>
+                </>
+              ) : (
+                "바다환경 지킴이"
+              )}
             </div>
           </div>
           <div className="flex w-2/6 justify-end">
