@@ -126,7 +126,7 @@ const CreateInspection = () => {
             type="file"
             id="photo"
             accept="image/*"
-            capture="environment"
+            // capture="environment"
             {...register("photo")}
           />
         </div>
