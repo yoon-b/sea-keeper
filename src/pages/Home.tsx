@@ -2,25 +2,8 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    // <nav>
-    //   <ul>
-    //     <li>
-    //       <Link to="/inspector">조사하기</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/manager">관리하기</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/cleaner">청소하기</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/collector">운반하기</Link>
-    //     </li>
-    //   </ul>
-    // </nav>
-
-    // <section className="bg-white py-24 px-4 lg:px-16">
-    <div className="container mx-auto px-[12px] md:px-24 xl:px-12 max-w-[1300px] nanum2">
+    <div className="page-container">
+      {/* <div className="container mx-auto px-[12px] md:px-24 xl:px-12 max-w-[1300px] nanum2"> */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-16">
         <div className="relative group h-48 flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <Link to="/inspector">
@@ -115,8 +98,6 @@ const Home = () => {
         </div>
       </div>
     </div>
-
-    // </section>
   );
 };
 
