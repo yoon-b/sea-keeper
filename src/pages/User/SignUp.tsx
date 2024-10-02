@@ -3,6 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../api/accountApi";
 import ArrowBackIosNew from "@mui/icons-material/ArrowBackIosNew";
+import PhoneAndroid from "@mui/icons-material/PhoneAndroid";
+// import Lock from "@mui/icons-material/Lock";
+// import AccountCircle from "@mui/icons-material/AccountCircle";
+// import Person from "@mui/icons-material/Person";
 
 interface IFormInput {
   name: string;
@@ -58,13 +62,23 @@ const SignUp = () => {
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
-        <label className="font-semibold text-gray-600 py-2">전화번호</label>
+        {/* <label className="font-semibold text-gray-600 py-2">전화번호</label>
         <input
           {...register("phoneNumber", { required: "전화번호는 필수입니다." })}
           className={commonInputClass}
           required
           type="number"
-        />
+        /> */}
+        <div className="relative w-full h-[50%] my-2">
+          <input
+            {...register("phoneNumber", { required: "전화번호는 필수입니다." })}
+            className="appearance-none block w-full bg-transparent text-white border-2 border-white/20 rounded-3xl h-10 p-5 pr-11 outline-none"
+            required
+            type="number"
+            placeholder="전화번호"
+          />
+          <PhoneAndroid className="absolute right-5 top-1/2 transform -translate-y-1/2 text-base" />
+        </div>
         {errors.phoneNumber && (
           <p className="text-red-500">{errors.phoneNumber.message}</p>
         )}
