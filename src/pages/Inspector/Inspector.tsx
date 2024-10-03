@@ -3,7 +3,7 @@ import ReportList from "../../components/Inspector/ReportList";
 
 const Inspector = () => {
   return (
-    <div>
+    <div className="pt-12">
       <ReportList />
 
       <div className="py-4">

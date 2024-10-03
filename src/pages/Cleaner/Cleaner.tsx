@@ -3,7 +3,7 @@ import CleanupList from "../../components/Cleaner/CleanupList";
 
 const Inspector = () => {
   return (
-    <div>
+    <div className="pt-12">
       <CleanupList />
 
       <div className="py-4">

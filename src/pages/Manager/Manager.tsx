@@ -135,7 +135,9 @@ const Manager = () => {
         </div>
       )}
 
-      <StatisticalMap markers={filteredData} />
+      <div className="mb-4">
+        <StatisticalMap markers={filteredData} />
+      </div>
 
       {fetchedData.length > 0 && (
         <button className="custom-button" onClick={handleDownload}>
