@@ -1,5 +1,4 @@
-import {AxiosError} from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { LatLngTuple } from 'leaflet';
 import { FC } from "react";
 import { fetchClosestTrash } from "../../api/collectorApi";
@@ -18,36 +17,25 @@ interface ClosestTrashData {
 }
 
 const ClosestTrashSpot : FC<LocationProps> = ({ currentLocation }) => {
-    const [closestTrash, setClosestTrash] = useState<ClosestTrashData>();
-
-    useEffect(()=>{
-        const fetchData = async () => {
-          try {
-            if (currentLocation) {
-            const data = await fetchClosestTrash( currentLocation[0] , currentLocation[1] );
-            setClosestTrash(data);}
-            else {
-                console.log("현재 위치 불러오는 중...")
-            }
-          } catch (error) {
-            const axiosError = error as AxiosError;
-      
-              if (axiosError.response) {
-                console.log("서버에서 응답 오류:", axiosError.response.data);
-            } else if (axiosError.request) {
-                console.log("요청이 이루어졌으나 응답이 없습니다:", axiosError.request);
-            } else {
-                console.log("오류 발생:", axiosError.message);
-            }
+    const { data : closestTrash } = useQuery<ClosestTrashData>(
+      {
+        queryKey: ["closestTrash", currentLocation],
+        queryFn: () => {
+          if (currentLocation) {
+            return fetchClosestTrash(currentLocation[0], currentLocation[1]);
           }
-        };
-  
-        fetchData();
-        },[currentLocation])
+          return Promise.reject(new Error("현재 위치가 없습니다."));
+        },
+        enabled: !!currentLocation, // currentLocation이 있을 때만 실행
+        staleTime: 5000, // 5초 동안 데이터 유효성 유지
+        refetchOnWindowFocus: false, // 포커스 전환 시 재조회 방지
+        refetchOnReconnect: false, // 네트워크 연결 시 재조회 방지
+      }
+    );
 
   return (
     <div className="flex flex-col items-start font-bold">
-      {currentLocation && closestTrash? (
+      {closestTrash ? (
         <>
         <div className="text-sm">현재 가장 가까운 해안쓰레기는</div>
           <div>
