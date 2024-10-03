@@ -1,16 +1,16 @@
 import axiosInstance from "./axiosConfig";
 import { toast } from "react-hot-toast";
 
-interface InspectionReport {
-  serialNumber: string;
-  latitude: number;
-  longitude: number;
-  coastName: string;
-  coastLength: number;
-  predictedTrashVolume: number;
-  mainTrashType: string;
-  monitoringImageUrl: string;
-}
+// interface InspectionReport {
+//   serialNumber: string;
+//   latitude: number;
+//   longitude: number;
+//   coastName: string;
+//   coastLength: number;
+//   predictedTrashVolume: number;
+//   mainTrashType: string;
+//   monitoringImageUrl: string;
+// }
 
 // 조사 기록 전체 조회
 export const fetchInspectionReport = async (page: number) => {
@@ -31,7 +31,7 @@ export const fetchInspectionReport = async (page: number) => {
 // 조사 기록 개별 조회
 export const fetchInspectionReportById = async (
   reportId: number
-): Promise<InspectionReport> => {
+): Promise<Inspection> => {
   try {
     const res = await axiosInstance.get(`/monitoring/${reportId}`);
     return res.data.result;
