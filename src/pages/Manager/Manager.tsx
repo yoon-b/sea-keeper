@@ -135,16 +135,16 @@ const Manager = () => {
         </div>
       )}
 
-      <StatisticalMap markers={filteredData} />
+      <div className="mb-4">
+        <StatisticalMap markers={filteredData} />
+      </div>
 
-      <button
-        className="m-4 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-3xl"
-        // py-3 px-6 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded-full
-        onClick={handleDownload}
-      >
-        데이터 다운로드
-        <Download />
-      </button>
+      {fetchedData.length > 0 && (
+        <button className="custom-button" onClick={handleDownload}>
+          데이터 다운로드
+          <Download />
+        </button>
+      )}
     </div>
   );
 };

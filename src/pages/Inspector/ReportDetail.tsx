@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useQuery } from "@tanstack/react-query";
 import {
   fetchInspectionReportById,
   deleteInspectionReport,
@@ -12,33 +11,18 @@ import {
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Modal from "react-modal";
 import DeleteModal from "../../components/Common/DeleteModal";
-
-interface InspectionReport {
-  serialNumber: string;
-  latitude: number;
-  longitude: number;
-  coastName: string;
-  coastLength: number;
-  predictedTrashVolume: number;
-  mainTrashType: string;
-  monitoringImageUrl: string;
-}
+import InfoRow from "../../components/Common/InfoRow";
 
 const ReportDetail = () => {
   const { reportId } = useParams();
   const navigate = useNavigate();
 
-  const [reportData, setReportData] = useState<InspectionReport | null>(null);
+  const [reportData, setReportData] = useState<Inspection | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   Modal.setAppElement("#root");
-
-  // const { data, error, isLoading } = useQuery<InspectionReport, Error>({
-  //   queryKey: ["inspectionReport", reportId],
-  //   queryFn: () => fetchInspectionReportById(Number(reportId)),
-  // });
 
   useEffect(() => {
     if (reportId) {
@@ -46,7 +30,6 @@ const ReportDetail = () => {
         try {
           setIsLoading(true);
           const data = await fetchInspectionReportById(Number(reportId));
-          // console.log("Fetched data: ", data);
           setReportData(data);
         } catch (err) {
           if (err instanceof Error) {
@@ -104,63 +87,40 @@ const ReportDetail = () => {
         />
       </div>
 
-      <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
-        <div className="border-b border-gray-200 pb-6">
-          <p className="text-sm leading-none text-gray-600 dark:text-gray-300 ">
+      <div className="text-black p-4">
+        <div className="border-b border-gray-300 pb-6">
+          <p className="text-sm leading-none text-gray-500">
             {reportData.serialNumber}
           </p>
-          <h1 className="lg:text-2xl text-xl font-semibold lg:leading-6 leading-7 text-gray-800 dark:text-white mt-2">
+          <h1 className="text-xl font-semibold leading-7 text-gray-800 mt-2">
             {reportData.coastName}
           </h1>
         </div>
 
-        <div className="py-4 border-b border-gray-200 flex items-center justify-between">
-          <p className="text-base leading-4 text-gray-800 dark:text-gray-300">
-            조사 일시
-          </p>
-          <div className="flex items-center justify-center">
-            <p className="text-sm leading-none text-gray-600 dark:text-gray-300">
-              {convertSerialNumberToDate(reportData.serialNumber)}
-            </p>
+        <InfoRow
+          label="조사 일시"
+          value={convertSerialNumberToDate(reportData.serialNumber)}
+        />
+        <InfoRow label="해안 길이" value={`${reportData.coastLength}m`} />
+        <InfoRow
+          label="예측 쓰레기양"
+          value={`${reportData.predictedTrashVolume * 50}L`}
+        />
+        <InfoRow label="위도" value={reportData.latitude.toFixed(4)} />
+        <InfoRow label="경도" value={reportData.longitude.toFixed(4)} />
+        <InfoRow
+          label="주요 쓰레기"
+          value={describeWasteType(reportData.mainTrashType).category}
+        />
+
+        <div className="flex justify-end my-4">
+          <div
+            onClick={handleDeleteClick}
+            className="flex justify-center items-center border shadow-sm text-gray-500 rounded-xl w-24 text-sm p-1"
+          >
+            <p>삭제하기</p>
+            <DeleteOutlinedIcon fontSize="small" />
           </div>
-        </div>
-
-        <div className="py-4 border-b border-gray-200 flex items-center justify-between">
-          <p className="text-base leading-4 text-gray-800 dark:text-gray-300">
-            해안 길이
-          </p>
-          <div className="flex items-center justify-center">
-            <p className="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">
-              {reportData.coastLength}m
-            </p>
-          </div>
-        </div>
-
-        <div className="py-4 border-b border-gray-200 flex items-center justify-between">
-          <p className="text-base leading-4 text-gray-800 dark:text-gray-300">
-            예측 쓰레기양
-          </p>
-          <div className="flex items-center justify-center">
-            <p className="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">
-              {reportData.predictedTrashVolume * 50}L
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            위도: {reportData.latitude}
-          </p>
-          <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            경도: {reportData.longitude}
-          </p>
-          <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-            주요 쓰레기 종류: {describeWasteType(reportData.mainTrashType)}
-          </p>
-        </div>
-
-        <div onClick={handleDeleteClick}>
-          <DeleteOutlinedIcon />
         </div>
 
         <DeleteModal

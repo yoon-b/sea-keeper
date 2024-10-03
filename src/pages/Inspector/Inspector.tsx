@@ -3,12 +3,12 @@ import ReportList from "../../components/Inspector/ReportList";
 
 const Inspector = () => {
   return (
-    <div>
+    <div className="pt-12">
       <ReportList />
 
       <div className="py-4">
         <Link to="/create-inspection">
-          <button>작성하기</button>
+          <button className="custom-button">작성하기</button>
         </Link>
       </div>
     </div>

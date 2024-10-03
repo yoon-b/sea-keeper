@@ -36,7 +36,6 @@ const CleanupList = () => {
     try {
       setLoading(true);
       const data = await fetchCleanupReport(page);
-      // console.log("data: ", data);
 
       setReports(data.result.cleanupList);
       setMaxPage(data.result.maxPage);
@@ -90,7 +89,7 @@ const CleanupList = () => {
     <div className="max-w-[720px] mx-auto">
       <div className="w-full flex justify-between items-center mb-3 mt-1 pl-3">
         <div>
-          <h3 className="text-lg font-semibold text-slate-800 text-white">
+          <h3 className="text-lg font-semibold text-slate-800 text-black">
             해안 쓰레기 청소 목록
           </h3>
         </div>
@@ -131,8 +130,8 @@ const CleanupList = () => {
             </tbody>
           </table>
 
-          <div className="flex justify-between items-center px-4 py-3">
-            <div className="flex space-x-1">
+          <div className="flex justify-center items-center px-4 py-3">
+            <div className="space-x-1">
               <button
                 onClick={handlePreviousPage}
                 disabled={currentPage === 0}
