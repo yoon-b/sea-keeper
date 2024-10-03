@@ -15,7 +15,9 @@ import ClosestTrashSpot from "../../components/Collector/ClosestTrashSpot";
 import SelectedTrashSpots from "../../components/Collector/SelectedTrashSpots";
 import RoutePolyline from "../../components/Collector/RoutePolyline";
 import { MdMyLocation } from "react-icons/md";
+import { GrCompliance } from "react-icons/gr";
 import RouteSummary from "../../components/Collector/RouteSummary";
+import { showToast } from "../../utils/toastUtils";
 
 const userIcon = new Icon({
   iconUrl: "/animated-marker.svg",
@@ -50,6 +52,7 @@ const Collector = () => {
     null
   );
   const [routeSummary, setRouteSummary] = useState<RouteSummary | null>(null);
+  const [isDeleteMode, setIsDeleteMode] = useState<boolean>(false);
 
   const HandleZoomChange = () => {
     const map = useMapEvents({
@@ -63,6 +66,19 @@ const Collector = () => {
   const toggleBottomSheet = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const handleDeleteButtonClick = () => {
+    if (isDeleteMode) {
+      setIsDeleteMode(false);
+    } else{
+      if (routeSections) {
+        showToast("돌아가기 버튼을 누른 후, 다시 시도해주세요")
+      } else {
+        setIsDeleteMode(true);
+        showToast("수거하려는 쓰레기를 클릭해주세요");
+      }
+    }
+  }
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
@@ -92,6 +108,7 @@ const Collector = () => {
           setSelectedMarkers={setSelectedMarkers}
           setTrashSum={setTrashSum}
           zoomLevel={zoomLevel}
+          isDeleteMode={isDeleteMode}
         />}
         <RoutePolyline
           zoomLevel={zoomLevel}
@@ -101,6 +118,13 @@ const Collector = () => {
         <MyLocationButton
           currentLocation={currentLocation || [35.1689, 129.136]}
         />
+        <button
+          className={`fixed top-80 right-5 p-2 rounded-full shadow-md z-[500] hover:bg-gray-200 
+            ${isDeleteMode ? "bg-gray-300" : "bg-white"}`}
+          onClick={handleDeleteButtonClick}
+        >
+          <GrCompliance className="text-blue-500" size={24} />
+        </button>
       </MapContainer>
 
       {/* BottomSheet */}
@@ -140,7 +164,7 @@ const Collector = () => {
               />
             )}
             <div className="flex flex-start mt-2 text-xs text-gray-400">
-              ※ 수거 완료하였다면 쓰레기 아이콘을 길게 눌러서 수거해주세요
+              ※ 쓰레기를 수거 완료하셨다면 우측 중앙의 아이콘을 클릭해 완료 상태를 알려주세요.
             </div>
           </div>
         )}

@@ -116,7 +116,7 @@ const SelectedTrashSpots : FC<ChildComponentProps> = ({
             <div>지도를 통해 수거 지점을 선택하세요.</div>
           </div>
           ) : (
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start min-h-20">
             <div className="flex flex-row flex-wrap w-[100%] justify-start">
             {[...selectedMarkers].map((marker, index) => (
                 <WaypointBtn
