@@ -58,7 +58,8 @@ const BarChart = ({
     },
   };
 
-  const series = [{ data: data.map((item) => Math.round(item.y * 50)) }];
+  const series = [{ data: data }];
+  // const series = [{ data: data.map((item) => Math.round(item.y * 50)) }];
 
   // const series = data.map((item, index) => ({
   //   name: `${yAxisName} ${item.x}`, // 시리즈 이름

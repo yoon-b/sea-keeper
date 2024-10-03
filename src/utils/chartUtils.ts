@@ -4,13 +4,13 @@ export const getChartConfig = (dataTitle: string): ChartConfig => {
       return {
         title: "쓰레기 예측량",
         xAxis: "오염 등급",
-        yAxis: "예측량 (L)",
+        yAxis: "해안 수 (개)",
       };
     case "realizedAmount":
       return {
         title: "쓰레기 실 수거량",
         xAxis: "오염 등급",
-        yAxis: "수거량 (L)",
+        yAxis: "해안 수 (개)",
       };
     case "estimatedType":
       return {
@@ -52,9 +52,50 @@ export const calculateTrashTypeTotals = (
 
   reportData.forEach((report) => {
     if ("predictedTrashVolume" in report) {
-      totals[report.mainTrashType] += report.predictedTrashVolume / 50;
+      totals[report.mainTrashType] += report.predictedTrashVolume;
     } else if ("actualTrashVolume" in report) {
-      totals[report.mainTrashType] += report.actualTrashVolume;
+      totals[report.mainTrashType] += report.actualTrashVolume * 50;
+    }
+  });
+  const chartData: ChartData[] = Object.keys(totals).map((key) => ({
+    x: key,
+    y: totals[Number(key)],
+  }));
+
+  return chartData;
+};
+
+// Inspection은 L단위, Cleanup은 개수
+export const calculatePollutionLevelTotals = (
+  reportData: (Inspection | Cleanup)[]
+): ChartData[] => {
+  const totals: Record<number, number> = {
+    1: 0, // 0 ~ 50
+    2: 0, // 51 ~ 100
+    3: 0, // 101 ~ 150
+    4: 0, // 151 ~ 200
+    5: 0, // 201 이상
+  };
+
+  console.log(reportData.length);
+  console.log(reportData[0]);
+
+  reportData.forEach((report) => {
+    const volume =
+      "predictedTrashVolume" in report
+        ? report.predictedTrashVolume
+        : report.actualTrashVolume * 50;
+
+    if (volume <= 50) {
+      totals[1] += 1;
+    } else if (volume <= 100) {
+      totals[2] += 1;
+    } else if (volume <= 150) {
+      totals[3] += 1;
+    } else if (volume <= 200) {
+      totals[4] += 1;
+    } else {
+      totals[5] += 1;
     }
   });
 
@@ -73,7 +114,7 @@ export const coastStatsToChartData = (
 
   const chartData: ChartData[] = topFiveCoastStats.map((coast) => ({
     x: coast.coastName,
-    y: coast.avgTrashVolume,
+    y: Number(coast.avgTrashVolume.toFixed(1)),
   }));
 
   return chartData;

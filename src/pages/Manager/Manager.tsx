@@ -11,6 +11,7 @@ import StatisticalMap from "../../components/Manager/StatisticalMap";
 import {
   getChartConfig,
   calculateTrashTypeTotals,
+  calculatePollutionLevelTotals,
   coastStatsToChartData,
 } from "../../utils/chartUtils";
 import Download from "@mui/icons-material/Download";
@@ -61,11 +62,26 @@ const Manager = () => {
           break;
 
         case "estimatedAmount":
+          result = await fetchInspectionForMap(startTime, endTime);
+          setFetchedData(result);
+          setFilteredData(result);
+          setChartData(calculatePollutionLevelTotals(result));
+          setEndPoint("monitoring");
+          break;
+
         case "estimatedType":
           result = await fetchInspectionForMap(startTime, endTime);
           setFetchedData(result);
           setFilteredData(result);
           setChartData(calculateTrashTypeTotals(result));
+          setEndPoint("monitoring");
+          break;
+
+        case "realizedAmount":
+          result = await fetchCleanupForMap(startTime, endTime);
+          setFetchedData(result);
+          setFilteredData(result);
+          setChartData(calculatePollutionLevelTotals(result));
           setEndPoint("monitoring");
           break;
 
