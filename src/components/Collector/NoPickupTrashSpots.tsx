@@ -100,7 +100,7 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
         const isSelected = selectedMarkers.has(trash);
         const icon = new Icon({
           iconUrl: isDeleteMode? garbageTruckImage : isSelected ? checkIconImage : trashIconImage, // 선택된 상태에 따라 아이콘 설정
-          iconSize: [35, 45], // 크기
+          iconSize: [35, 35], // 크기
           iconAnchor: [12, 41], // 앵커 위치
           popupAnchor: [5, -40], // 팝업 앵커 위치
         });
