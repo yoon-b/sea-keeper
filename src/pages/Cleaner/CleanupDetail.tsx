@@ -11,6 +11,7 @@ import {
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Modal from "react-modal";
 import DeleteModal from "../../components/Common/DeleteModal";
+import ImageCarousel from "../../components/Cleaner/ImageCarousel";
 import InfoRow from "../../components/Common/InfoRow";
 
 const CleanupDetail = () => {
@@ -18,6 +19,7 @@ const CleanupDetail = () => {
   const navigate = useNavigate();
 
   const [reportData, setReportData] = useState<Cleanup | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +32,13 @@ const CleanupDetail = () => {
         try {
           setIsLoading(true);
           const data = await fetchCleanupReportById(Number(reportId));
+          const images = [
+            data.beforeViewImageUrl,
+            data.afterViewImageUrl,
+            data.completeViewImageUrl,
+          ];
           setReportData(data);
+          setImages(images);
         } catch (err) {
           if (err instanceof Error) {
             setError(err.message);
@@ -78,27 +86,9 @@ const CleanupDetail = () => {
   };
 
   return (
-    <div>
-      <div className="md:hidden">
-        <img
-          className="w-full"
-          alt={`청소 전 ${reportData.coastName} 사진`}
-          src={`${reportData.beforeViewImageUrl}.webp`}
-        />
-      </div>
-      <div className="md:hidden">
-        <img
-          className="w-full"
-          alt={`청소 후 ${reportData.coastName} 사진`}
-          src={`${reportData.afterViewImageUrl}.webp`}
-        />
-      </div>
-      <div className="md:hidden">
-        <img
-          className="w-full"
-          alt={`${reportData.coastName} 집하 완료 사진`}
-          src={`${reportData.completeViewImageUrl}.webp`}
-        />
+    <div className="overflow-hidden">
+      <div className="w-[100vw] ">
+        <ImageCarousel images={images} />
       </div>
 
       <div className="text-black p-4">
