@@ -13,6 +13,7 @@ import Modal from "react-modal";
 import DeleteModal from "../../components/Common/DeleteModal";
 import ImageCarousel from "../../components/Cleaner/ImageCarousel";
 import InfoRow from "../../components/Common/InfoRow";
+import TrashTypeIcon from "../../components/Common/TrashTypeIcon";
 
 const CleanupDetail = () => {
   const { reportId } = useParams();
@@ -116,6 +117,7 @@ const CleanupDetail = () => {
         <InfoRow
           label="주요 쓰레기"
           value={describeWasteType(reportData.mainTrashType).category}
+          icon={<TrashTypeIcon value={reportData.mainTrashType} />}
         />
 
         <div className="flex justify-end my-4">
