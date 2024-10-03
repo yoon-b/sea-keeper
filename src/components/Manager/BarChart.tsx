@@ -26,6 +26,9 @@ const BarChart = ({
           onItemClick(selectedXValue);
         },
       },
+      toolbar: {
+        show: false,
+      },
     },
     // plotOptions: {
     //   bar: {
