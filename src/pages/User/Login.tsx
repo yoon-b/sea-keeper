@@ -51,7 +51,7 @@ const Login = () => {
               type="number"
               placeholder="전화번호"
             />
-            <PhoneAndroid className="absolute right-5 top-1/2 transform -translate-y-1/2 text-base" />
+            <PhoneAndroid className="report-input-unit" />
           </div>
 
           <div className="relative w-full h-[50%] my-4">
@@ -62,12 +62,11 @@ const Login = () => {
               type="password"
               placeholder="비밀번호"
             />
-            <Lock className="absolute right-5 top-1/2 transform -translate-y-1/2 text-base" />
+            <Lock className="report-input-unit" />
           </div>
 
           <button
             type="submit"
-            // className="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
             className="w-full h-[40px] bg-white border-0 outline-none rounded-[40px] shadow-md cursor-pointer text-base text-gray-800 font-bold"
           >
             로그인
@@ -75,7 +74,6 @@ const Login = () => {
         </form>
 
         <Link to="/signup">
-          {/* <button className="mb-2 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-grey-500"> */}
           <button className="w-full h-[40px] bg-transparent border-2 border-white/20 rounded-[40px] shadow-md cursor-pointer text-base text-gray-400 mt-4">
             회원가입
           </button>
