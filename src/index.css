@@ -99,3 +99,11 @@ button:focus-visible {
 .custom-button {
   @apply m-4 md:mb-0 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-3xl;
 }
+
+.report-input-field {
+  @apply w-full bg-transparent border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-700;
+}
+
+.report-input-unit {
+  @apply absolute right-5 top-1/2 transform -translate-y-1/2 text-base text-gray-500;
+}
