@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { LatLngTuple } from 'leaflet';
 import { FC } from "react";
 import { fetchClosestTrash } from "../../api/collectorApi";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 type LocationProps = {
   currentLocation: LatLngTuple | undefined;
@@ -45,28 +47,24 @@ const ClosestTrashSpot : FC<LocationProps> = ({ currentLocation }) => {
 
   return (
     <div className="flex flex-col items-start font-bold">
-      {currentLocation? (
+      {currentLocation && closestTrash? (
         <>
         <div className="text-sm">현재 가장 가까운 해안쓰레기는</div>
           <div>
-            <span className="text-blue-500 font-bold">{closestTrash?.coastName}</span>
+            <span className="text-blue-500 font-bold">{closestTrash.coastName}</span>
             &nbsp;
             <span className="text-xs font-bold">
-              {closestTrash?.distance ? (closestTrash.distance / 1000).toFixed(2) : null} km
+              {closestTrash.distance ? (closestTrash.distance / 1000).toFixed(2) : null} km
             </span>
         </div>
       </>
       ):(
-      <>
-        <div className="text-xl">-</div>
+      <div className="flex flex-col items-start">
+        <div className="text-xl"><Skeleton width={150} /></div>
         <div>
-          <span className="text-blue-500 text-2xl font-bold">-</span>
-          &nbsp;
-          <span className="text-sm font-bold">
-            -
-          </span>
+            <Skeleton width={100} />
         </div>
-      </>
+      </div>
       )}
     </div>
   )

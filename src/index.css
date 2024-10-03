@@ -6,6 +6,12 @@
 
 body {
   @apply font-noto;
+  -webkit-touch-callout: none; 
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 :root {
@@ -38,12 +44,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  -webkit-touch-callout: none; 
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 h1 {

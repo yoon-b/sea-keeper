@@ -21,10 +21,10 @@ const UserLocationCircle : FC<LocationProps> = ({ currentLocation }) => {
       >
         <Circle
           center={currentLocation || [35.3249, 129.2849]}
-          radius={20000} // 반경 설정(m 단위)
-          color="blue"
+          radius={500} // 반경 설정(m 단위)
+          color="gray"
           opacity={0.1}
-          fillColor="blue"
+          fillColor="gray"
           fillOpacity={0.1}
         />
       </FeatureGroup>

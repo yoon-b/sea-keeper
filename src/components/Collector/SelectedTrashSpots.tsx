@@ -101,7 +101,7 @@ const SelectedTrashSpots : FC<ChildComponentProps> = ({
 
 
   return (
-    <div className="flex flex-col items-start font-bold mt-5 space-y-4">
+    <div className="flex flex-col items-start font-bold mt-5 space-y-2">
         <div className="text-sm flex items-center">
             지도에서 수거 지점을 선택해주세요
           <FaUndoAlt 
@@ -109,24 +109,27 @@ const SelectedTrashSpots : FC<ChildComponentProps> = ({
               onClick={handleResetMarkers}
           />
         </div>
-        <div className="flex flex-col justify-center bg-blue-100 min-w-[100%] min-h-20 p-2">
+        <div className="flex flex-col items-start min-w-[100%] min-h-10">
         {selectedMarkers.size === 0 ? (
-          <div className="text-blue-500">
-            선택된 지점이 없습니다.<br />
-            지도를 통해 수거 지점을 선택하세요.
+          <div className="flex flex-col items-start text-gray-400 text-xs min-h-20">
+            <div>선택된 지점이 없습니다.</div>
+            <div>지도를 통해 수거 지점을 선택하세요.</div>
           </div>
           ) : (
-          <div className="flex flex-col items-center">
-            <div className="flex flex-row flex-wrap justify-center mb-2">
-            {[...selectedMarkers].map((marker) => (
-              <div key={marker.id}>
-                  <WaypointBtn pointName={marker.coastName} />
-                  &nbsp;
-              </div>
+          <div className="flex flex-col items-start">
+            <div className="flex flex-row flex-wrap w-[100%] justify-start">
+            {[...selectedMarkers].map((marker, index) => (
+                <WaypointBtn
+                  key={marker.id}
+                  pointName={marker.coastName}
+                  isLast={index === selectedMarkers.size - 1}
+                  />
             ))}
             </div>
-            <div>수거 지점: {selectedMarkers.size}<span>(경유지 {selectedMarkers.size -1})</span></div>
-            <div>예상 총 무게: {trashSum}L</div>
+            <div className="text-xs">수거 지점: {selectedMarkers.size}곳
+              <span className="text-blue-600">(경유지 {selectedMarkers.size -1})</span>
+            </div>
+            <div className="text-xs">예상 총 무게: {trashSum}L</div>
           </div>
         )}
         </div>

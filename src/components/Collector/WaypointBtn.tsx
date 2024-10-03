@@ -2,17 +2,25 @@ import { FC } from "react";
 
 type WaypointBtnProps = {
   pointName: string;
+  isLast: boolean;
 };
 
-const WaypointBtn : FC<WaypointBtnProps> = ({ pointName }) => {
-
-//   const handleMouseOver = () => {
-//     // console.log("여기에 토스트를 띄우고시퍼")
-//   }
+const WaypointBtn : FC<WaypointBtnProps> = ({ pointName, isLast }) => {
 
   return (
-    <div className="inline-block px-4 py-1 mb-2 bg-white border-2 border-gray-400 rounded-full text-blue-500 font-bold">
-      {pointName}
+    <div
+      className="flex items-center mb-2"
+    >
+      <div
+        className={`inline-block text-sm px-2 py-1 mr-1 bg-white border-2 rounded-full font-bold ${
+          isLast
+            ? "border-blue-400 text-blue-500"
+            : "border-gray-400 text-gray-500"
+        }`}
+      >
+        {pointName}
+      </div>
+      {!isLast && <span className="mr-1 text-gray-500">→</span>}
     </div>
   )
 }

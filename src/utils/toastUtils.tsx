@@ -17,7 +17,7 @@ const Toast: React.FC<{ text: string; onClose: () => void }> = ({ text, onClose 
 
   return (
     <div
-      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white bg-opacity-80 px-6 py-3 rounded-md shadow-lg"
+      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white bg-opacity-80 px-6 py-3 rounded-md shadow-lg text-xs"
       style={{ zIndex: 1000 }}
     >
       {text}

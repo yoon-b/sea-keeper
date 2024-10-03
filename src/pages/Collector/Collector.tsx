@@ -87,12 +87,12 @@ const Collector = () => {
         )}
         <HandleZoomChange />
         <UserLocationCircle currentLocation={currentLocation} />
-        <NoPickupTrashSpots
+        {!routeSummary && !routeSections && <NoPickupTrashSpots
           selectedMarkers={selectedMarkers}
           setSelectedMarkers={setSelectedMarkers}
           setTrashSum={setTrashSum}
           zoomLevel={zoomLevel}
-        />
+        />}
         <RoutePolyline
           zoomLevel={zoomLevel}
           routeSections={routeSections}
@@ -106,7 +106,7 @@ const Collector = () => {
       {/* BottomSheet */}
       <div
         className={`fixed bottom-0 bg-white rounded-t-lg shadow-lg transition-transform duration-300 z-10 w-full ${
-          isCollapsed ? "transform translate-y-[20%]" : "h-[50vh]"
+          isCollapsed ? "transform translate-y-[20%]" : "h-[40vh]"
         }`}
       >
         {/* BottomSheet 헤더 */}
@@ -139,7 +139,7 @@ const Collector = () => {
                 trashSum={trashSum}
               />
             )}
-            <div className="flex flex-start mt-4 text-sm text-gray-600">
+            <div className="flex flex-start mt-2 text-xs text-gray-400">
               ※ 수거 완료하였다면 쓰레기 아이콘을 길게 눌러서 수거해주세요
             </div>
           </div>

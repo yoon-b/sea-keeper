@@ -20,17 +20,17 @@ const RoutePolyline : FC<ChildComponentProps> = ({ zoomLevel, routeSections, rou
   const getRoadStyle = (trafficState: number) => {
     switch (trafficState) {
       case 1: // 교통 정체
-        return { color: "red", weight: 6 };
+        return { color: "red", weight: 5 };
       case 2: // 교통 지체
-        return { color: "orange", weight: 5 };
+        return { color: "orange", weight: 3, dashArray: "5,5" };
       case 3: // 교통 서행
-        return { color: "yellow", weight: 4 };
+        return { color: "green", weight: 2, dashArray: "2,5" };
       case 4: // 교통 원활
-        return { color: "green", weight: 3 };
+        return { color: "skyblue", weight: 2, dashArray: "2,10" };
       case 6: // 교통사고(통행 불가)
-        return { color: "black", weight: 7, dashArray: "10,10" }; // 점선으로 사고 구간 표시
+        return { color: "black", weight: 7 };
       default: // 교통 상태 정보 없음
-        return { color: "gray", weight: 2 };
+        return { color: "gray", weight: 2, opacity: "0.5" };
     }
   };
   
