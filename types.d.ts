@@ -11,7 +11,7 @@ interface Inspection {
   coastLength: number;
   predictedTrashVolume: number;
   mainTrashType: number;
-  monitoringViewImageUrl: string;
+  monitoringImageUrl: string;
 }
 
 interface Cleanup {
