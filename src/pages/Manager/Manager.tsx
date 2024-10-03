@@ -13,6 +13,7 @@ import {
   calculateTrashTypeTotals,
   coastStatsToChartData,
 } from "../../utils/chartUtils";
+import Download from "@mui/icons-material/Download";
 
 const Manager = () => {
   const [fetchedData, setFetchedData] = useState<
@@ -112,13 +113,14 @@ const Manager = () => {
   };
 
   return (
-    <>
-      <div className="border my-4 p-2">
+    <div className="w-[100vw] flex items-center justify-center flex-col pt-10 text-black">
+      <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 데이터 조회</h2>
+      <div className="m-4">
         <DataForm onDataFetch={handleDataFetch} />
       </div>
 
       {chartConfig && fetchedData ? (
-        <div className="bg-white bg-opacity-40 rounded-xl mb-4">
+        <div className="bg-white bg-opacity-40 rounded-xl mb-6">
           <div>{chartConfig.title}</div>
           <BarChart
             xAxisName={chartConfig.xAxis}
@@ -128,18 +130,22 @@ const Manager = () => {
           />
         </div>
       ) : (
-        <div className="p-28">통계 차트</div>
+        <div className="w-[90%] h-[180px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
+          조회된 데이터가 없어요.
+        </div>
       )}
 
       <StatisticalMap markers={filteredData} />
 
       <button
-        className="m-4 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-10"
+        className="m-4 md:mb-0 bg-grey-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-3xl"
+        // py-3 px-6 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded-full
         onClick={handleDownload}
       >
         데이터 다운로드
+        <Download />
       </button>
-    </>
+    </div>
   );
 };
 
