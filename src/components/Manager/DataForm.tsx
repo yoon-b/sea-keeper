@@ -30,13 +30,23 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
   } = useForm<DataFormData>({
     defaultValues: {
       selectedOption: "",
-      startDate: new Date("2017-11-29"),
+      startDate: new Date(),
+      // startDate: new Date("2017-11-29"),
       endDate: new Date(),
     },
   });
 
   const startDate = watch("startDate");
   const endDate = watch("endDate");
+
+  const setDateRange = (days: number) => {
+    const end = new Date(); // 오늘 날짜
+    const start = new Date();
+    start.setDate(start.getDate() - days); // 시작일을 설정
+
+    setValue("startDate", start);
+    setValue("endDate", end);
+  };
 
   const onSubmit = async (data: DataFormData) => {
     const adjustedStartDate = new Date(data.startDate);
@@ -71,6 +81,37 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
         {errors.selectedOption && (
           <p className="text-red-500">조회 데이터 선택은 필수입니다.</p>
         )}
+      </div>
+
+      <div className="flex space-x-2">
+        <button
+          type="button"
+          onClick={() => setDateRange(7)} // 1주일
+          className="custom-chip"
+        >
+          1주일
+        </button>
+        <button
+          type="button"
+          onClick={() => setDateRange(30)} // 1개월
+          className="custom-chip"
+        >
+          1개월
+        </button>
+        <button
+          type="button"
+          onClick={() => setDateRange(90)} // 3개월
+          className="custom-chip"
+        >
+          3개월
+        </button>
+        <button
+          type="button"
+          onClick={() => setDateRange(180)} // 6개월
+          className="custom-chip"
+        >
+          6개월
+        </button>
       </div>
 
       <div className="flex space-x-2">
