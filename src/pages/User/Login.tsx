@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +17,14 @@ interface IFormInput {
 const Login = () => {
   const setUser = useSetRecoilState(userAtom);
   const { register, handleSubmit } = useForm<IFormInput>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -32,8 +41,6 @@ const Login = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <div
       className="page-container bg-no-repeat bg-center bg-cover"
@@ -41,7 +48,6 @@ const Login = () => {
     >
       <div className="w-[300px] bg-transparent border-2 border-white/20 backdrop-blur-[20px] shadow-lg text-white rounded-[10px] p-[30px]">
         <h1 className="text-2xl text-center mb-8">바다환경 지킴이</h1>
-        {/* <h1 className="text-2xl text-center mb-8">로그인</h1> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative w-full h-[50%] my-2">
             <input
