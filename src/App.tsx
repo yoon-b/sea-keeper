@@ -21,6 +21,7 @@ import Cleaner from "./pages/Cleaner/Cleaner";
 import CreateCleanup from "./pages/Cleaner/CreateCleanup";
 import CleanupDetail from "./pages/Cleaner/CleanupDetail";
 import Collector from "./pages/Collector/Collector";
+import NotFound from "./pages/NotFound";
 
 import "./App.css";
 
@@ -60,6 +61,7 @@ const MainContent = () => {
         <Route path="/create-cleanup" element={<CreateCleanup />} />
         <Route path="/cleanup-detail/:reportId" element={<CleanupDetail />} />
         <Route path="/collector" element={<Collector />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
   );
