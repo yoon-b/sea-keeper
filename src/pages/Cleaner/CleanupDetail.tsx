@@ -106,7 +106,7 @@ const CleanupDetail = () => {
           label="조사 일시"
           value={convertSerialNumberToDate(reportData.serialNumber)}
         />
-
+        <InfoRow label="조사자" value={reportData.author} />
         <InfoRow label="해안 길이" value={`${reportData.coastLength}m`} />
         <InfoRow
           label="실제 쓰레기양"
