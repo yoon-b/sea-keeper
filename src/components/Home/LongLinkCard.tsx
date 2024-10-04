@@ -5,11 +5,25 @@ interface LinkCardProps {
   to: string;
   title: string;
   imageUrl: string;
+  bgColor: string;
 }
 
-const LongLinkCard: React.FC<LinkCardProps> = ({ to, title, imageUrl }) => (
-  <div className="relative group h-24 flex flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-    <Link to={to} className="flex items-center w-full">
+const LongLinkCard: React.FC<LinkCardProps> = ({
+  to,
+  title,
+  imageUrl,
+  bgColor,
+}) => (
+  <div
+    className="relative group h-24 flex flex-row rounded-xl bg-clip-border text-gray-700 shadow-md"
+    // style={{
+    //   background: bgColor,
+    // }}
+  >
+    <Link
+      to={to}
+      className="flex items-center w-full text-gray-700 hover:text-blue-500 bg-gradient-to-r from-violet-400 to-purple-300"
+    >
       <img
         src={imageUrl}
         className="w-24 h-24 m-2"

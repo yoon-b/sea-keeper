@@ -12,21 +12,25 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
       to: "/inspector",
       title: "조사하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#267EC3",
     },
     {
       to: "/manager",
       title: "관리하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#FDBB3A",
     },
     {
       to: "/cleaner",
       title: "청소하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#46B3A9",
     },
     {
       to: "/collector",
       title: "운반하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#FF6178",
     },
   ];
 
@@ -35,11 +39,13 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
       to: "/inspector",
       title: "조사하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#267EC3",
     },
     {
       to: "/cleaner",
       title: "청소하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
+      bgColor: "#46B3A9",
     },
   ];
 
@@ -49,7 +55,7 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
     <div
       className={`grid ${
         mode === "default" ? "grid-cols-1" : "grid-cols-2"
-      } gap-x-4 gap-y-16`}
+      } gap-x-4 gap-y-8`}
     >
       {linksToRender.map((link) => {
         return mode === "default" ? (
@@ -58,6 +64,7 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
             to={link.to}
             title={link.title}
             imageUrl={link.imageUrl}
+            bgColor={link.bgColor}
           />
         ) : (
           <LinkCard
@@ -65,6 +72,7 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
             to={link.to}
             title={link.title}
             imageUrl={link.imageUrl}
+            bgColor={link.bgColor}
           />
         );
       })}
