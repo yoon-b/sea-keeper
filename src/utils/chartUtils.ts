@@ -77,8 +77,8 @@ export const calculatePollutionLevelTotals = (
     5: 0, // 201 이상
   };
 
-  console.log(reportData.length);
-  console.log(reportData[0]);
+  // console.log(reportData.length);
+  // console.log(reportData[0]);
 
   reportData.forEach((report) => {
     const volume =
