@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchCleanupReport } from "../../api/reportApi";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../../recoil/userAtom";
+import {
+  fetchCleanupReport,
+  fetchCleanupReportForAdmin,
+} from "../../api/reportApi";
 import { formatDate } from "../../utils/timeUtils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -24,6 +29,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ title }) => (
 
 const CleanupList = () => {
   const navigate = useNavigate();
+  const user = useRecoilValue(userAtom);
 
   const [reports, setReports] = useState<TableRowData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +41,13 @@ const CleanupList = () => {
   const loadReports = async (page: number) => {
     try {
       setLoading(true);
-      const data = await fetchCleanupReport(page);
+      let data;
+
+      if (user && user.role === "ADMIN") {
+        data = await fetchCleanupReportForAdmin(page);
+      } else {
+        data = await fetchCleanupReport(page);
+      }
 
       setReports(data.result.cleanupList);
       setMaxPage(data.result.maxPage);

@@ -17,6 +17,22 @@ export const fetchInspectionReport = async (page: number) => {
   }
 };
 
+// 관리자 조사 기록 전체 조회
+export const fetchInspectionReportForAdmin = async (page: number) => {
+  try {
+    const res = await axiosInstance.get(`/admin/monitoring-list`, {
+      params: {
+        page: page,
+        size: 5,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log("failed to fetch data", err);
+    throw new Error("전체 목록 조회 실패");
+  }
+};
+
 // 조사 기록 개별 조회
 export const fetchInspectionReportById = async (
   reportId: number
@@ -70,6 +86,22 @@ export const deleteInspectionReport = async (reportId: number) => {
 export const fetchCleanupReport = async (page: number) => {
   try {
     const res = await axiosInstance.get(`/cleanup-list`, {
+      params: {
+        page: page,
+        size: 5,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log("failed to fetch data", err);
+    throw new Error("전체 목록 조회 실패");
+  }
+};
+
+// 관리자 청소 기록 전체 조회
+export const fetchCleanupReportForAdmin = async (page: number) => {
+  try {
+    const res = await axiosInstance.get(`/cleanup-list/admin`, {
       params: {
         page: page,
         size: 5,

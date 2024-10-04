@@ -6,7 +6,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { login } from "../../api/accountApi";
 import PhoneAndroid from "@mui/icons-material/PhoneAndroid";
 import Lock from "@mui/icons-material/Lock";
-// import backgroundImage from "../../assets/image/login-background.jpg";
 import backgroundImage from "../../assets/image/login-background-2.jpg";
 
 interface IFormInput {
@@ -33,6 +32,7 @@ const Login = () => {
 
       setUser({
         name: res.result.name,
+        role: res.result.role,
       });
 
       navigate("/home");

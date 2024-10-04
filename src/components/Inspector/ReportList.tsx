@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchInspectionReport } from "../../api/reportApi";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../../recoil/userAtom";
+import {
+  fetchInspectionReport,
+  fetchInspectionReportForAdmin,
+} from "../../api/reportApi";
 import { formatDate } from "../../utils/timeUtils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -24,6 +29,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ title }) => (
 
 const ReportList = () => {
   const navigate = useNavigate();
+  const user = useRecoilValue(userAtom);
 
   const [reports, setReports] = useState<TableRowData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +41,14 @@ const ReportList = () => {
   const loadReports = async (page: number) => {
     try {
       setLoading(true);
-      const data = await fetchInspectionReport(page);
+      let data;
+
+      if (user && user.role === "ADMIN") {
+        data = await fetchInspectionReportForAdmin(page);
+      } else {
+        data = await fetchInspectionReport(page);
+      }
+
       setReports(data.result.monitoringList);
       setMaxPage(data.result.maxPage);
     } catch (err) {

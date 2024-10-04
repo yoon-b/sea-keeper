@@ -1,5 +1,6 @@
 interface User {
   name: string;
+  role: string;
 }
 
 interface Inspection {
