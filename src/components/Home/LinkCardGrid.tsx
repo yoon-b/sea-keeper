@@ -12,25 +12,25 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
       to: "/inspector",
       title: "조사하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#267EC3",
+      bgColor: "blue",
     },
     {
       to: "/manager",
       title: "관리하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#FDBB3A",
+      bgColor: "rose",
     },
     {
       to: "/cleaner",
       title: "청소하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#46B3A9",
+      bgColor: "indigo",
     },
     {
       to: "/collector",
       title: "운반하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#FF6178",
+      bgColor: "yellow",
     },
   ];
 
@@ -39,13 +39,13 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
       to: "/inspector",
       title: "조사하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#267EC3",
+      bgColor: "blue",
     },
     {
       to: "/cleaner",
       title: "청소하기",
       imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "#46B3A9",
+      bgColor: "indigo",
     },
   ];
 

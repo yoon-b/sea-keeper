@@ -15,14 +15,11 @@ const LongLinkCard: React.FC<LinkCardProps> = ({
   bgColor,
 }) => (
   <div
-    className="relative group h-24 flex flex-row rounded-xl bg-clip-border text-gray-700 shadow-md"
-    style={{
-      background: bgColor,
-    }}
+    className={`relative group h-[20dvh] w-[70dvw] flex flex-row rounded-xl shadow-md bg-gradient-to-r from-${bgColor}-500 to-${bgColor}-100`}
   >
     <Link
       to={to}
-      className="flex items-center w-full text-gray-700 hover:text-blue-500 bg-gradient-to-r from-violet-400 to-purple-300"
+      className="flex items-center w-full text-black hover:text-blue-500"
     >
       <img
         src={imageUrl}
@@ -34,7 +31,7 @@ const LongLinkCard: React.FC<LinkCardProps> = ({
         height="100"
       />
       <div className="p-4">
-        <p className="text-lg font-semibold">{title}</p>
+        <p className="text-2xl font-semibold">{title}</p>
       </div>
     </Link>
   </div>

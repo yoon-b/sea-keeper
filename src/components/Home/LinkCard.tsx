@@ -13,12 +13,10 @@ const LinkCard: React.FC<LinkCardProps> = ({
   imageUrl,
   bgColor,
 }) => (
-  //   <div className="relative group h-48 flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
   <div
-    className="relative group h-24 flex flex-row rounded-xl bg-clip-border text-gray-700 shadow-md"
-    style={{ backgroundColor: bgColor }}
+    className={`relative group h-48 flex flex-row rounded-xl shadow-md bg-gradient-to-r from-${bgColor}-500 to-${bgColor}-100`}
   >
-    <Link to={to}>
+    <Link to={to} className="text-black">
       <div className="h-28">
         <div className="absolute top-3 lg:top-[-10%] left-[5%] z-40 group-hover:top-[-40%] group-hover:opacity-[0.9] duration-300 w-[90%] h-28 bg-blue-300 rounded-xl justify-items-center align-middle">
           <img
