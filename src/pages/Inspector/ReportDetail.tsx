@@ -13,6 +13,7 @@ import Modal from "react-modal";
 import DeleteModal from "../../components/Common/DeleteModal";
 import InfoRow from "../../components/Common/InfoRow";
 import TrashTypeIcon from "../../components/Common/TrashTypeIcon";
+import defaultImage from "../../assets/image/monitoring-example.jpg";
 
 const ReportDetail = () => {
   const { reportId } = useParams();
@@ -84,7 +85,12 @@ const ReportDetail = () => {
         <img
           className="w-full"
           alt={`${reportData.coastName} 사진`}
-          src={`${reportData.monitoringImageUrl}.webp`}
+          src={
+            reportData.monitoringImageUrl &&
+            reportData.monitoringImageUrl !== "null"
+              ? `${reportData.monitoringImageUrl}.webp`
+              : defaultImage
+          }
         />
       </div>
 
