@@ -44,7 +44,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 h1 {
@@ -93,7 +93,7 @@ button:focus-visible {
 }
 
 .page-container {
-  @apply w-[100vw] h-[100vh] flex items-center justify-center;
+  @apply w-[100vw] h-[100dvh] flex items-center justify-center;
 }
 
 .custom-button {
