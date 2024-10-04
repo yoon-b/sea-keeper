@@ -1,17 +1,6 @@
 import axiosInstance from "./axiosConfig";
 import { toast } from "react-hot-toast";
 
-// interface InspectionReport {
-//   serialNumber: string;
-//   latitude: number;
-//   longitude: number;
-//   coastName: string;
-//   coastLength: number;
-//   predictedTrashVolume: number;
-//   mainTrashType: string;
-//   monitoringImageUrl: string;
-// }
-
 // 조사 기록 전체 조회
 export const fetchInspectionReport = async (page: number) => {
   try {
@@ -97,7 +86,6 @@ export const fetchCleanupReport = async (page: number) => {
 export const fetchCleanupReportById = async (reportId: number) => {
   try {
     const res = await axiosInstance.get(`/cleanup/${reportId}`);
-    // console.log(res.data.result);
     return res.data.result;
   } catch (err) {
     console.log("failed to fetch data", err);
