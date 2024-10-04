@@ -37,10 +37,11 @@ const Header = () => {
   const [user, setUser] = useRecoilState(userAtom);
 
   const goBack = () => {
-    if (location.pathname === "/report-detail") {
-      navigate("/inspector");
-    } else if (location.pathname === "/cleanup-detail") {
-      navigate("/cleaner");
+    const pathSegments = location.pathname.split("/");
+    if (pathSegments[1] === "cleanup-detail") {
+      navigate("/cleaner", { replace: true });
+    } else if (pathSegments[1] === "report-detail") {
+      navigate("/inspector", { replace: true });
     } else {
       navigate(-1);
     }
