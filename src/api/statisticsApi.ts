@@ -86,7 +86,7 @@ export const fetchAverageForMap = async (
 export const downloadData = async (
   startTime: string,
   endTime: string,
-  endPoint: "monitoring" | "cleanup"
+  endPoint: "monitoring" | "cleanup" | "avg"
 ) => {
   try {
     const res = await axiosInstance.get(`/download/${endPoint}`, {
@@ -100,7 +100,19 @@ export const downloadData = async (
     const url = window.URL.createObjectURL(new Blob([res.data]));
 
     const link = document.createElement("a");
-    const dataName = endPoint === "monitoring" ? "조사" : "청소";
+    // const dataName = endPoint === "monitoring" ? "조사" : "청소";
+    let dataName: string;
+    switch (endPoint) {
+      case "monitoring":
+        dataName = "조사";
+        break;
+      case "cleanup":
+        dataName = "청소";
+        break;
+      case "avg":
+        dataName = "평균";
+        break;
+    }
     const filename = `${dataName}_데이터_${readableDate(startTime).replace(
       /-/g,
       ""

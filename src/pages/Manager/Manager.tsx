@@ -27,7 +27,7 @@ const Manager = () => {
   const [chartConfig, setChartConfig] = useState<ChartConfig | null>();
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
-  const [endPoint, setEndPoint] = useState<"monitoring" | "cleanup">(
+  const [endPoint, setEndPoint] = useState<"monitoring" | "cleanup" | "avg">(
     "monitoring"
   );
   const [_selectedValue, setSelectedValue] = useState<string | number | null>(
@@ -59,6 +59,7 @@ const Manager = () => {
           setFetchedData(result);
           setFilteredData(result);
           setChartData(coastStatsToChartData(result));
+          setEndPoint("avg");
           break;
 
         case "estimatedAmount":
@@ -146,7 +147,7 @@ const Manager = () => {
           />
         </div>
       ) : (
-        <div className="w-[90%] h-[180px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
+        <div className="w-[90%] h-[205px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
           조회된 데이터가 없어요.
         </div>
       )}
