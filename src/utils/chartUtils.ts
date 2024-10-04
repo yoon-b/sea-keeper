@@ -70,15 +70,12 @@ export const calculatePollutionLevelTotals = (
   reportData: (Inspection | Cleanup)[]
 ): ChartData[] => {
   const totals: Record<number, number> = {
-    1: 0, // 0 ~ 50
-    2: 0, // 51 ~ 100
-    3: 0, // 101 ~ 150
-    4: 0, // 151 ~ 200
-    5: 0, // 201 이상
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
   };
-
-  // console.log(reportData.length);
-  // console.log(reportData[0]);
 
   reportData.forEach((report) => {
     const volume =
@@ -86,13 +83,13 @@ export const calculatePollutionLevelTotals = (
         ? report.predictedTrashVolume
         : report.actualTrashVolume * 50;
 
-    if (volume <= 50) {
+    if (volume <= 200) {
       totals[1] += 1;
-    } else if (volume <= 100) {
+    } else if (volume <= 300) {
       totals[2] += 1;
-    } else if (volume <= 150) {
+    } else if (volume <= 400) {
       totals[3] += 1;
-    } else if (volume <= 200) {
+    } else if (volume <= 500) {
       totals[4] += 1;
     } else {
       totals[5] += 1;
