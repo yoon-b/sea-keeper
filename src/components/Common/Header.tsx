@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
+import { pageAtom } from "../../recoil/pageAtom";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Menu from "@mui/icons-material/Menu";
 import Home from "@mui/icons-material/Home";
@@ -30,6 +31,7 @@ const menulist = [
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const pageTitle = useRecoilValue(pageAtom);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,7 +77,8 @@ const Header = () => {
           onClick={toggleMenu}
         ></div>
       )}
-      <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="bg-blue-200 text-black">
+        {/* <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> */}
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
           <div className="flex justify-center items-center">
             {location.pathname !== "/home" && (
@@ -87,16 +90,7 @@ const Header = () => {
               </div>
             )}
 
-            <div className="p-2 text-xl">
-              {user ? (
-                <>
-                  {user.name}
-                  <span className="text-base">님</span>
-                </>
-              ) : (
-                "바다환경 지킴이"
-              )}
-            </div>
+            <div className="p-2 text-xl font-semibold">{pageTitle}</div>
           </div>
           <div className="flex w-2/6 justify-end">
             {location.pathname !== "/home" && (
@@ -119,9 +113,21 @@ const Header = () => {
           {/* 메뉴 내용 */}
           <div className="flex jusfify-end">
             <div onClick={toggleMenu} className="w-10">
-              <Close />
+              <Close className="text-gray-400" />
             </div>
           </div>
+          <div className="p-2 text-xl">
+            {user ? (
+              <>
+                {user.name}
+                <span className="text-base">님</span>
+              </>
+            ) : (
+              "바다환경 지킴이"
+            )}
+          </div>
+          <div className="border-t border-gray-300 my-1" />
+
           <ul>
             {menulist.map((menu) => (
               <li
