@@ -69,7 +69,7 @@ const ReportList = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
-  const headers = ["일련번호", "해안명", "작성일"];
+  const headers = ["글번호", "해안명", "작성일"];
 
   const handleRowClick = (id: number) => {
     navigate(`/report-detail/${id}`);
@@ -126,7 +126,7 @@ const ReportList = () => {
                 >
                   <td className="p-4 py-5">
                     <p className="block font-semibold text-xs text-slate-800">
-                      {row.serialNumber}
+                      {row.id}
                     </p>
                   </td>
                   <td className="p-4 py-5">
