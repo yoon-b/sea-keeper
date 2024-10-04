@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import TrashTypeIcon from "../Common/TrashTypeIcon";
 
 interface StatisticalMapProps {
   markers: (Inspection | Cleanup | CoastStats)[];
@@ -44,7 +45,7 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
       center={position}
       zoom={13}
       scrollWheelZoom={true}
-      style={{ width: "80vw", height: "55vh" }}
+      style={{ width: "90vw", height: "55vh" }}
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
@@ -58,19 +59,23 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
           let key: string;
           let radius: number;
           let fillColor: string;
+          let trashVolume: number;
 
           if (isInspectionMarker) {
             key = String(marker.id);
             radius = (marker.predictedTrashVolume / 50) * 0.5;
             fillColor = getColorByTrashType(marker.mainTrashType);
+            trashVolume = marker.predictedTrashVolume;
           } else if (isCleanupMarker) {
             key = String(marker.id);
             radius = marker.actualTrashVolume * 0.5;
             fillColor = getColorByTrashType(marker.mainTrashType);
+            trashVolume = marker.actualTrashVolume * 50;
           } else {
             key = marker.coastName;
             radius = marker.avgTrashVolume * 0.5;
             fillColor = "#267EC3";
+            trashVolume = marker.avgTrashVolume;
           }
 
           return (
@@ -83,8 +88,15 @@ const StatisticalMap = ({ markers }: StatisticalMapProps) => {
               fillOpacity={0.8}
             >
               <Popup>
-                {marker.coastName}
-                {/* <br />[{marker.mainTrashType}] {marker.actualTrashVolume * 50}L */}
+                <p className="font-bold">{marker.coastName}</p>
+                {isInspectionMarker || isCleanupMarker ? (
+                  <div className="flex space-x-2 justify-center items-center">
+                    <TrashTypeIcon value={marker.mainTrashType} />
+                    <span>{trashVolume}L</span>
+                  </div>
+                ) : (
+                  <div>{trashVolume}L</div>
+                )}
               </Popup>
             </CircleMarker>
           );
