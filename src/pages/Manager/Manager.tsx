@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DataForm from "../../components/Manager/DataForm";
 import BarChart from "../../components/Manager/BarChart";
+import ChartChipContainer from "../../components/Manager/ChartChip";
 import {
   fetchInspectionForMap,
   fetchCleanupForMap,
@@ -33,6 +34,9 @@ const Manager = () => {
   const [_selectedValue, setSelectedValue] = useState<string | number | null>(
     null
   );
+  const [chartChip, setChartChip] = useState<"Volume" | "Type" | "Avg">(
+    "Volume"
+  );
 
   const isCoastStats = (item: any): item is CoastStats => {
     return "avgTrashVolume" in item;
@@ -60,6 +64,7 @@ const Manager = () => {
           setFilteredData(result);
           setChartData(coastStatsToChartData(result));
           setEndPoint("avg");
+          setChartChip("Avg");
           break;
 
         case "estimatedAmount":
@@ -68,6 +73,7 @@ const Manager = () => {
           setFilteredData(result);
           setChartData(calculatePollutionLevelTotals(result));
           setEndPoint("monitoring");
+          setChartChip("Volume");
           break;
 
         case "estimatedType":
@@ -76,6 +82,7 @@ const Manager = () => {
           setFilteredData(result);
           setChartData(calculateTrashTypeTotals(result));
           setEndPoint("monitoring");
+          setChartChip("Type");
           break;
 
         case "realizedAmount":
@@ -83,7 +90,8 @@ const Manager = () => {
           setFetchedData(result);
           setFilteredData(result);
           setChartData(calculatePollutionLevelTotals(result));
-          setEndPoint("monitoring");
+          setEndPoint("cleanup");
+          setChartChip("Volume");
           break;
 
         default:
@@ -92,6 +100,7 @@ const Manager = () => {
           setFilteredData(result);
           setChartData(calculateTrashTypeTotals(result));
           setEndPoint("cleanup");
+          setChartChip("Type");
           break;
       }
     } catch (error) {
@@ -130,7 +139,7 @@ const Manager = () => {
   };
 
   return (
-    <div className="w-[100vw] flex items-center justify-center flex-col pt-10 text-black">
+    <div className="w-[100dvw] flex items-center justify-center flex-col pt-10 text-black">
       <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 데이터 조회</h2>
       <div className="m-4">
         <DataForm onDataFetch={handleDataFetch} />
@@ -145,9 +154,10 @@ const Manager = () => {
             data={chartData}
             onItemClick={handleItemClick}
           />
+          {chartChip !== "Avg" && <ChartChipContainer chipsFor={chartChip} />}
         </div>
       ) : (
-        <div className="w-[90%] h-[205px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
+        <div className="w-[90dvw] h-[205px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
           조회된 데이터가 없어요.
         </div>
       )}

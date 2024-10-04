@@ -15,7 +15,7 @@ const LongLinkCard: React.FC<LinkCardProps> = ({
   bgColor,
 }) => (
   <div
-    className={`relative group h-[20dvh] w-[70dvw] flex flex-row rounded-xl shadow-md bg-gradient-to-r from-${bgColor}-500 to-${bgColor}-100`}
+    className={`relative group h-[20dvh] w-[70dvw] flex flex-row rounded-xl shadow-md bg-${bgColor}-100`}
   >
     <Link
       to={to}
