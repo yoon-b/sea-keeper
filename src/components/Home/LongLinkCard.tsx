@@ -16,9 +16,9 @@ const LongLinkCard: React.FC<LinkCardProps> = ({
 }) => (
   <div
     className="relative group h-24 flex flex-row rounded-xl bg-clip-border text-gray-700 shadow-md"
-    // style={{
-    //   background: bgColor,
-    // }}
+    style={{
+      background: bgColor,
+    }}
   >
     <Link
       to={to}
