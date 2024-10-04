@@ -146,16 +146,23 @@ const Manager = () => {
       </div>
 
       {chartConfig && fetchedData ? (
-        <div className="bg-white bg-opacity-40 rounded-xl mb-6">
-          <div>{chartConfig.title}</div>
-          <BarChart
-            xAxisName={chartConfig.xAxis}
-            yAxisName={chartConfig.yAxis}
-            data={chartData}
-            onItemClick={handleItemClick}
-          />
-          {chartChip !== "Avg" && <ChartChipContainer chipsFor={chartChip} />}
-        </div>
+        fetchedData.length > 0 ? (
+          <div className="bg-white bg-opacity-40 rounded-xl mb-6">
+            <div>{chartConfig.title}</div>
+            <BarChart
+              xAxisName={chartConfig.xAxis}
+              yAxisName={chartConfig.yAxis}
+              data={chartData}
+              onItemClick={handleItemClick}
+            />
+            {chartChip !== "Avg" && <ChartChipContainer chipsFor={chartChip} />}
+          </div>
+        ) : (
+          <div className="w-[90dvw] h-[205px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
+            조회한 기간 내 데이터가 없어요. <br />
+            새로 조회해주세요.
+          </div>
+        )
       ) : (
         <div className="w-[90dvw] h-[205px] border-dashed border-2 border-gray-300 rounded-xl mt-2 mb-6 flex justify-center items-center">
           조회된 데이터가 없어요.

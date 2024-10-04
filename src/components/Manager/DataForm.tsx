@@ -31,7 +31,6 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
     defaultValues: {
       selectedOption: "",
       startDate: new Date(),
-      // startDate: new Date("2017-11-29"),
       endDate: new Date(),
     },
   });
@@ -40,9 +39,9 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
   const endDate = watch("endDate");
 
   const setDateRange = (days: number) => {
-    const end = new Date(); // 오늘 날짜
+    const end = new Date();
     const start = new Date();
-    start.setDate(start.getDate() - days); // 시작일을 설정
+    start.setDate(start.getDate() - days);
 
     setValue("startDate", start);
     setValue("endDate", end);
@@ -72,11 +71,14 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
           <option value="" disabled>
             조회 데이터 선택
           </option>
-          <option value="estimatedAmount">쓰레기 예측량</option>
-          <option value="realizedAmount">쓰레기 실 수거량</option>
-          <option value="estimatedType">예측 주요 쓰레기 종류</option>
-          <option value="realizedType">실 주요 쓰레기 종류</option>
-          <option value="average">거리 대비 평균 수거량</option>
+          <option value="estimatedAmount">[조사] 쓰레기 예측량</option>
+          <option value="estimatedType">[조사] 주요 쓰레기 종류</option>
+          <option value="" disabled>
+            ---------------------------------
+          </option>
+          <option value="realizedAmount">[청소] 쓰레기 수거량</option>
+          <option value="realizedType">[청소] 주요 쓰레기 종류</option>
+          <option value="average">[청소] 거리 대비 평균 수거량</option>
         </select>
         {errors.selectedOption && (
           <p className="text-red-500">조회 데이터 선택은 필수입니다.</p>
@@ -86,28 +88,28 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
       <div className="flex space-x-2">
         <button
           type="button"
-          onClick={() => setDateRange(7)} // 1주일
+          onClick={() => setDateRange(7)}
           className="custom-chip"
         >
           1주일
         </button>
         <button
           type="button"
-          onClick={() => setDateRange(30)} // 1개월
+          onClick={() => setDateRange(30)}
           className="custom-chip"
         >
           1개월
         </button>
         <button
           type="button"
-          onClick={() => setDateRange(90)} // 3개월
+          onClick={() => setDateRange(90)}
           className="custom-chip"
         >
           3개월
         </button>
         <button
           type="button"
-          onClick={() => setDateRange(180)} // 6개월
+          onClick={() => setDateRange(180)}
           className="custom-chip"
         >
           6개월
