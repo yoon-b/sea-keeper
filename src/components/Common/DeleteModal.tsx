@@ -15,7 +15,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onCancel}
-      overlayClassName="fixed inset-0 bg-black bg-opacity-90"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-20"
       className="flex flex-col justify-center items-center w-[70%] h-[30%] mx-auto my-auto border border-white rounded-lg mt-60"
     >
       <p className="text-center pb-8">정말로 삭제하시겠습니까?</p>
