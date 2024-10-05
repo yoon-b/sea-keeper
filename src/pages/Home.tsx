@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex justify-center items-center w-full fixed top-28">
+      <div className="flex justify-center items-center w-full fixed top-24">
         {/* <div className="flex justify-center items-center fixed right-4 bottom-4"> */}
         <p className="text-indigo-900 mr-1 font-semibold">큰글자 모드</p>
         <label className="relative inline-flex cursor-pointer items-center">
