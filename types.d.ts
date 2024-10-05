@@ -61,6 +61,7 @@ interface TrashData {
   beforeViewImageUrl: string | null;
   afterViewImageUrl: string | null;
   completeViewImageUrl: string | null;
+  workerName: string | null;
 }
 
 interface RouteSummary {
