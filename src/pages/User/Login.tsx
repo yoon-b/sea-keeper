@@ -44,7 +44,10 @@ const Login = () => {
   return (
     <div
       className="page-container bg-no-repeat bg-center bg-cover"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      style={{
+        backgroundImage: `url(https://dive-2024-ivy.s3.ap-northeast-2.amazonaws.com/login-background-image.webp)`,
+      }}
+      // style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="w-[300px] bg-transparent border-2 border-white/20 backdrop-blur-[20px] shadow-lg text-white rounded-[10px] p-[30px]">
         <h1 className="text-2xl text-center mb-8">바다환경 지킴이</h1>
