@@ -140,8 +140,8 @@ const Manager = () => {
 
   return (
     <div className="w-[100dvw] flex items-center justify-center flex-col pt-10 text-black">
-      <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 데이터 조회</h2>
-      <div className="m-4">
+      {/* <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 데이터 조회</h2> */}
+      <div className="m-4 mt-8">
         <DataForm onDataFetch={handleDataFetch} />
       </div>
 
@@ -174,7 +174,11 @@ const Manager = () => {
       </div>
 
       {fetchedData.length > 0 && (
-        <button className="custom-button" onClick={handleDownload}>
+        <button
+          className="w-[90dvw] mb-4 px-5 py-2 text-sm shadow-sm font-medium  text-white rounded-lg"
+          style={{ backgroundColor: "#1d2268" }}
+          onClick={handleDownload}
+        >
           데이터 다운로드
           <Download />
         </button>

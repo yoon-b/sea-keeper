@@ -36,7 +36,7 @@ const ReportList = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [maxPage, setMaxPage] = useState(1);
-  const maxVisiblePages = 5;
+  const maxVisiblePages = 3;
 
   const loadReports = async (page: number) => {
     try {
@@ -98,7 +98,7 @@ const ReportList = () => {
 
   return (
     <div className="w-[90dvw] flex flex-col text-black">
-      <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 조사 목록</h2>
+      {/* <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 조사 목록</h2> */}
 
       {reports.length > 0 ? (
         <div className="relative flex flex-col w-full h-[68dvh] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">

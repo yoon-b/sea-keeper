@@ -32,7 +32,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
 
   return (
     <div
-      className={`relative group h-48 flex flex-col items-center justify-center rounded-xl shadow-md bg-blue-300 bg-opacity-60`}
+      className={`relative group h-48 flex flex-col justify-center rounded-xl shadow-md px-2`}
       style={{ backgroundColor: "#1d2268" }}
     >
       <Link to={to} className="text-white">
@@ -42,8 +42,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
             style={{ width: "60px", height: "60px" }}
           />
         </div>
-        <div className="p-6 z-10 w-full">
-          <p className="mb-2 inline-block text-tg text-center w-full text-xl font-sans font-semibold leading-snug tracking-normal antialiased">
+        <div className="p-6 pb-0 z-10 w-full">
+          <p className="inline-block text-tg text-center w-full text-xl font-sans font-semibold leading-snug tracking-normal antialiased">
             {title}
           </p>
         </div>
