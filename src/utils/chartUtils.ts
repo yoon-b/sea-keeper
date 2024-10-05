@@ -83,17 +83,18 @@ export const calculatePollutionLevelTotals = (
         ? report.predictedTrashVolume
         : report.actualTrashVolume * 50;
 
-    if (volume <= 200) {
-      totals[1] += 1;
-    } else if (volume <= 300) {
-      totals[2] += 1;
-    } else if (volume <= 400) {
-      totals[3] += 1;
-    } else if (volume <= 500) {
-      totals[4] += 1;
-    } else {
-      totals[5] += 1;
-    }
+    const category =
+      volume <= 200
+        ? 1
+        : volume <= 300
+        ? 2
+        : volume <= 400
+        ? 3
+        : volume <= 500
+        ? 4
+        : 5;
+
+    totals[category] += 1;
   });
 
   const chartData: ChartData[] = Object.keys(totals).map((key) => ({
