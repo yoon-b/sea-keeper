@@ -19,9 +19,10 @@ import { GrCompliance } from "react-icons/gr";
 import RouteSummary from "../../components/Collector/RouteSummary";
 import { showToast } from "../../utils/toastUtils";
 import "./Collector.css";
+import animatedMarker from "../../assets/animated-marker.svg";
 
 const userIcon = new Icon({
-  iconUrl: "/animated-marker.svg",
+  iconUrl: animatedMarker,
   iconSize: [50, 50], // SVG 아이콘 크기
   iconAnchor: [25, 25], // 아이콘의 중심점
   popupAnchor: [0, -15], // 팝업의 위치 조정
