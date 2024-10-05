@@ -124,11 +124,13 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
   const handleAssignUser = (userId: string) => {
     try {
       assignTaskToUser(Number(userId), taskIds);
-      toast.success("업무 배정 완료!");
+      toast.success("업무 배정 완료!", {
+        duration: 1000,
+      });
 
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 1000);
     } catch (err) {
       console.log(err);
     }
