@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
 import { LatLngTuple } from "leaflet";
 import { fetchRoute, fetchRouteWaypoint } from "../../api/kakaoMobilityApi";
+import { assignTaskToUser } from "../../api/AssignApi";
 import WaypointBtn from "./WaypointBtn";
 import { FaUndoAlt } from "react-icons/fa";
 import { showToast } from "../../utils/toastUtils";
@@ -120,6 +121,12 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
   };
 
   const handleAssignUser = (userId: string) => {
+    try {
+      assignTaskToUser(Number(userId), taskIds);
+    } catch (err) {
+      console.log(err);
+    }
+
     console.log("선택된 담당자 ID:", userId);
     console.log("선택된 업무: ", taskIds);
   };
