@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { createCleanupReport, fetchCleanupAutoResults } from "../../api/reportApi";
 import { useDebounce } from "../../utils/useDebounce";
 import { useQuery } from "@tanstack/react-query";
+import AddressName from "../../components/Common/AddressName";
 
 interface IFormInput {
   coastName: string;
@@ -106,7 +107,7 @@ const CreateCleanup = () => {
     }
   };
 
-  const getCurrentLocation = () => {
+  useEffect(()=>{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -123,14 +124,13 @@ const CreateCleanup = () => {
     } else {
       console.error("위치 접근 권한이 없습니다.");
     }
-  };
+  },[])
 
   return (
     <div className="text-black m-4">
-      <h3 className="text-lg font-semibold text-slate-800 mb-2 p-2">
-        청소 기록 작성하기
-      </h3>
-
+      <div className="relative w-full h-[50%] my-2 flex flex-start">
+        <AddressName location={location}/>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           {...register("coastName")}
@@ -240,27 +240,6 @@ const CreateCleanup = () => {
             {...register("dumpSitePhoto")}
           />
         </div>
-
-        <div className="my-2">
-          <p className="text-gray-500 py-2 text-left">현재 위치:</p>
-          {location ? (
-            <div className="flex justify-around items-center">
-              <span>위도: {location.latitude.toFixed(4)}</span>
-              <span>경도: {location.longitude.toFixed(4)}</span>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={getCurrentLocation}
-              className="text-sm shadow-sm font-medium tracking-wider border border-gray-500 rounded-md bg-transparent text-black"
-            >
-              현재 위치 입력하기
-            </button>
-          )}
-        </div>
-
-        <input type="hidden" {...register("latitude")} />
-        <input type="hidden" {...register("longitude")} />
 
         <button
           type="submit"

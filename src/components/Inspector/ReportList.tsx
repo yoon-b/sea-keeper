@@ -9,6 +9,8 @@ import {
 import { formatDate } from "../../utils/timeUtils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface TableHeaderProps {
   title: string;
@@ -65,7 +67,10 @@ const ReportList = () => {
     loadReports(currentPage);
   }, [currentPage]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <div className="w-[90dvw] flex flex-col text-black">
+      <Skeleton className="w-full h-[70vh]"/>
+    </div>);
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   const headers = ["글번호", "해안명", "작성일"];
