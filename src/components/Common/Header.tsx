@@ -16,16 +16,16 @@ const menulist = [
     name: "조사하기",
   },
   {
-    link: "/manager",
-    name: "관리하기",
-  },
-  {
     link: "/cleaner",
     name: "청소하기",
   },
   {
+    link: "/manager",
+    name: "관리하기",
+  },
+  {
     link: "/collector",
-    name: "운반하기",
+    name: "수거하기",
   },
 ];
 

@@ -56,7 +56,7 @@ const routes = [
     component: <CleanupDetail />,
     title: "청소 기록 상세보기",
   },
-  { path: "/collector", component: <Collector />, title: "운반하기" },
+  { path: "/collector", component: <Collector />, title: "수거하기" },
   { path: "/*", component: <NotFound />, title: "Not Found" },
 ];
 

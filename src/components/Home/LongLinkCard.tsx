@@ -1,40 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import CleaningServicesOutlinedIcon from "@mui/icons-material/CleaningServicesOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 
 interface LinkCardProps {
   to: string;
   title: string;
-  imageUrl: string;
-  bgColor: string;
+  icon: "camera" | "broom" | "truck";
 }
 
-const LongLinkCard: React.FC<LinkCardProps> = ({
-  to,
-  title,
-  imageUrl,
-  bgColor,
-}) => (
-  <div
-    className={`relative group h-[20dvh] w-[70dvw] flex flex-row rounded-xl shadow-md bg-${bgColor}-100`}
-  >
-    <Link
-      to={to}
-      className="flex items-center w-full text-black hover:text-blue-500"
+const LongLinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
+  let IconComponent;
+
+  switch (icon) {
+    case "camera":
+      IconComponent = AddAPhotoIcon;
+      break;
+    case "broom":
+      IconComponent = CleaningServicesOutlinedIcon;
+      break;
+    case "truck":
+      IconComponent = LocalShippingOutlinedIcon;
+      break;
+    default:
+      IconComponent = AddAPhotoIcon;
+  }
+
+  return (
+    <div
+      className={`relative group h-[20dvh] w-[85dvw] flex flex-row rounded-xl shadow-md bg-blue-300 bg-opacity-60`}
     >
-      <img
-        src={imageUrl}
-        className="w-24 h-24 m-2"
-        alt={title}
-        title={title}
-        loading="lazy"
-        width="100"
-        height="100"
-      />
-      <div className="p-4">
-        <p className="text-2xl font-semibold">{title}</p>
-      </div>
-    </Link>
-  </div>
-);
+      <Link
+        to={to}
+        className="flex items-center w-full text-black hover:text-blue-500"
+      >
+        <IconComponent
+          className="text-white mx-auto"
+          style={{ width: "48px", height: "48px" }}
+        />
+        <div className="py-4 px-8">
+          <p className="text-4xl font-semibold">{title}</p>
+        </div>
+      </Link>
+    </div>
+  );
+};
 
 export default LongLinkCard;

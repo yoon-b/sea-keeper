@@ -11,26 +11,22 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
     {
       to: "/inspector",
       title: "조사하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "blue",
-    },
-    {
-      to: "/manager",
-      title: "관리하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "rose",
+      icon: "camera" as const,
     },
     {
       to: "/cleaner",
       title: "청소하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "indigo",
+      icon: "broom" as const,
     },
     {
       to: "/collector",
-      title: "운반하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "yellow",
+      title: "수거하기",
+      icon: "truck" as const,
+    },
+    {
+      to: "/manager",
+      title: "관리하기",
+      icon: "truck" as const,
     },
   ];
 
@@ -38,14 +34,17 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
     {
       to: "/inspector",
       title: "조사하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "blue",
+      icon: "camera" as const,
     },
     {
       to: "/cleaner",
       title: "청소하기",
-      imageUrl: "https://epicpadprinting.com/public/img/indus/Automotive.png",
-      bgColor: "indigo",
+      icon: "broom" as const,
+    },
+    {
+      to: "/collector",
+      title: "수거하기",
+      icon: "truck" as const,
     },
   ];
 
@@ -55,7 +54,7 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
     <div
       className={`grid ${
         mode === "default" ? "grid-cols-1" : "grid-cols-2"
-      } gap-x-4 gap-y-8`}
+      } gap-x-4 gap-y-6 mt-16`}
     >
       {linksToRender.map((link) => {
         return mode === "default" ? (
@@ -63,16 +62,14 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
             key={link.to}
             to={link.to}
             title={link.title}
-            imageUrl={link.imageUrl}
-            bgColor={link.bgColor}
+            icon={link.icon}
           />
         ) : (
           <LinkCard
             key={link.to}
             to={link.to}
             title={link.title}
-            imageUrl={link.imageUrl}
-            bgColor={link.bgColor}
+            icon={link.icon}
           />
         );
       })}
