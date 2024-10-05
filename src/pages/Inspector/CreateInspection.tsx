@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createInspectionReport } from "../../api/reportApi";
+import { createInspectionReport, fetchInspectionAutoResults } from "../../api/reportApi";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "../../utils/useDebounce";
 
 interface IFormInput {
   coastName: string;
@@ -20,6 +22,52 @@ const CreateInspection = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const debouncedKeyword = useDebounce(inputValue, 300);
+  const [isManualInput, setIsManualInput] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { data : suggestions = [] } = useQuery<string[]>({
+    queryKey: ['autocomplete', debouncedKeyword],
+    queryFn: () => fetchInspectionAutoResults(debouncedKeyword),
+    enabled: !!debouncedKeyword && !isManualInput,
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    setIsManualInput(false);
+    if (e.target.value) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);  // input을 클릭한 제안으로 채우기
+    setIsManualInput(true);  // 수동 입력 모드 활성화 (API 호출 막음)
+    setShowSuggestions(false);  // suggestions 숨기기
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);  // 외부 클릭 시 suggestions 숨기기
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
+
+  useEffect(() => {
+    if (suggestions.length > 0 && !isManualInput) {
+      setShowSuggestions(true);
+    }
+  }, [suggestions]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const formData = new FormData();
@@ -80,7 +128,25 @@ const CreateInspection = () => {
           required
           type="text"
           placeholder="해안명*"
+          value={inputValue}
+          onChange={handleInputChange}
         />
+
+      <div className="relative w-full h-[50%] my-2">
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className="absolute z-10 bg-white border border-gray-300 mt-1 max-h-48 w-[100%] overflow-y-auto">
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => handleSuggestionClick(suggestion)}
+                className="p-2 hover:bg-gray-200 cursor-pointer text-left"
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
         <div className="relative w-full h-[50%] my-2">
           <input
