@@ -1,10 +1,12 @@
 interface User {
   name: string;
+  role: string;
 }
 
 interface Inspection {
   id: number;
   serialNumber: string;
+  author: string;
   latitude: number;
   longitude: number;
   coastName: string;
@@ -17,6 +19,7 @@ interface Inspection {
 interface Cleanup {
   id: number;
   serialNumber: string;
+  author: string;
   latitude: number;
   longitude: number;
   coastName: string;

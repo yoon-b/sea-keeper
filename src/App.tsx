@@ -1,5 +1,5 @@
-import React from "react";
-import { RecoilRoot } from "recoil";
+import React, { useEffect } from "react";
+import { RecoilRoot, useSetRecoilState } from "recoil";
 import {
   useLocation,
   BrowserRouter as Router,
@@ -23,9 +23,42 @@ import CleanupDetail from "./pages/Cleaner/CleanupDetail";
 import Collector from "./pages/Collector/Collector";
 import NotFound from "./pages/NotFound";
 
+import { pageAtom } from "./recoil/pageAtom";
 import "./App.css";
 
+// QueryClient 설정
 const queryClient = new QueryClient();
+
+const routes = [
+  { path: "/", component: <Login />, title: "로그인" },
+  { path: "/home", component: <Home />, title: "바다환경 지킴이" },
+  { path: "/signup", component: <SignUp />, title: "회원가입" },
+  { path: "/inspector", component: <Inspector />, title: "조사하기" },
+  {
+    path: "/create-inspection",
+    component: <CreateInspection />,
+    title: "조사 기록 작성하기",
+  },
+  {
+    path: "/report-detail/:reportId",
+    component: <ReportDetail />,
+    title: "조사 기록 상세보기",
+  },
+  { path: "/manager", component: <Manager />, title: "관리하기" },
+  { path: "/cleaner", component: <Cleaner />, title: "청소하기" },
+  {
+    path: "/create-cleanup",
+    component: <CreateCleanup />,
+    title: "청소 기록 작성하기",
+  },
+  {
+    path: "/cleanup-detail/:reportId",
+    component: <CleanupDetail />,
+    title: "청소 기록 상세보기",
+  },
+  { path: "/collector", component: <Collector />, title: "수거하기" },
+  { path: "/*", component: <NotFound />, title: "Not Found" },
+];
 
 const App = () => {
   return (
@@ -42,26 +75,29 @@ const App = () => {
 
 const MainContent = () => {
   const location = useLocation();
+  const setPageTitle = useSetRecoilState(pageAtom);
 
   const hideHeaderOn = ["/", "/signup"];
+
+  useEffect(() => {
+    const currentRoute = routes.find((route) =>
+      route.path.includes(":")
+        ? location.pathname.startsWith(route.path.split(":")[0])
+        : route.path === location.pathname
+    );
+    if (currentRoute) {
+      setPageTitle(currentRoute.title);
+    }
+  }, [location.pathname, setPageTitle]);
 
   return (
     <React.Fragment>
       {!hideHeaderOn.includes(location.pathname) && <Header />}
 
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/inspector" element={<Inspector />} />
-        <Route path="/create-inspection" element={<CreateInspection />} />
-        <Route path="/report-detail/:reportId" element={<ReportDetail />} />
-        <Route path="/manager" element={<Manager />} />
-        <Route path="/cleaner" element={<Cleaner />} />
-        <Route path="/create-cleanup" element={<CreateCleanup />} />
-        <Route path="/cleanup-detail/:reportId" element={<CleanupDetail />} />
-        <Route path="/collector" element={<Collector />} />
-        <Route path="/*" element={<NotFound />} />
+        {routes.map(({ path, component }, index) => (
+          <Route key={index} path={path} element={component} />
+        ))}
       </Routes>
     </React.Fragment>
   );
