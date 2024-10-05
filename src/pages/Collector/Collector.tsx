@@ -27,20 +27,6 @@ const userIcon = new Icon({
   popupAnchor: [0, -15], // 팝업의 위치 조정
 });
 
-interface TrashData {
-  id: number;
-  serialNumber: string;
-  latitude: number;
-  longitude: number;
-  coastName: string;
-  coastLength: number;
-  actualTrashVolume: number;
-  mainTrashType: number;
-  beforeViewImageUrl: string | null;
-  afterViewImageUrl: string | null;
-  completeViewImageUrl: string | null;
-}
-
 const Collector = () => {
   const currentLocation = useCurrentLocation();
   const [zoomLevel, setZoomLevel] = useState<number>(13);

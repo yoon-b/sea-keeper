@@ -123,12 +123,10 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
   const handleAssignUser = (userId: string) => {
     try {
       assignTaskToUser(Number(userId), taskIds);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
-
-    console.log("선택된 담당자 ID:", userId);
-    console.log("선택된 업무: ", taskIds);
   };
 
   useEffect(() => {}, [selectedMarkers]);
