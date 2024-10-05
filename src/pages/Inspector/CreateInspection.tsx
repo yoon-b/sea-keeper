@@ -206,6 +206,7 @@ const CreateInspection = () => {
         <button
           type="submit"
           className="w-full text-base shadow-sm font-medium tracking-wider text-white rounded-md mt-8"
+          style={{ backgroundColor: "#1d2268" }}
         >
           작성하기
         </button>
