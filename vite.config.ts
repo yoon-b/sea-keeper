@@ -9,6 +9,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
+        id: "sea-keeper",
         name: "바다환경 지킴이", // 설치 배너에 표시되는 이름
         short_name: "바다지킴이", // 아이콘 아래에 표시될 이름
         description: "바다환경지킴이를 위한 어플리케이션",
@@ -41,6 +42,8 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
+        orientation: "portrait-primary",
+        display_override: ["standalone", "window-controls-overlay"],
       },
     }),
   ],

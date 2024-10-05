@@ -71,6 +71,7 @@ const Header = () => {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("largeText");
     toast.success("로그아웃 성공!");
     navigate("/");
   };
