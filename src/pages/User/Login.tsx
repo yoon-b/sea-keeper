@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { login } from "../../api/accountApi";
 import PhoneAndroid from "@mui/icons-material/PhoneAndroid";
 import Lock from "@mui/icons-material/Lock";
-import backgroundImage from "../../assets/image/login-background-2.jpg";
+// import backgroundImage from "../../assets/image/login-background-2.jpg";
 
 interface IFormInput {
   phoneNumber: number;
