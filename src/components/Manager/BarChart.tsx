@@ -16,6 +16,7 @@ const BarChart = ({
   const options = {
     chart: {
       type: "bar" as const,
+      fontFamily: "Noto Sans, sans-serif",
       events: {
         dataPointSelection: (
           _event: any,
