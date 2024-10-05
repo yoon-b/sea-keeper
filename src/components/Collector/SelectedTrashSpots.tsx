@@ -9,6 +9,7 @@ import WaypointBtn from "./WaypointBtn";
 import { FaUndoAlt } from "react-icons/fa";
 import { showToast } from "../../utils/toastUtils";
 import AssignModal from "./AssignModal";
+import toast from "react-hot-toast";
 
 interface SpotData {
   name: string;
@@ -124,6 +125,7 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
     try {
       assignTaskToUser(Number(userId), taskIds);
       window.location.reload();
+      toast.success("업무 배정 성공!");
     } catch (err) {
       console.log(err);
     }
@@ -179,7 +181,7 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
       {user?.role === "ADMIN" && (
         <div className="w-[100%]">
           <button
-            className="bg-blue-500 w-[100%] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-indigo-900 w-[100%] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleTaskAssignment}
           >
             담당자 배정하기

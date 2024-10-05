@@ -47,7 +47,7 @@ const CreateCleanup = () => {
 
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion); // input을 클릭한 제안으로 채우기
-    setValue('coastName', suggestion);
+    setValue("coastName", suggestion);
     setIsManualInput(true); // 수동 입력 모드 활성화 (API 호출 막음)
     setShowSuggestions(false); // suggestions 숨기기
   };
@@ -114,7 +114,7 @@ const CreateCleanup = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -131,12 +131,12 @@ const CreateCleanup = () => {
     } else {
       console.error("위치 접근 권한이 없습니다.");
     }
-  },[])
+  }, []);
 
   return (
-    <div className="text-black m-4">
+    <div className="text-black m-4 mt-16">
       <div className="relative w-full h-[50%] my-2 flex flex-start">
-        <AddressName location={location}/>
+        <AddressName location={location} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input

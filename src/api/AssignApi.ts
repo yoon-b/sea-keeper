@@ -1,5 +1,4 @@
 import axiosInstance from "./axiosConfig";
-import { toast } from "react-hot-toast";
 
 // 전체 사용자 목록 반환
 export const fetchUserList = async () => {
@@ -18,7 +17,7 @@ export const assignTaskToUser = async (
   cleanups: number[]
 ) => {
   try {
-    const assignPromise = axiosInstance.get(`/admin/cleanup-assign`, {
+    const res = await axiosInstance.get(`/admin/cleanup-assign`, {
       params: {
         memberId: memberId,
         cleanupIdList: cleanups,
@@ -39,12 +38,6 @@ export const assignTaskToUser = async (
           .join("&");
         return queryString;
       },
-    });
-
-    const res = await toast.promise(assignPromise, {
-      loading: "작업 배정 중...",
-      success: "작업 배정 성공!",
-      error: "작업 배정 실패",
     });
 
     return res.data;

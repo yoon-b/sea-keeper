@@ -83,7 +83,12 @@ const Header = () => {
           onClick={toggleMenu}
         ></div>
       )}
-      <nav className="text-white" style={{ backgroundColor: "#1d2268" }}>
+      <nav
+        className="text-white "
+        style={{
+          backgroundColor: user?.role !== "ADMIN" ? "#1d2268" : "#3B82F6",
+        }}
+      >
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
           <div className="flex justify-center items-center">
             {location.pathname !== "/home" && (

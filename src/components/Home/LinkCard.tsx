@@ -33,7 +33,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
   return (
     <div
       className={`relative group h-48 flex flex-col justify-center rounded-xl shadow-md px-2`}
-      style={{ backgroundColor: "#1d2268" }}
+      style={{ backgroundColor: "#3B82F6" }}
     >
       <Link to={to} className="text-white">
         <div className="h-20 pt-4">
