@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createInspectionReport } from "../../api/reportApi";
+import { createInspectionReport, fetchInspectionAutoResults } from "../../api/reportApi";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "../../utils/useDebounce";
+import AddressName from "../../components/Common/AddressName";
 
 interface IFormInput {
   coastName: string;
@@ -20,6 +23,52 @@ const CreateInspection = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const debouncedKeyword = useDebounce(inputValue, 300);
+  const [isManualInput, setIsManualInput] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { data : suggestions = [] } = useQuery<string[]>({
+    queryKey: ['autocomplete', debouncedKeyword],
+    queryFn: () => fetchInspectionAutoResults(debouncedKeyword),
+    enabled: !!debouncedKeyword && !isManualInput,
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    setIsManualInput(false);
+    if (e.target.value) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);  // input을 클릭한 제안으로 채우기
+    setIsManualInput(true);  // 수동 입력 모드 활성화 (API 호출 막음)
+    setShowSuggestions(false);  // suggestions 숨기기
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);  // 외부 클릭 시 suggestions 숨기기
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
+
+  useEffect(() => {
+    if (suggestions.length > 0 && !isManualInput) {
+      setShowSuggestions(true);
+    }
+  }, [suggestions]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const formData = new FormData();
@@ -47,12 +96,11 @@ const CreateInspection = () => {
     }
   };
 
-  const getCurrentLocation = () => {
+  useEffect(()=>{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-
           setLocation({ latitude, longitude });
 
           setValue("latitude", latitude);
@@ -65,13 +113,13 @@ const CreateInspection = () => {
     } else {
       console.error("위치 접근 권한이 없습니다.");
     }
-  };
+  },[])
 
   return (
     <div className="text-black m-4">
-      <h3 className="text-lg font-semibold text-slate-800 mb-2 p-2">
-        조사 기록 작성하기
-      </h3>
+      <div className="relative w-full h-[50%] my-2 flex flex-start">
+        <AddressName location={location}/>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <input
@@ -80,7 +128,25 @@ const CreateInspection = () => {
           required
           type="text"
           placeholder="해안명*"
+          value={inputValue}
+          onChange={handleInputChange}
         />
+
+      <div className="relative w-full h-[50%] my-2">
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className="absolute z-10 bg-white border border-gray-300 mt-1 max-h-48 w-[100%] overflow-y-auto">
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => handleSuggestionClick(suggestion)}
+                className="p-2 hover:bg-gray-200 cursor-pointer text-left"
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
         <div className="relative w-full h-[50%] my-2">
           <input
@@ -136,27 +202,6 @@ const CreateInspection = () => {
             {...register("photo")}
           />
         </div>
-
-        <div className="my-2">
-          <p className="text-gray-500 py-2 text-left">현재 위치:</p>
-          {location ? (
-            <div className="flex justify-around items-center">
-              <span>위도: {location.latitude.toFixed(4)}</span>
-              <span>경도: {location.longitude.toFixed(4)}</span>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={getCurrentLocation}
-              className="text-sm shadow-sm font-medium tracking-wider border border-gray-500 rounded-md bg-transparent text-black"
-            >
-              현재 위치 입력하기
-            </button>
-          )}
-        </div>
-
-        <input type="hidden" {...register("latitude")} />
-        <input type="hidden" {...register("longitude")} />
 
         <button
           type="submit"
