@@ -13,7 +13,6 @@ export const fetchInspectionForMap = async (
         endTime,
       },
     });
-    // console.log(res.data.result);
     return res.data.result;
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -40,7 +39,6 @@ export const fetchCleanupForMap = async (
         endTime,
       },
     });
-    // console.log(res.data.result);
     return res.data.result;
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -67,7 +65,6 @@ export const fetchAverageForMap = async (
         endTime,
       },
     });
-    // console.log(res.data.result);
     return res.data.result;
   } catch (err) {
     if (axios.isAxiosError(err)) {

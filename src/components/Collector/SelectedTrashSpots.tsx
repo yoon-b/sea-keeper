@@ -102,7 +102,7 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
           destination,
           waypoints
         );
-        console.log("다중 경유지 경로 검색 결과:", response);
+        // console.log("다중 경유지 경로 검색 결과:", response);
         setRouteSections(response.routes[0].sections);
         setRouteSummary(response.routes[0].summary);
         showToast("경로 조회 성공");
