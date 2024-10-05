@@ -89,10 +89,6 @@ const Collector = () => {
         scrollWheelZoom={true}
         className="w-full h-full z-10"
       >
-        {/* <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://stadiamaps.com">Stadia Maps</a>'
-          /> */}
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://carto.com/">Carto</a>'
