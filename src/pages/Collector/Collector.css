@@ -1,0 +1,4 @@
+.leaflet-control-zoom {
+  top: 60px !important; /* 기본 위치에서 100px 아래로 이동 */
+  left: 0px !important; /* 좌측으로부터 20px 위치에 배치 */
+}

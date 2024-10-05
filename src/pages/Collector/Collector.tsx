@@ -18,6 +18,7 @@ import { MdMyLocation } from "react-icons/md";
 import { GrCompliance } from "react-icons/gr";
 import RouteSummary from "../../components/Collector/RouteSummary";
 import { showToast } from "../../utils/toastUtils";
+import "./Collector.css";
 
 const userIcon = new Icon({
   iconUrl: "/animated-marker.svg",
@@ -70,15 +71,15 @@ const Collector = () => {
   const handleDeleteButtonClick = () => {
     if (isDeleteMode) {
       setIsDeleteMode(false);
-    } else{
+    } else {
       if (routeSections) {
-        showToast("돌아가기 버튼을 누른 후, 다시 시도해주세요")
+        showToast("돌아가기 버튼을 누른 후, 다시 시도해주세요");
       } else {
         setIsDeleteMode(true);
         showToast("수거하려는 쓰레기를 클릭해주세요");
       }
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
@@ -103,13 +104,15 @@ const Collector = () => {
         )}
         <HandleZoomChange />
         <UserLocationCircle currentLocation={currentLocation} />
-        {!routeSummary && !routeSections && <NoPickupTrashSpots
-          selectedMarkers={selectedMarkers}
-          setSelectedMarkers={setSelectedMarkers}
-          setTrashSum={setTrashSum}
-          zoomLevel={zoomLevel}
-          isDeleteMode={isDeleteMode}
-        />}
+        {!routeSummary && !routeSections && (
+          <NoPickupTrashSpots
+            selectedMarkers={selectedMarkers}
+            setSelectedMarkers={setSelectedMarkers}
+            setTrashSum={setTrashSum}
+            zoomLevel={zoomLevel}
+            isDeleteMode={isDeleteMode}
+          />
+        )}
         <RoutePolyline
           zoomLevel={zoomLevel}
           routeSections={routeSections}
@@ -164,7 +167,8 @@ const Collector = () => {
               />
             )}
             <div className="flex flex-start mt-2 text-xs text-gray-400">
-              ※ 쓰레기를 수거 완료하셨다면 우측 중앙의 아이콘을 클릭해 완료 상태를 알려주세요.
+              ※ 쓰레기를 수거 완료하셨다면 우측 중앙의 아이콘을 클릭해 완료
+              상태를 알려주세요.
             </div>
           </div>
         )}
