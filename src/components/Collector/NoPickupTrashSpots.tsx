@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
 import trashIconImage from "../../assets/image/garbage-bin-deactive.png";
 import checkIconImage from "../../assets/image/garbage-bin-active.png";
-import pickUpInProcessImage from "../../assets/image/garbage-truck.png";
+import pickUpInProcessImage from "../../assets/image/garbage-bin-gray.png";
 import garbageTruckImage from "../../assets/image/garbage-truck.png";
 import {
   fetchNoPickupTrashs,
@@ -75,7 +75,7 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
     const fetchData = async () => {
       try {
         const data = await fetchNoPickupTrashs();
-        console.log("흑", data);
+        // console.log("흑", data);
         setNoPickupTrashs(data);
       } catch (error) {
         const axiosError = error as AxiosError;
@@ -125,7 +125,7 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
           >
             {zoomLevel > 16 && (
               <Tooltip direction="bottom" offset={[10, 5]} permanent>
-                <div className="w-60 h-15">
+                <div className="w-20 h-15">
                   <img
                     src={
                       trash.completeViewImageUrl
@@ -137,12 +137,7 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
                 <div>
                   {trash.coastName} {trash.actualTrashVolume * 50} L
                 </div>
-                {trash.workerName && (
-                  <>
-                    <br />
-                    담당자: {trash.workerName}
-                  </>
-                )}
+                {trash.workerName && <>담당자: {trash.workerName}</>}
               </Tooltip>
             )}
           </Marker>
