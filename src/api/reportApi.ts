@@ -128,3 +128,33 @@ export const deleteCleanupReport = async (reportId: number) => {
     throw new Error("기록 삭제 실패");
   }
 };
+
+// 청소 해안명 자동완성 조회
+export const fetchCleanupAutoResults = async (keyword: string) => {
+  try {
+    const res = await axiosInstance.get(`/cleanup/coast-name-list`,{
+      params: {
+        keyword
+      }
+    });
+    return res.data.result;
+  } catch (err) {
+    console.log("failed to fetch data", err);
+    throw new Error("청소용 해안명 자동완성 조회 실패");
+  }
+};
+
+// 조사 해안명 자동완성 조회
+export const fetchInspectionAutoResults = async (keyword: string) => {
+  try {
+    const res = await axiosInstance.get(`/monitoring/coast-name-list`,{
+      params: {
+        keyword
+      }
+    });
+    return res.data.result;
+  } catch (err) {
+    console.log("failed to fetch data", err);
+    throw new Error("조사용 해안명 자동완성 조회 실패");
+  }
+};
