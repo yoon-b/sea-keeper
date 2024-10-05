@@ -115,7 +115,6 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
     const markersArray = Array.from(selectedMarkers);
     const markerIds = markersArray.map((marker) => marker.id);
 
-    console.log(markersArray);
     setTaskIds(markerIds);
     setIsModalOpen(true);
   };

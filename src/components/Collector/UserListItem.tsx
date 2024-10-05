@@ -46,7 +46,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
             type="checkbox"
             checked={isSelected}
             onChange={() => onSelect(user.id)}
-            className="mx-2 ml-4 accent-indigo-500"
+            className="mx-2 ml-4 accent-indigo-300"
           />
         </div>
       </div>
