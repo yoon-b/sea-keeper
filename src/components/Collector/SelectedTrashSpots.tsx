@@ -115,6 +115,12 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
 
   const handleTaskAssignment = () => {
     const markersArray = Array.from(selectedMarkers);
+
+    if (markersArray.length === 0) {
+      showToast("선택된 지점이 없습니다.");
+      return;
+    }
+
     const markerIds = markersArray.map((marker) => marker.id);
 
     setTaskIds(markerIds);
