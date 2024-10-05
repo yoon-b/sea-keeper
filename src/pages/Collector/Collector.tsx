@@ -42,7 +42,7 @@ interface TrashData {
 
 const Collector = () => {
   const currentLocation = useCurrentLocation();
-  const [zoomLevel, setZoomLevel] = useState<number>(10);
+  const [zoomLevel, setZoomLevel] = useState<number>(13);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedMarkers, setSelectedMarkers] = useState<Set<TrashData>>(
     new Set()
