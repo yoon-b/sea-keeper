@@ -114,7 +114,7 @@ const CleanupList = () => {
         <div className="relative flex flex-col w-full h-[68dvh] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
-              <tr className="text-center ${isLargeText ? 'text-lg' : ' '}">
+              <tr className={`text-center ${isLargeText ? "text-lg" : " "}`}>
                 {headers.map((header, index) => (
                   <TableHeader key={index} title={header} />
                 ))}
@@ -128,17 +128,29 @@ const CleanupList = () => {
                   onClick={() => handleRowClick(row.id)}
                 >
                   <td className="p-4 py-5 text-center">
-                    <p className="block ${isLargeText ? 'text-base' : ' text-xs'} text-slate-500">
+                    <p
+                      className={`block ${
+                        isLargeText ? "text-base" : " text-xs"
+                      } text-slate-500`}
+                    >
                       {row.id}
                     </p>
                   </td>
                   <td className="p-4 py-5 text-center">
-                    <p className="${isLargeText ? 'text-lg' : ' text-sm'} font-semibold text-slate-800">
+                    <p
+                      className={`${
+                        isLargeText ? "text-lg" : " text-sm"
+                      } font-semibold text-slate-800`}
+                    >
                       {row.coastName}
                     </p>
                   </td>
                   <td className="p-4 py-5 text-center">
-                    <p className="${isLargeText ? 'text-lg' : ' text-sm'} text-slate-500">
+                    <p
+                      className={`${
+                        isLargeText ? "text-lg" : " text-sm"
+                      } text-slate-500`}
+                    >
                       {formatDate(row.createdAt)}
                     </p>
                   </td>

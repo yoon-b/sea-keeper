@@ -1,10 +1,25 @@
 import { atom } from "recoil";
-import { recoilPersist } from "recoil-persist";
+import { userAtom } from "./userAtom";
 
-const { persistAtom } = recoilPersist();
-
-export const largeTextAtom = atom<boolean>({
-  key: "isLargeTextMode",
+export const largeTextAtom = atom({
+  key: "largeText",
   default: false,
-  effects_UNSTABLE: [persistAtom],
+  effects: [
+    ({ setSelf, onSet, trigger, getPromise }) => {
+      if (trigger === "get") {
+        const savedValue = localStorage.getItem("largeText");
+        if (savedValue !== null) {
+          setSelf(savedValue === "true");
+        } else {
+          getPromise(userAtom).then((user) => {
+            setSelf(user?.role !== "ADMIN");
+          });
+        }
+      }
+
+      onSet((newValue) => {
+        localStorage.setItem("largeText", String(newValue));
+      });
+    },
+  ],
 });

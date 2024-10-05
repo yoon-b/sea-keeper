@@ -1,16 +1,10 @@
 import { useEffect } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { userAtom } from "../recoil/userAtom";
+import { useRecoilState } from "recoil";
 import { largeTextAtom } from "../recoil/largeTextAtom";
 import LinkCardGrid from "../components/Home/LinkCardGrid";
 
 const Home = () => {
-  const user = useRecoilValue(userAtom);
   const [isLargeTextMode, setIsLargeTextMode] = useRecoilState(largeTextAtom);
-
-  useEffect(() => {
-    setIsLargeTextMode(user?.role !== "ADMIN");
-  }, []);
 
   useEffect(() => {
     const preventSwipeBack = (event: TouchEvent) => {
