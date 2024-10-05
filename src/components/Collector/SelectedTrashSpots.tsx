@@ -159,7 +159,7 @@ const SelectedTrashSpots: FC<ChildComponentProps> = ({
                 (경유지 {selectedMarkers.size - 1})
               </span>
             </div>
-            <div className="text-xs">예상 총 무게: {trashSum}L</div>
+            <div className="text-xs">총 예상 쓰레기양: {trashSum}L</div>
           </div>
         )}
       </div>
