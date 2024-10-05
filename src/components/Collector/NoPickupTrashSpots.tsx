@@ -77,6 +77,7 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
       const fetchData = async () => {
         try {
           const data = await fetchNoPickupTrashs();
+          console.log("흑",data);
           setNoPickupTrashs(data);
         } catch (error) {
           const axiosError = error as AxiosError;
@@ -114,11 +115,12 @@ const NoPickupTrashSpots : FC<ChildComponentProps> = ({
               click: () => handleMarkerClick(trash)
             }}
           >
-            {zoomLevel > 15 && (
+            {zoomLevel > 16 && (
             <Tooltip direction="bottom" offset={[10, 5]} permanent>
-              <span>
-                {trash.coastName} {trash.actualTrashVolume*50} L
-              </span>
+              <div className='w-60 h-15'>
+                <img src={trash.completeViewImageUrl ? trash.completeViewImageUrl + ".webp" : "https://dive-2024-ivy.s3.ap-northeast-2.amazonaws.com/%EC%A7%91%ED%95%98%EC%99%84%EB%A3%8C26013830574579654.webp"}/>
+              </div>
+              <div>{trash.coastName} {trash.actualTrashVolume*50} L</div>
             </Tooltip>
             )}
           </Marker>

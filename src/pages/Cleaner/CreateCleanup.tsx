@@ -47,6 +47,7 @@ const CreateCleanup = () => {
 
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion); // input을 클릭한 제안으로 채우기
+    setValue('coastName', suggestion);
     setIsManualInput(true); // 수동 입력 모드 활성화 (API 호출 막음)
     setShowSuggestions(false); // suggestions 숨기기
   };
