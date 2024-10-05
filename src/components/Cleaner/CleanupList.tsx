@@ -98,20 +98,14 @@ const CleanupList = () => {
   };
 
   return (
-    <div className="max-w-[720px] mx-auto">
-      <div className="w-full flex justify-between items-center mb-3 mt-1 pl-3">
-        <div>
-          <h3 className="text-lg font-semibold text-slate-800 text-black">
-            해안 쓰레기 청소 목록
-          </h3>
-        </div>
-      </div>
+    <div className="w-[90dvw] flex flex-col text-black">
+      <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 청소 목록</h2>
 
       {reports.length > 0 ? (
-        <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+        <div className="relative flex flex-col w-full h-[68dvh] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
-              <tr>
+              <tr className="text-center">
                 {headers.map((header, index) => (
                   <TableHeader key={index} title={header} />
                 ))}
@@ -124,15 +118,15 @@ const CleanupList = () => {
                   className="hover:bg-slate-50 border-b border-slate-200 cursor-pointer"
                   onClick={() => handleRowClick(row.id)}
                 >
-                  <td className="p-4 py-5">
-                    <p className="block font-semibold text-xs text-slate-800">
-                      {row.id}
+                  <td className="p-4 py-5 text-center">
+                    <p className="block text-xs text-slate-500">{row.id}</p>
+                  </td>
+                  <td className="p-4 py-5 text-center">
+                    <p className="text-sm font-semibold text-slate-800">
+                      {row.coastName}
                     </p>
                   </td>
-                  <td className="p-4 py-5">
-                    <p className="text-sm text-slate-500">{row.coastName}</p>
-                  </td>
-                  <td className="p-4 py-5">
+                  <td className="p-4 py-5 text-center">
                     <p className="text-sm text-slate-500">
                       {formatDate(row.createdAt)}
                     </p>
@@ -142,7 +136,7 @@ const CleanupList = () => {
             </tbody>
           </table>
 
-          <div className="flex justify-center items-center px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-4 py-3 bg-white">
             <div className="space-x-1">
               <button
                 onClick={handlePreviousPage}
