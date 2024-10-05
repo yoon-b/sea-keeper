@@ -74,7 +74,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
           <option value="estimatedAmount">[조사] 쓰레기 예측량</option>
           <option value="estimatedType">[조사] 주요 쓰레기 종류</option>
           <option value="" disabled>
-            ---------------------------------
+            --------------------
           </option>
           <option value="realizedAmount">[청소] 쓰레기 수거량</option>
           <option value="realizedType">[청소] 주요 쓰레기 종류</option>
@@ -155,6 +155,7 @@ const DataForm = ({ onDataFetch }: DataFormProps) => {
         <button
           type="submit"
           className="text-white rounded-full pl-2 pt-1 w-[36px] h-[36px]"
+          style={{ backgroundColor: "#1d2268" }}
         >
           <SearchIcon />
         </button>

@@ -26,7 +26,7 @@ const LinkCardGrid: React.FC<LinkCardGridProps> = ({ mode }) => {
     {
       to: "/manager",
       title: "관리하기",
-      icon: "truck" as const,
+      icon: "chart" as const,
     },
   ];
 

@@ -7,7 +7,7 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 interface LinkCardProps {
   to: string;
   title: string;
-  icon: "camera" | "broom" | "truck";
+  icon: "camera" | "broom" | "truck" | "chart";
 }
 
 const LongLinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
@@ -29,11 +29,12 @@ const LongLinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
 
   return (
     <div
-      className={`relative group h-[20dvh] w-[85dvw] flex flex-row rounded-xl shadow-md bg-blue-300 bg-opacity-60`}
+      className={`relative group h-[20dvh] w-[85dvw] flex flex-row rounded-xl shadow-md`}
+      style={{ backgroundColor: "#1d2268" }}
     >
       <Link
         to={to}
-        className="flex items-center w-full text-black hover:text-blue-500"
+        className="flex items-center w-full text-white hover:text-blue-500"
       >
         <IconComponent
           className="text-white mx-auto"

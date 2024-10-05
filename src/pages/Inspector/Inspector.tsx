@@ -8,7 +8,12 @@ const Inspector = () => {
 
       <div className="py-4">
         <Link to="/create-inspection">
-          <button className="custom-button">작성하기</button>
+          <button
+            className="custom-button"
+            style={{ backgroundColor: "#1d2268" }}
+          >
+            작성하기
+          </button>
         </Link>
       </div>
     </div>

@@ -10,7 +10,7 @@ import Close from "@mui/icons-material/Close";
 import Logout from "@mui/icons-material/Logout";
 import { toast } from "react-hot-toast";
 
-const menulist = [
+const menuList = [
   {
     link: "/inspector",
     name: "조사하기",
@@ -20,12 +20,16 @@ const menulist = [
     name: "청소하기",
   },
   {
-    link: "/manager",
-    name: "관리하기",
-  },
-  {
     link: "/collector",
     name: "수거하기",
+  },
+];
+
+const menuListForAdmin = [
+  ...menuList,
+  {
+    link: "/manager",
+    name: "관리하기",
   },
 ];
 
@@ -37,7 +41,9 @@ const Header = () => {
   const location = useLocation();
 
   const [user, setUser] = useRecoilState(userAtom);
+  const isManager = user?.role === "ADMIN";
 
+  const menuItems = isManager ? menuListForAdmin : menuList;
   const goBack = () => {
     const pathSegments = location.pathname.split("/");
     if (pathSegments[1] === "cleanup-detail") {
@@ -77,8 +83,7 @@ const Header = () => {
           onClick={toggleMenu}
         ></div>
       )}
-      <nav className="bg-blue-200 text-black">
-        {/* <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> */}
+      <nav className="text-white" style={{ backgroundColor: "#1d2268" }}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
           <div className="flex justify-center items-center">
             {location.pathname !== "/home" && (
@@ -94,12 +99,20 @@ const Header = () => {
           </div>
           <div className="flex w-2/6 justify-end">
             {location.pathname !== "/home" && (
-              <div className="p-2 w-11 h-11" onClick={goHome}>
-                <Home />
+              <div className="p-2" onClick={goHome}>
+                {isManager ? (
+                  <Home className=" w-11 h-11" />
+                ) : (
+                  <p className="w-16">처음으로</p>
+                )}
               </div>
             )}
-            <div onClick={toggleMenu} className="p-2 w-11 h-11">
-              <Menu />
+            <div onClick={toggleMenu} className="p-2">
+              {isManager ? (
+                <Menu className="w-11 h-11" />
+              ) : (
+                <p className="flex w-9">메뉴</p>
+              )}
             </div>
           </div>
         </div>
@@ -108,10 +121,10 @@ const Header = () => {
         <div
           className={`fixed inset-y-0 right-0 transform ${
             isMenuOpen ? "" : "translate-x-full"
-          } bg-white w-44 p-4 transition-transform duration-300 ease-in-out shadow-lg`}
+          } bg-white w-44 p-4 transition-transform duration-300 ease-in-out shadow-lg text-black`}
         >
           {/* 메뉴 내용 */}
-          <div className="flex jusfify-end">
+          <div className="flex jusfify-end ">
             <div onClick={toggleMenu} className="w-10">
               <Close className="text-gray-400" />
             </div>
@@ -129,7 +142,7 @@ const Header = () => {
           <div className="border-t border-gray-300 my-1" />
 
           <ul>
-            {menulist.map((menu) => (
+            {menuItems.map((menu) => (
               <li
                 key={menu.link}
                 onClick={() => handleLinkClick(menu.link)}
@@ -143,6 +156,7 @@ const Header = () => {
           </ul>
           <div className="border-t border-gray-300 my-4" />
           <div onClick={handleLogout}>
+            로그아웃
             <Logout color="info" />
           </div>
         </div>

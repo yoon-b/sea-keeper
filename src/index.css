@@ -98,7 +98,7 @@ button:focus-visible {
 }
 
 .custom-button {
-  @apply m-4 md:mb-0 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-3xl;
+  @apply w-full  md:mb-0 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-lg;
 }
 
 .report-input-field {
