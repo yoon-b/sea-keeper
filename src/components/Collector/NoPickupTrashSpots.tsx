@@ -4,9 +4,10 @@ import { Icon } from "leaflet";
 import { Marker, Tooltip } from "react-leaflet";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
-import trashIconImage from "../../assets/image/garbage-bin-deactive.png";
-import checkIconImage from "../../assets/image/garbage-bin-active.png";
-import pickUpInProcessImage from "../../assets/image/garbage-bin-gray.png";
+import trashIconImage from "../../assets/image/garbage-bin-white.png";
+import checkIconImage from "../../assets/image/garbage-bin-white-check.png";
+import pickUpInProcessImage from "../../assets/image/garbage-bin-deactive.png";
+import pickUpCheckedImage from "../../assets/image/garbage-bin-active.png";
 import garbageTruckImage from "../../assets/image/garbage-truck.png";
 import {
   fetchNoPickupTrashs,
@@ -96,24 +97,42 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
     fetchData();
   }, []);
 
+  const getIconUrl = (
+    isDeleteMode: boolean,
+    isSelected: boolean,
+    trash: TrashData
+  ) => {
+    if (isDeleteMode) {
+      return garbageTruckImage;
+    }
+
+    if (trash.workerName) {
+      // 담당자가 있는 경우
+      if (isSelected) {
+        return pickUpCheckedImage; // 초록색 쓰레기통에 체크표시
+      } else {
+        return pickUpInProcessImage; // 초록색 쓰레기통
+      }
+    } else {
+      // 담당자가 없는 경우
+      if (isSelected) {
+        return checkIconImage; // 흰색 쓰레기통에 체크표시
+      } else {
+        return trashIconImage; // 흰색 쓰레기통
+      }
+    }
+  };
+
   return (
     <>
       {noPickupTrashs?.map((trash) => {
         const isSelected = selectedMarkers.has(trash);
         const icon = new Icon({
-          iconUrl:
-            trash.workerName !== null
-              ? pickUpInProcessImage // 작업자가 없으면 다른 아이콘 표시
-              : isDeleteMode
-              ? garbageTruckImage
-              : isSelected
-              ? checkIconImage
-              : trashIconImage, // 선택된 상태에 따라 아이콘 설정
+          iconUrl: getIconUrl(isDeleteMode, isSelected, trash), // 함수 호출로 아이콘 결정
           iconSize: [35, 35], // 크기
           iconAnchor: [12, 41], // 앵커 위치
           popupAnchor: [5, -40], // 팝업 앵커 위치
         });
-
         return (
           <Marker
             key={trash.id}
