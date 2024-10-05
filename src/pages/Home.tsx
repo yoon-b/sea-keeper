@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { userAtom } from "../recoil/userAtom";
+import { largeTextAtom } from "../recoil/largeTextAtom";
 import LinkCardGrid from "../components/Home/LinkCardGrid";
 
 const Home = () => {
-  const [isManager, setIsManager] = useState(false);
   const user = useRecoilValue(userAtom);
+  const [isLargeTextMode, setIsLargeTextMode] = useRecoilState(largeTextAtom);
 
   useEffect(() => {
-    setIsManager(user?.role === "ADMIN");
+    setIsLargeTextMode(user?.role !== "ADMIN");
   }, []);
 
   useEffect(() => {
@@ -26,20 +27,19 @@ const Home = () => {
   }, []);
 
   const handleToggle = () => {
-    setIsManager((prev) => !prev);
+    setIsLargeTextMode((prev) => !prev);
   };
 
   return (
     <div>
       <div className="flex justify-center items-center w-full fixed top-24">
-        {/* <div className="flex justify-center items-center fixed right-4 bottom-4"> */}
         <p className="text-indigo-900 mr-1 font-semibold">큰글자 모드</p>
         <label className="relative inline-flex cursor-pointer items-center">
           <input
             id="switch"
             type="checkbox"
             className="peer sr-only"
-            checked={!isManager}
+            checked={isLargeTextMode}
             onChange={handleToggle}
           />
           <label htmlFor="switch" className="hidden"></label>
@@ -47,7 +47,7 @@ const Home = () => {
         </label>
       </div>
       <div className="page-container flex flex-col">
-        <LinkCardGrid mode={isManager ? "manager" : "default"} />
+        <LinkCardGrid mode={isLargeTextMode ? "default" : "manager"} />
       </div>
     </div>
   );

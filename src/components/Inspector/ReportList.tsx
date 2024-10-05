@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
+import { largeTextAtom } from "../../recoil/largeTextAtom";
+
 import {
   fetchInspectionReport,
   fetchInspectionReportForAdmin,
@@ -9,8 +11,8 @@ import {
 import { formatDate } from "../../utils/timeUtils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface TableHeaderProps {
   title: string;
@@ -32,6 +34,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ title }) => (
 const ReportList = () => {
   const navigate = useNavigate();
   const user = useRecoilValue(userAtom);
+  const isLargeText = useRecoilValue(largeTextAtom);
 
   const [reports, setReports] = useState<TableRowData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,10 +70,12 @@ const ReportList = () => {
     loadReports(currentPage);
   }, [currentPage]);
 
-  if (loading) return (
-    <div className="w-[90dvw] flex flex-col text-black">
-      <Skeleton className="w-full h-[70vh]"/>
-    </div>);
+  if (loading)
+    return (
+      <div className="w-[90dvw] flex flex-col text-black">
+        <Skeleton className="w-full h-[70vh]" />
+      </div>
+    );
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   const headers = ["글번호", "해안명", "작성일"];
@@ -103,13 +108,11 @@ const ReportList = () => {
 
   return (
     <div className="w-[90dvw] flex flex-col text-black">
-      {/* <h2 className="font-4xl font-bold pt-4 m-2">해양 쓰레기 조사 목록</h2> */}
-
       {reports.length > 0 ? (
         <div className="relative flex flex-col w-full h-[68dvh] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
-              <tr className="text-center">
+              <tr className="text-center ${isLargeText ? 'text-lg' : ''}">
                 {headers.map((header, index) => (
                   <TableHeader key={index} title={header} />
                 ))}
@@ -123,16 +126,18 @@ const ReportList = () => {
                   onClick={() => handleRowClick(row.id)}
                 >
                   <td className="p-4 py-5 text-center">
-                    <p className="block text-xs text-slate-500">{row.id}</p>
+                    <p className="block ${isLargeText ? 'text-base' : 'text-xs'}  text-slate-500">
+                      {row.id}
+                    </p>
                   </td>
                   <td className="p-4 py-5 text-center">
-                    <p className="text-sm font-semibold text-slate-800">
+                    <p className="${isLargeText ? 'text-lg' : ' text-sm'} font-semibold text-slate-800">
                       {row.coastName}
                     </p>
                   </td>
 
                   <td className="p-4 py-5 text-center">
-                    <p className="text-sm text-slate-500">
+                    <p className="${isLargeText ? 'text-lg' : ' text-sm'} text-slate-500">
                       {formatDate(row.createdAt)}
                     </p>
                   </td>
@@ -145,7 +150,9 @@ const ReportList = () => {
               <button
                 onClick={handlePreviousPage}
                 disabled={currentPage === 0}
-                className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded ${
+                className={`px-3 py-1 min-w-9 min-h-9 ${
+                  isLargeText ? "text-lg" : " text-sm"
+                } font-normal text-slate-500 bg-white border border-slate-200 rounded ${
                   currentPage === 0
                     ? "cursor-not-allowed opacity-50"
                     : "hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
@@ -158,7 +165,9 @@ const ReportList = () => {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page - 1)}
-                  className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal ${
+                  className={`px-3 py-1 min-w-9 min-h-9 ${
+                    isLargeText ? "text-lg" : " text-sm"
+                  } font-normal ${
                     currentPage === page - 1
                       ? "text-white bg-slate-800 border border-slate-800"
                       : "text-slate-500 bg-white border border-slate-200"
@@ -171,7 +180,9 @@ const ReportList = () => {
               <button
                 onClick={handleNextPage}
                 disabled={currentPage === maxPage - 1}
-                className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded ${
+                className={`px-3 py-1 min-w-9 min-h-9 ${
+                  isLargeText ? "text-lg" : " text-sm"
+                } font-normal text-slate-500 bg-white border border-slate-200 rounded ${
                   currentPage === maxPage - 1
                     ? "cursor-not-allowed opacity-50"
                     : "hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
