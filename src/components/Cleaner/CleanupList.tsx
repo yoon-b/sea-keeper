@@ -36,7 +36,7 @@ const CleanupList = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [maxPage, setMaxPage] = useState(1);
-  const maxVisiblePages = 5;
+  const maxVisiblePages = 3;
 
   const loadReports = async (page: number) => {
     try {
