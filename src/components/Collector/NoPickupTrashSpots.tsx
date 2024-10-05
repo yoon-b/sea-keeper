@@ -35,6 +35,7 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
 
   const handleMarkerClick = async (trash: TrashData) => {
     if (user?.role === "ADMIN" && trash.workerName !== null) {
+      showToast("이미 수거가 진행 중입니다.");
       return;
     }
 
@@ -76,7 +77,6 @@ const NoPickupTrashSpots: FC<ChildComponentProps> = ({
     const fetchData = async () => {
       try {
         const data = await fetchNoPickupTrashs();
-        // console.log("흑", data);
         setNoPickupTrashs(data);
       } catch (error) {
         const axiosError = error as AxiosError;
