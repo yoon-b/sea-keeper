@@ -91,13 +91,12 @@ const MainContent = () => {
   //   setIsMobile(isMobileDevice);
   // };
 
-  // useEffect(() => {
-  //   checkDevice();
-  // }, []);
-
-  if (typeof window !== "undefined" && window.innerWidth > 768) {
-    setIsMobile(false);
-  }
+  useEffect(() => {
+    // checkDevice();
+    if (typeof window !== "undefined" && window.innerWidth > 768) {
+      setIsMobile(false);
+    }
+  }, []);
 
   if (!isMobile) {
     return <Mobile />;
