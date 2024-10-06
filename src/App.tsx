@@ -81,18 +81,23 @@ const MainContent = () => {
 
   const hideHeaderOn = ["/", "/signup"];
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(true);
 
   // User-Agent를 통해 기기 종류 판별
-  const checkDevice = () => {
-    const userAgent = navigator.userAgent;
-    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(userAgent);
-    setIsMobile(isMobileDevice);
-  };
+  // const checkDevice = () => {
+  //   const userAgent = navigator.userAgent;
+  //   console.log(userAgent);
+  //   const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(userAgent);
+  //   setIsMobile(isMobileDevice);
+  // };
 
-  useEffect(() => {
-    checkDevice();
-  }, []);
+  // useEffect(() => {
+  //   checkDevice();
+  // }, []);
+
+  if (typeof window !== "undefined" && window.innerWidth > 768) {
+    setIsMobile(false);
+  }
 
   if (!isMobile) {
     return <Mobile />;
