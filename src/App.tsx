@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import { isMobile } from "react-device-detect";
 
 import Header from "./components/Common/Header";
 import SignUp from "./pages/User/SignUp";
@@ -23,7 +24,7 @@ import CleanupDetail from "./pages/Cleaner/CleanupDetail";
 import Collector from "./pages/Collector/Collector";
 
 import NotFound from "./pages/NotFound";
-// import Mobile from "./components/Common/Mobile";
+import Mobile from "./components/Common/Mobile";
 
 import { pageAtom } from "./recoil/pageAtom";
 import "./App.css";
@@ -67,7 +68,7 @@ const App = () => {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <Router>
-          <MainContent />
+          {isMobile ? <MainContent /> : <Mobile />}
           <Toaster />
         </Router>
       </QueryClientProvider>
