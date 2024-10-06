@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import {
   useLocation,
@@ -23,7 +23,7 @@ import CleanupDetail from "./pages/Cleaner/CleanupDetail";
 import Collector from "./pages/Collector/Collector";
 
 import NotFound from "./pages/NotFound";
-import Mobile from "./components/Common/Mobile";
+// import Mobile from "./components/Common/Mobile";
 
 import { pageAtom } from "./recoil/pageAtom";
 import "./App.css";
@@ -80,27 +80,6 @@ const MainContent = () => {
   const setPageTitle = useSetRecoilState(pageAtom);
 
   const hideHeaderOn = ["/", "/signup"];
-
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  // User-Agent를 통해 기기 종류 판별
-  // const checkDevice = () => {
-  //   const userAgent = navigator.userAgent;
-  //   console.log(userAgent);
-  //   const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(userAgent);
-  //   setIsMobile(isMobileDevice);
-  // };
-
-  useEffect(() => {
-    // checkDevice();
-    if (typeof window !== "undefined" && window.innerWidth > 768) {
-      setIsMobile(false);
-    }
-  }, []);
-
-  if (!isMobile) {
-    return <Mobile />;
-  }
 
   useEffect(() => {
     const currentRoute = routes.find((route) =>
