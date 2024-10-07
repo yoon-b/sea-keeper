@@ -109,6 +109,7 @@ const CreateInspection = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setLocation({ latitude, longitude });
+          console.log(location);
 
           setValue("latitude", latitude);
           setValue("longitude", longitude);
