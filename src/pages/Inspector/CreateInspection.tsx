@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createInspectionReport, fetchInspectionAutoResults } from "../../api/reportApi";
+import {
+  createInspectionReport,
+  fetchInspectionAutoResults,
+} from "../../api/reportApi";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "../../utils/useDebounce";
-import AddressName from "../../components/Common/AddressName";
+// import AddressName from "../../components/Common/AddressName";
 
 interface IFormInput {
   coastName: string;
@@ -24,16 +27,16 @@ const CreateInspection = () => {
     longitude: number;
   } | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const debouncedKeyword = useDebounce(inputValue, 300);
   const [isManualInput, setIsManualInput] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { data : suggestions = [] } = useQuery<string[]>({
-    queryKey: ['autocomplete', debouncedKeyword],
+  const { data: suggestions = [] } = useQuery<string[]>({
+    queryKey: ["autocomplete", debouncedKeyword],
     queryFn: () => fetchInspectionAutoResults(debouncedKeyword),
     enabled: !!debouncedKeyword && !isManualInput,
-  })
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -46,16 +49,19 @@ const CreateInspection = () => {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);  // input을 클릭한 제안으로 채우기
-    setValue('coastName', suggestion);
-    setIsManualInput(true);  // 수동 입력 모드 활성화 (API 호출 막음)
-    setShowSuggestions(false);  // suggestions 숨기기
+    setInputValue(suggestion); // input을 클릭한 제안으로 채우기
+    setValue("coastName", suggestion);
+    setIsManualInput(true); // 수동 입력 모드 활성화 (API 호출 막음)
+    setShowSuggestions(false); // suggestions 숨기기
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);  // 외부 클릭 시 suggestions 숨기기
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false); // 외부 클릭 시 suggestions 숨기기
       }
     };
 
@@ -97,7 +103,7 @@ const CreateInspection = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -114,13 +120,13 @@ const CreateInspection = () => {
     } else {
       console.error("위치 접근 권한이 없습니다.");
     }
-  },[])
+  }, []);
 
   return (
     <div className="text-black m-4">
-      <div className="relative w-full h-[50%] my-2 flex flex-start">
+      {/* <div className="relative w-full h-[50%] my-2 flex flex-start">
         <AddressName location={location}/>
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <input
@@ -133,21 +139,21 @@ const CreateInspection = () => {
           onChange={handleInputChange}
         />
 
-      <div className="relative w-full h-[50%] my-2">
-        {showSuggestions && suggestions.length > 0 && (
-          <ul className="absolute z-10 bg-white border border-gray-300 mt-1 max-h-48 w-[100%] overflow-y-auto">
-            {suggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="p-2 hover:bg-gray-200 cursor-pointer text-left"
-              >
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        <div className="relative w-full h-[50%] my-2">
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="absolute z-10 bg-white border border-gray-300 mt-1 max-h-48 w-[100%] overflow-y-auto">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="p-2 hover:bg-gray-200 cursor-pointer text-left"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <div className="relative w-full h-[50%] my-2">
           <input

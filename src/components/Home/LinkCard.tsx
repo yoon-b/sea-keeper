@@ -3,6 +3,7 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import CleaningServicesOutlinedIcon from "@mui/icons-material/CleaningServicesOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import { showToast } from "../../utils/toastUtils";
 
 interface LinkCardProps {
   to: string;
@@ -30,12 +31,19 @@ const LinkCard: React.FC<LinkCardProps> = ({ to, title, icon }) => {
       IconComponent = AddAPhotoIcon;
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (icon === "truck") {
+      e.preventDefault(); // 링크 이동을 막음
+      showToast("점검 중입니다.");
+    }
+  };
+
   return (
     <div
       className={`relative group h-48 flex flex-col justify-center rounded-xl shadow-md px-2`}
       style={{ backgroundColor: "#3B82F6" }}
     >
-      <Link to={to} className="text-white">
+      <Link to={to} className="text-white" onClick={handleClick}>
         <div className="h-20 pt-4">
           <IconComponent
             className="text-white mx-auto"
