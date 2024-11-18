@@ -20,7 +20,7 @@ export const fetchInspectionReport = async (page: number) => {
 // 관리자 조사 기록 전체 조회
 export const fetchInspectionReportForAdmin = async (page: number) => {
   try {
-    const res = await axiosInstance.get(`/admin/monitoring-list`, {
+    const res = await axiosInstance.get(`/all-monitoring-list`, {
       params: {
         page: page,
         size: 5,
@@ -101,7 +101,7 @@ export const fetchCleanupReport = async (page: number) => {
 // 관리자 청소 기록 전체 조회
 export const fetchCleanupReportForAdmin = async (page: number) => {
   try {
-    const res = await axiosInstance.get(`/cleanup-list/admin`, {
+    const res = await axiosInstance.get(`/all-cleanup-list`, {
       params: {
         page: page,
         size: 5,
@@ -164,10 +164,10 @@ export const deleteCleanupReport = async (reportId: number) => {
 // 청소 해안명 자동완성 조회
 export const fetchCleanupAutoResults = async (keyword: string) => {
   try {
-    const res = await axiosInstance.get(`/cleanup/coast-name-list`,{
+    const res = await axiosInstance.get(`/cleanup/coast-name-list`, {
       params: {
-        keyword
-      }
+        keyword,
+      },
     });
     return res.data.result;
   } catch (err) {
@@ -179,10 +179,10 @@ export const fetchCleanupAutoResults = async (keyword: string) => {
 // 조사 해안명 자동완성 조회
 export const fetchInspectionAutoResults = async (keyword: string) => {
   try {
-    const res = await axiosInstance.get(`/monitoring/coast-name-list`,{
+    const res = await axiosInstance.get(`/monitoring/coast-name-list`, {
       params: {
-        keyword
-      }
+        keyword,
+      },
     });
     return res.data.result;
   } catch (err) {
