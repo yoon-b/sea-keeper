@@ -1,6 +1,8 @@
 import React from "react";
 import Phone from "@mui/icons-material/Phone";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { isMobile } from "react-device-detect";
+import { showToast } from "../../utils/toastUtils";
 
 interface User {
   id: string;
@@ -20,7 +22,11 @@ const UserListItem: React.FC<UserListItemProps> = ({
   onSelect,
 }) => {
   const handlePhoneClick = () => {
-    window.open(`tel:${user.phoneNumber}`);
+    if (isMobile) {
+      window.open(`tel:${user.phoneNumber}`);
+    } else {
+      showToast("모바일 기기로 이용해주세요.");
+    }
   };
 
   return (
