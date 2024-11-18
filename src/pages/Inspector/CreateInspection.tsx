@@ -7,7 +7,7 @@ import {
 } from "../../api/reportApi";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "../../utils/useDebounce";
-// import AddressName from "../../components/Common/AddressName";
+import AddressName from "../../components/Common/AddressName";
 
 interface IFormInput {
   coastName: string;
@@ -125,9 +125,9 @@ const CreateInspection = () => {
 
   return (
     <div className="text-black m-4">
-      {/* <div className="relative w-full h-[50%] my-2 flex flex-start">
-        <AddressName location={location}/>
-      </div> */}
+      <div className="relative w-full h-[50%] my-2 flex flex-start">
+        <AddressName location={location} />
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <input

@@ -7,7 +7,7 @@ import {
 } from "../../api/reportApi";
 import { useDebounce } from "../../utils/useDebounce";
 import { useQuery } from "@tanstack/react-query";
-// import AddressName from "../../components/Common/AddressName";
+import AddressName from "../../components/Common/AddressName";
 
 interface IFormInput {
   coastName: string;
@@ -136,9 +136,9 @@ const CreateCleanup = () => {
 
   return (
     <div className="text-black m-4 mt-16">
-      {/* <div className="relative w-full h-[50%] my-2 flex flex-start">
+      <div className="relative w-full h-[50%] my-2 flex flex-start">
         <AddressName location={location} />
-      </div> */}
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           {...register("coastName")}
