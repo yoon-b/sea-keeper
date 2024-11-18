@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userAtom } from "../../recoil/userAtom";
 import { pageAtom } from "../../recoil/pageAtom";
+import { largeTextAtom } from "../../recoil/largeTextAtom";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Menu from "@mui/icons-material/Menu";
 import Home from "@mui/icons-material/Home";
@@ -42,6 +43,8 @@ const Header = () => {
 
   const [user, setUser] = useRecoilState(userAtom);
   const isManager = user?.role === "ADMIN";
+
+  const isLargeText = useRecoilValue(largeTextAtom);
 
   const menuItems = isManager ? menuListForAdmin : menuList;
   const goBack = () => {
@@ -106,7 +109,7 @@ const Header = () => {
           <div className="flex w-2/6 justify-end">
             {location.pathname !== "/home" && (
               <div className="p-2" onClick={goHome}>
-                {isManager ? (
+                {isLargeText ? (
                   <Home className=" w-11 h-11" />
                 ) : (
                   <p className="w-16">처음으로</p>
@@ -114,7 +117,7 @@ const Header = () => {
               </div>
             )}
             <div onClick={toggleMenu} className="p-2">
-              {isManager ? (
+              {isLargeText ? (
                 <Menu className="w-11 h-11" />
               ) : (
                 <p className="flex w-9">메뉴</p>
